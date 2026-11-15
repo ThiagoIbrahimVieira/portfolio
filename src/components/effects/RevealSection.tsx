@@ -27,8 +27,8 @@ interface RevealSectionProps {
 const VARIANTS = {
   // 1. Editorial Blur Fade (Títulos, Headlines e Textos Nobres)
   "blur-fade": {
-    hidden: { opacity: 0, filter: "blur(6px)", y: 20 },
-    visible: { opacity: 1, filter: "none", y: 0 },
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
   },
 
   // 2. Tátil Stamp Pop (Stickers, Badges, Fitas Adesivas e Selos)
