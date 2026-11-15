@@ -236,7 +236,7 @@ function ProjectStreetCard({
           </div>
         )}
         {/* Status & Badge */}
-        <div className="flex flex-wrap items-center justify-between gap-2 mb-2 md:mb-3">
+        <div className={`flex flex-wrap items-center justify-between gap-2 mb-2 md:mb-3 ${!project.image ? 'pt-7 pr-32' : ''}`}>
           <span className="font-mono text-xs font-bold text-zinc-400 uppercase tracking-wider">
             {project.statusLabel}
           </span>

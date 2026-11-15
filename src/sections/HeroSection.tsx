@@ -115,7 +115,7 @@ export function HeroSection() {
           <div className="lg:col-span-4 flex flex-col items-center justify-center relative mt-8 lg:mt-0">
             <RevealSection delay={0.2}>
               {/* 3:4 Aspect Ratio Sticker Slot */}
-              <div className="w-full max-w-[280px] sm:max-w-xs aspect-[3/4] relative mb-10 sm:mb-8 sticker-die-cut rounded-2xl overflow-hidden bg-[#141418] border-2 border-white/90 shadow-[4px_10px_25px_rgba(0,0,0,0.8)] mx-auto">
+              <div className="w-full max-w-[280px] sm:max-w-xs aspect-[3/4] relative mb-8 sticker-die-cut rounded-2xl overflow-hidden bg-[#141418] border-2 border-white/90 shadow-[4px_10px_25px_rgba(0,0,0,0.8)] mx-auto">
                 <Image
                   src="/images/thiago-hero-sticker.png"
                   alt="Thiago Ibrahim — Retrato recortado em sticker die-cut 3:4"
@@ -124,7 +124,9 @@ export function HeroSection() {
                   priority
                   className="w-full h-full object-cover"
                 />
-                <div className="tape-strip top-[-8px] right-6 w-20" />
+                <div className="tape-strip top-2 right-4 w-28 bg-[#fbbf24]/50 text-black text-center flex items-center justify-center font-mono text-[9px] font-bold">
+                  THIAGO // 1º TI
+                </div>
               </div>
 
               {/* Rotating Circular Seal */}
@@ -146,13 +148,15 @@ export function HeroSection() {
                 </div>
               </div>
 
-              {/* Manifest Card with Torn Edge */}
-              <div className="w-full bg-[#141418] border border-zinc-800 p-5 sm:p-6 rounded-lg relative shadow-[4px_4px_0px_#000000] mt-8 sm:mt-6">
-                <div className="tape-strip top-[-12px] right-6 w-20" />
+              {/* Manifest Card with Torn Edge - Centralizado */}
+              <div className="w-full max-w-sm sm:max-w-md mx-auto bg-[#141418] border border-zinc-800 p-5 sm:p-6 rounded-lg relative shadow-[4px_4px_0px_#000000] mt-6 sm:mt-6 text-center">
+                <div className="tape-strip top-2 right-4 w-24 bg-amber-500/30 text-amber-200 border-amber-400/50 text-center flex items-center justify-center font-mono text-[9px] font-bold">
+                  MANIFESTO
+                </div>
                 <p className="font-mono text-xs text-[#fbbf24] uppercase tracking-wider mb-2">
                   {"// MANIFESTO DO CONSTRUTOR"}
                 </p>
-                <p className="text-zinc-300 font-sans text-sm leading-relaxed italic mb-4">
+                <p className="text-zinc-300 font-sans text-sm leading-relaxed italic mb-3">
                   &ldquo;{person.anchor}&rdquo;
                 </p>
                 <p className="text-xs font-mono text-zinc-500">

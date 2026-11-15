@@ -257,7 +257,7 @@ export function ContactSection() {
                   ) : (
                     <>
                       <Send className="w-4 h-4" />
-                      <span>ENVIAR DISPATCH</span>
+                      <span>ENVIAR PELO EMAIL</span>
                     </>
                   )}
                 </button>
