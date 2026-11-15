@@ -33,7 +33,7 @@ const VARIANTS = {
 
   // 2. Tátil Stamp Pop (Stickers, Badges, Fitas Adesivas e Selos)
   "stamp-pop": {
-    hidden: { opacity: 0, scale: 0.88, rotate: -3 },
+    hidden: { opacity: 0, scale: 0.94, rotate: -2 },
     visible: { opacity: 1, scale: 1, rotate: 0 },
   },
 

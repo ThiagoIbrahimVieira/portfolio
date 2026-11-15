@@ -93,29 +93,35 @@ export function HeroSection() {
               </p>
             </RevealSection>
 
-            {/* Tech Sticker Badges */}
-            <RevealSection variant="stamp-pop" delay={0.42} duration={0.85}>
-              <div className="flex flex-wrap items-center gap-2.5 pt-2">
+            {/* Tech Sticker Badges - Stagger Escalonado Tátil */}
+            <div className="flex flex-wrap items-center gap-2.5 pt-2">
+              <RevealSection variant="stamp-pop" delay={0.38} duration={0.75}>
                 <span className="badge-sticker bg-[#00d8ff] text-black border-black">
                   <Code2 className="w-3.5 h-3.5" />
                   React 19 / TS 5.8
                 </span>
+              </RevealSection>
+              <RevealSection variant="stamp-pop" delay={0.46} duration={0.75}>
                 <span className="badge-sticker bg-[#76b900] text-black border-black">
                   <Cpu className="w-3.5 h-3.5" />
                   CUDA float16
                 </span>
+              </RevealSection>
+              <RevealSection variant="stamp-pop" delay={0.54} duration={0.75}>
                 <span className="badge-sticker bg-[#22c55e] text-black border-black">
                   <Terminal className="w-3.5 h-3.5" />
                   Baileys & Streams
                 </span>
+              </RevealSection>
+              <RevealSection variant="stamp-pop" delay={0.62} duration={0.75}>
                 <span className="badge-sticker bg-[#fbbf24] text-black border-black">
                   Local-First Win32
                 </span>
-              </div>
-            </RevealSection>
+              </RevealSection>
+            </div>
 
-            {/* CTAs */}
-            <RevealSection variant="fade-up-soft" delay={0.56} duration={0.85}>
+            {/* CTAs com Entrada Sequencial Suave */}
+            <RevealSection variant="fade-up-soft" delay={0.70} duration={0.85}>
               <div className="flex flex-wrap items-center gap-4 pt-4">
                 <a
                   href="#projetos"
@@ -138,8 +144,8 @@ export function HeroSection() {
 
           {/* Right Column: 3:4 Die-Cut Sticker Slot & Rotating Seal com Parallax de Profundidade */}
           <div className="lg:col-span-4 flex flex-col items-center justify-center relative mt-8 lg:mt-0">
-            <RevealSection variant="stamp-pop" delay={0.25} duration={1.0}>
-              {/* 3:4 Aspect Ratio Sticker Slot com Parallax Suave */}
+            {/* 3:4 Aspect Ratio Sticker Slot com Entrada Tátil e Parallax Suave */}
+            <RevealSection variant="stamp-pop" delay={0.25} duration={0.95}>
               <motion.div
                 style={{ y: stickerY }}
                 className="w-full max-w-[280px] sm:max-w-xs aspect-[3/4] relative mb-8 sm:mb-10 sticker-die-cut rounded-2xl bg-[#141418] border-2 border-white/90 shadow-[4px_10px_25px_rgba(0,0,0,0.8)] mx-auto overflow-visible will-change-transform"
@@ -158,8 +164,10 @@ export function HeroSection() {
                   THIAGO // 1º TI
                 </div>
               </motion.div>
+            </RevealSection>
 
-              {/* Rotating Circular Seal com Parallax Acentuado */}
+            {/* Rotating Circular Seal com Revelação Suave e Parallax */}
+            <RevealSection variant="fade-up-soft" delay={0.42} duration={0.85}>
               <motion.div
                 style={{ y: sealY }}
                 className="relative w-36 h-36 mb-6 hidden sm:flex items-center justify-center mx-auto will-change-transform"
@@ -180,8 +188,10 @@ export function HeroSection() {
                   <span className="font-display text-xl text-white">TT</span>
                 </div>
               </motion.div>
+            </RevealSection>
 
-              {/* Manifest Card with Torn Edge - Parallax Leve */}
+            {/* Manifest Card with Torn Edge - Parallax Leve e Entrada Tátil */}
+            <RevealSection variant="stamp-pop" delay={0.58} duration={0.9}>
               <motion.div
                 style={{ y: manifestY }}
                 className="w-full max-w-sm sm:max-w-md mx-auto bg-[#141418] border border-zinc-800 pt-8 pb-6 px-5 sm:p-7 sm:pt-8 rounded-lg relative shadow-[4px_4px_0px_#000000] mt-8 sm:mt-12 text-center overflow-visible will-change-transform"
