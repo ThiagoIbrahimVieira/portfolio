@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { animate } from "animejs";
 import { siteData } from "@/data/site";
 import { ArrowUpRight } from "lucide-react";
 
@@ -49,6 +50,21 @@ export function Navbar() {
             <a
               key={l.href}
               href={l.href}
+              onClick={(e) => {
+                if (l.href.startsWith("#")) {
+                  e.preventDefault();
+                  const target = document.getElementById(l.href.slice(1));
+                  if (target) {
+                    const y = target.getBoundingClientRect().top + window.scrollY - 80;
+                    const scrollElement = document.scrollingElement || document.documentElement || document.body;
+                    animate(scrollElement, {
+                      scrollTop: y,
+                      duration: 700,
+                      ease: "outExpo",
+                    });
+                  }
+                }
+              }}
               className={`text-xs font-mono uppercase tracking-wider transition-colors ${
                 active === l.href.slice(1)
                   ? "text-[#fbbf24] font-bold"

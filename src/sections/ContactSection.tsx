@@ -104,8 +104,10 @@ export function ContactSection() {
     <section id="contato" aria-labelledby="contato-heading" className="relative z-10 pt-12 pb-28 md:py-28 bg-transparent">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-12">
         <RevealSection>
-          <div className="bg-[#141418] border-2 border-zinc-700 rounded-xl grid md:grid-cols-2 gap-6 md:gap-10 p-5 sm:p-7 md:p-12 shadow-[5px_5px_0px_#ffffff] relative overflow-hidden">
-            <div className="tape-strip top-[-10px] left-8 sm:left-12 w-28 bg-[#fbbf24]/40" />
+          <div className="bg-[#141418] border-2 border-zinc-700 rounded-xl grid md:grid-cols-2 gap-6 md:gap-10 p-5 sm:p-7 md:p-12 shadow-[5px_5px_0px_#ffffff] relative overflow-visible">
+            <div className="tape-strip -top-3.5 -right-3 w-28 bg-[#fbbf24]/60 text-black text-center flex items-center justify-center font-mono text-[9px] font-bold z-20 rotate-[5deg] shadow-md border border-black/30">
+              CANAL // DIRETO
+            </div>
 
             {/* Coluna da Esquerda: Info & Telemetria */}
             <div className="flex flex-col justify-between space-y-5">

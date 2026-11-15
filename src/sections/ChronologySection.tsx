@@ -183,41 +183,41 @@ function ProjectStreetCard({
           : "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)",
         transition: isHover ? "transform 0.1s ease-out" : "transform 0.4s ease-out",
       }}
-      className="bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-4 sm:p-6 md:p-8 relative flex flex-col justify-between shadow-[6px_6px_0px_#000000] hover:border-amber-400/80 transition-colors group overflow-hidden scroll-mt-28 cursor-pointer"
+      className="bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-4 sm:p-6 md:p-8 relative flex flex-col justify-between shadow-[6px_6px_0px_#000000] hover:border-amber-400/80 transition-colors group overflow-visible scroll-mt-28 cursor-pointer"
     >
       {/* Specular Glare Effect on Hover */}
       {isHover && (
         <div
-          className="pointer-events-none absolute inset-0 z-10 rounded-xl transition-opacity duration-200"
+          className="pointer-events-none absolute inset-0 z-10 rounded-xl transition-opacity duration-200 overflow-hidden"
           style={{
             background: `radial-gradient(circle at ${tilt.glareX}% ${tilt.glareY}%, rgba(251, 191, 36, 0.08) 0%, transparent 60%)`,
           }}
         />
       )}
 
-      {/* Tape Effect Personalizado por Projeto */}
+      {/* Tape Effect Personalizado por Projeto - Inclinado na pontinha direita */}
       {isCaution ? (
-        <div className="tape-strip tape-caution top-2.5 right-4 sm:top-3 sm:right-6 w-32 text-center flex items-center justify-center font-mono text-[10px] font-bold z-20">
+        <div className="tape-strip tape-caution -top-3.5 -right-2.5 sm:-top-4 sm:-right-3 w-32 text-center flex items-center justify-center font-mono text-[10px] font-bold z-20 rotate-[5deg] shadow-md">
           CUDA // LOCAL
         </div>
       ) : isBlueprint ? (
-        <div className="tape-strip top-2.5 right-4 sm:top-3 sm:right-6 w-28 bg-cyan-900/50 text-cyan-200 border-cyan-400/50 text-center flex items-center justify-center font-mono text-[10px] font-bold z-20">
+        <div className="tape-strip -top-3.5 -right-2.5 sm:-top-4 sm:-right-3 w-28 bg-cyan-900/60 text-cyan-200 border-cyan-400/60 text-center flex items-center justify-center font-mono text-[10px] font-bold z-20 rotate-[5deg] shadow-md">
           AST // GRAPH
         </div>
       ) : project.id === "spacesweep" ? (
-        <div className="tape-strip top-2.5 right-4 sm:top-3 sm:right-6 w-28 bg-cyan-900/50 text-cyan-200 border-cyan-400/50 text-center flex items-center justify-center font-mono text-[10px] font-bold z-20">
+        <div className="tape-strip -top-3.5 -right-2.5 sm:-top-4 sm:-right-3 w-28 bg-cyan-900/60 text-cyan-200 border-cyan-400/60 text-center flex items-center justify-center font-mono text-[10px] font-bold z-20 rotate-[5deg] shadow-md">
           NTFS // READ
         </div>
       ) : project.id === "nordicos-tattoo" ? (
-        <div className="tape-strip top-2.5 right-4 sm:top-3 sm:right-6 w-28 bg-amber-500/30 text-amber-200 border-amber-400/50 text-center flex items-center justify-center font-mono text-[10px] font-bold z-20">
+        <div className="tape-strip -top-3.5 -right-2.5 sm:-top-4 sm:-right-3 w-28 bg-amber-500/40 text-amber-200 border-amber-400/60 text-center flex items-center justify-center font-mono text-[10px] font-bold z-20 rotate-[5deg] shadow-md">
           UI // SYSTEM
         </div>
       ) : project.id === "segundo-cerebro" ? (
-        <div className="tape-strip top-2.5 right-4 sm:top-3 sm:right-6 w-32 bg-purple-900/50 text-purple-200 border-purple-400/50 text-center flex items-center justify-center font-mono text-[10px] font-bold z-20">
+        <div className="tape-strip -top-3.5 -right-2.5 sm:-top-4 sm:-right-3 w-32 bg-purple-900/60 text-purple-200 border-purple-400/60 text-center flex items-center justify-center font-mono text-[10px] font-bold z-20 rotate-[5deg] shadow-md">
           AGENTS // CORE
         </div>
       ) : (
-        <div className="tape-strip top-2.5 right-4 sm:top-3 sm:right-6 w-24 bg-amber-500/30 text-amber-200 border-amber-400/50 text-center flex items-center justify-center font-mono text-[10px] font-bold z-20">
+        <div className="tape-strip -top-3.5 -right-2.5 sm:-top-4 sm:-right-3 w-24 bg-amber-500/40 text-amber-200 border-amber-400/60 text-center flex items-center justify-center font-mono text-[10px] font-bold z-20 rotate-[5deg] shadow-md">
           STREET // DEV
         </div>
       )}
@@ -236,16 +236,29 @@ function ProjectStreetCard({
           </div>
         )}
         {/* Status & Badge */}
-        <div className={`flex flex-wrap items-center justify-between gap-2 mb-2 md:mb-3 ${!project.image ? 'pt-7 pr-32' : ''}`}>
-          <span className="font-mono text-xs font-bold text-zinc-400 uppercase tracking-wider">
-            {project.statusLabel}
-          </span>
-          {project.badgeSticker && (
-            <span className="badge-sticker bg-[#fbbf24] text-black border-black text-[11px] py-0.5">
-              {project.badgeSticker}
+        {project.image ? (
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-2 md:mb-3">
+            <span className="font-mono text-xs font-bold text-zinc-400 uppercase tracking-wider">
+              {project.statusLabel}
             </span>
-          )}
-        </div>
+            {project.badgeSticker && (
+              <span className="badge-sticker bg-[#fbbf24] text-black border-black text-[11px] py-0.5">
+                {project.badgeSticker}
+              </span>
+            )}
+          </div>
+        ) : (
+          <div className="flex flex-col items-start gap-1.5 mb-3 pt-6 pr-28">
+            <span className="font-mono text-xs font-bold text-zinc-400 uppercase tracking-wider">
+              {project.statusLabel}
+            </span>
+            {project.badgeSticker && (
+              <span className="badge-sticker bg-[#fbbf24] text-black border-black text-[11px] py-0.5 self-start">
+                {project.badgeSticker}
+              </span>
+            )}
+          </div>
+        )}
 
         {/* Project Title */}
         <h3 className="font-display text-xl sm:text-2xl md:text-3xl text-white tracking-tight mb-1.5 md:mb-2 group-hover:text-amber-300 transition-colors">

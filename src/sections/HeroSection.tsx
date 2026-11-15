@@ -115,16 +115,18 @@ export function HeroSection() {
           <div className="lg:col-span-4 flex flex-col items-center justify-center relative mt-8 lg:mt-0">
             <RevealSection delay={0.2}>
               {/* 3:4 Aspect Ratio Sticker Slot */}
-              <div className="w-full max-w-[280px] sm:max-w-xs aspect-[3/4] relative mb-8 sticker-die-cut rounded-2xl overflow-hidden bg-[#141418] border-2 border-white/90 shadow-[4px_10px_25px_rgba(0,0,0,0.8)] mx-auto">
-                <Image
-                  src="/images/thiago-hero-sticker.png"
-                  alt="Thiago Ibrahim — Retrato recortado em sticker die-cut 3:4"
-                  width={600}
-                  height={800}
-                  priority
-                  className="w-full h-full object-cover"
-                />
-                <div className="tape-strip top-2 right-4 w-28 bg-[#fbbf24]/50 text-black text-center flex items-center justify-center font-mono text-[9px] font-bold">
+              <div className="w-full max-w-[280px] sm:max-w-xs aspect-[3/4] relative mb-12 sm:mb-10 sticker-die-cut rounded-2xl bg-[#141418] border-2 border-white/90 shadow-[4px_10px_25px_rgba(0,0,0,0.8)] mx-auto overflow-visible">
+                <div className="relative w-full h-full rounded-2xl overflow-hidden">
+                  <Image
+                    src="/images/thiago-hero-sticker.png"
+                    alt="Thiago Ibrahim — Retrato recortado em sticker die-cut 3:4"
+                    width={600}
+                    height={800}
+                    priority
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="tape-strip -top-3.5 -right-3 w-28 bg-[#fbbf24]/70 text-black text-center flex items-center justify-center font-mono text-[9px] font-bold z-20 rotate-[5deg] shadow-md border border-black/30">
                   THIAGO // 1º TI
                 </div>
               </div>
@@ -148,9 +150,9 @@ export function HeroSection() {
                 </div>
               </div>
 
-              {/* Manifest Card with Torn Edge - Centralizado */}
-              <div className="w-full max-w-sm sm:max-w-md mx-auto bg-[#141418] border border-zinc-800 p-5 sm:p-6 rounded-lg relative shadow-[4px_4px_0px_#000000] mt-6 sm:mt-6 text-center">
-                <div className="tape-strip top-2 right-4 w-24 bg-amber-500/30 text-amber-200 border-amber-400/50 text-center flex items-center justify-center font-mono text-[9px] font-bold">
+              {/* Manifest Card with Torn Edge - Centralizado e com respiro da imagem */}
+              <div className="w-full max-w-sm sm:max-w-md mx-auto bg-[#141418] border border-zinc-800 pt-8 pb-6 px-5 sm:p-7 sm:pt-8 rounded-lg relative shadow-[4px_4px_0px_#000000] mt-16 sm:mt-12 text-center overflow-visible">
+                <div className="tape-strip -top-3.5 -right-3 w-24 bg-amber-500/50 text-amber-200 border border-amber-400/70 text-center flex items-center justify-center font-mono text-[9px] font-bold z-20 rotate-[5deg] shadow-md">
                   MANIFESTO
                 </div>
                 <p className="font-mono text-xs text-[#fbbf24] uppercase tracking-wider mb-2">

@@ -24,9 +24,11 @@ export function JournalSection() {
           {/* Coluna da Linha do Tempo */}
           <div className="lg:col-span-7">
             <RevealSection delay={0.15}>
-              <div className="bg-[#141418] border border-zinc-800 rounded-lg p-4 sm:p-6 md:p-10 relative shadow-[4px_4px_0px_#000000]">
-                {/* Tape on top */}
-                <div className="tape-strip top-[-10px] left-8 sm:left-12 w-28" />
+              <div className="bg-[#141418] border border-zinc-800 rounded-lg p-4 sm:p-6 md:p-10 relative shadow-[4px_4px_0px_#000000] overflow-visible">
+                {/* Tape on top right, tilted */}
+                <div className="tape-strip -top-3.5 -right-3 w-28 bg-[#fbbf24]/50 text-black text-center flex items-center justify-center font-mono text-[9px] font-bold z-20 rotate-[5deg] shadow-md border border-black/30">
+                  ETEC // LOG
+                </div>
 
                 {/* Mobile/Tablet Compact Author Header (Texto no esquerdo, Foto no lado direito) */}
                 <div className="flex lg:hidden items-center justify-between gap-3 p-3.5 sm:p-4 mb-6 bg-zinc-900/90 border border-zinc-700/80 rounded-lg">

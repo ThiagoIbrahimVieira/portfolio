@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import { animate } from "animejs";
 import { ChevronDown, ArrowUp } from "lucide-react";
 
 export interface SectionDef {
@@ -76,7 +77,12 @@ export function SectionNavigator() {
       lenis.scrollTo(element, { offset: -80 });
     } else {
       const y = element.getBoundingClientRect().top + window.scrollY - 80;
-      window.scrollTo({ top: y, behavior: "smooth" });
+      const scrollElement = document.scrollingElement || document.documentElement || document.body;
+      animate(scrollElement, {
+        scrollTop: y,
+        duration: 750,
+        ease: "outExpo",
+      });
     }
   }, []);
 
