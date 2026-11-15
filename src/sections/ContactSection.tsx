@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { siteData } from "@/data/site";
-import { Send, Terminal, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
+import { Send, Terminal, CheckCircle2, Mail, Copy, Check } from "lucide-react";
 import { RevealSection } from "@/components/effects/RevealSection";
 
 export function ContactSection() {
@@ -11,52 +11,38 @@ export function ContactSection() {
     email: "",
     mensagem: "",
   });
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "activation_needed" | "error">("idle");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [copied, setCopied] = useState(false);
+  const [dispatched, setDispatched] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleDispatch = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.nome.trim() || !formData.email.trim() || !formData.mensagem.trim()) {
-      setStatus("error");
-      setErrorMessage("Por favor, preencha todos os campos antes do envio.");
       return;
     }
 
-    setStatus("loading");
-    setErrorMessage("");
+    const subject = `⚡ [Portfólio] Contato de ${formData.nome}`;
+    const body = `Nome / Organização: ${formData.nome}\nE-mail de Retorno: ${formData.email}\n\nMensagem:\n${formData.mensagem}`;
 
-    try {
-      const response = await fetch("https://formsubmit.co/ajax/thiagoibrahimvieira@gmail.com", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          nome: formData.nome,
-          email: formData.email,
-          mensagem: formData.mensagem,
-          _subject: `⚡ Novo Dispatch do Portfólio // ${formData.nome}`,
-          _template: "table",
-          _captcha: "false",
-        }),
-      });
+    const mailtoUrl = `mailto:thiagoibrahimvieira@gmail.com?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(body)}`;
 
-      const data = await response.json();
+    // Dispara a abertura do e-mail nativo preenchido
+    window.location.href = mailtoUrl;
 
-      if (response.ok && (data.success === "true" || data.success === true)) {
-        setStatus("success");
-        setFormData({ nome: "", email: "", mensagem: "" });
-      } else if (data.message && data.message.includes("Activation")) {
-        setStatus("activation_needed");
-        setErrorMessage("Ativação necessária: a FormSubmit enviou um e-mail de ativação para thiagoibrahimvieira@gmail.com. Abra seu e-mail e clique em 'Activate Form' para liberar todos os envios!");
-      } else {
-        setStatus("error");
-        setErrorMessage(data.message || "Erro ao despachar mensagem. Tente novamente em instantes.");
-      }
-    } catch {
-      setStatus("error");
-      setErrorMessage("Falha de rede ao conectar com o serviço de despacho.");
+    // Copia também para o clipboard como garantia
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText(`Para: thiagoibrahimvieira@gmail.com\nAssunto: ${subject}\n\n${body}`);
+    }
+
+    setDispatched(true);
+  };
+
+  const handleCopyEmail = () => {
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText("thiagoibrahimvieira@gmail.com");
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
     }
   };
 
@@ -81,8 +67,30 @@ export function ContactSection() {
               </div>
 
               <div className="space-y-3 font-mono text-xs text-zinc-400">
+                <div className="flex items-center gap-2">
+                  <Mail className="w-4 h-4 text-[#fbbf24] shrink-0" />
+                  <span className="text-white">thiagoibrahimvieira@gmail.com</span>
+                  <button
+                    type="button"
+                    onClick={handleCopyEmail}
+                    className="ml-2 px-2 py-0.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white rounded border border-zinc-600 transition-colors flex items-center gap-1 text-[11px]"
+                  >
+                    {copied ? (
+                      <>
+                        <Check className="w-3 h-3 text-emerald-400" />
+                        <span>Copiado!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3 h-3 text-zinc-400" />
+                        <span>Copiar</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+
                 <p className="flex items-center gap-2">
-                  <Terminal className="w-4 h-4 text-[#fbbf24]" />
+                  <Terminal className="w-4 h-4 text-[#fbbf24] shrink-0" />
                   <span>
                     GITHUB:{" "}
                     <a
@@ -99,7 +107,7 @@ export function ContactSection() {
               </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+            <form onSubmit={handleDispatch} className="flex flex-col gap-3">
               <label className="sr-only" htmlFor="nome">
                 Nome
               </label>
@@ -137,54 +145,27 @@ export function ContactSection() {
                 className="bg-zinc-900 border border-zinc-700 text-white placeholder:text-zinc-500 px-4 py-3 rounded focus:outline-none focus:border-[#fbbf24] font-sans text-sm resize-none transition-colors"
               />
 
-              {status === "error" && (
-                <div className="flex items-center gap-2 p-3 bg-red-950/60 border border-red-500/50 rounded text-red-200 text-xs font-mono">
-                  <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
-                  <span>{errorMessage}</span>
-                </div>
-              )}
-
-              {status === "activation_needed" && (
-                <div className="flex items-start gap-3 p-4 bg-amber-950/60 border border-[#fbbf24]/60 rounded text-amber-200 text-xs font-mono animate-fadeIn">
-                  <AlertCircle className="w-5 h-5 text-[#fbbf24] shrink-0 mt-0.5" />
+              {dispatched && (
+                <div className="flex items-start gap-2.5 p-3.5 bg-emerald-950/70 border border-emerald-500/60 rounded text-emerald-200 text-xs font-mono animate-fadeIn">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                   <div>
-                    <p className="font-bold text-white mb-1">ATIVAÇÃO NECESSÁRIA NO SEU E-MAIL:</p>
-                    <p>{errorMessage}</p>
+                    <p className="font-bold text-white mb-0.5">DISPATCH PREPARADO & ENVIADO AO SEU CLIENTE DE E-MAIL!</p>
+                    <p className="text-zinc-300">
+                      O e-mail foi aberto preenchido para <strong>thiagoibrahimvieira@gmail.com</strong> e o texto também foi copiado para sua área de transferência.
+                    </p>
                   </div>
-                </div>
-              )}
-
-              {status === "success" && (
-                <div className="flex items-center gap-2 p-3 bg-emerald-950/60 border border-emerald-500/50 rounded text-emerald-200 text-xs font-mono animate-fadeIn">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>DISPATCH ENVIADO COM SUCESSO! A mensagem caiu na caixa postal de Thiago.</span>
                 </div>
               )}
 
               <button
                 type="submit"
-                disabled={status === "loading"}
-                className="bg-[#fbbf24] text-black h-12 font-display text-sm tracking-wider uppercase rounded hover:bg-[#f59e0b] active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 border border-black shadow-[2px_2px_0px_#000000]"
+                className="bg-[#fbbf24] text-black h-12 font-display text-sm tracking-wider uppercase rounded hover:bg-[#f59e0b] active:scale-[0.98] transition-all flex items-center justify-center gap-2 border border-black shadow-[2px_2px_0px_#000000]"
               >
-                {status === "loading" ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    <span>DESPACHANDO TELEMETRIA...</span>
-                  </>
-                ) : status === "success" ? (
-                  <>
-                    <CheckCircle2 className="w-4 h-4" />
-                    <span>DISPATCH CONCLUÍDO</span>
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-4 h-4" />
-                    <span>ENVIAR DISPATCH</span>
-                  </>
-                )}
+                <Send className="w-4 h-4" />
+                <span>ENVIAR DISPATCH DIRETO</span>
               </button>
               <p className="text-xs font-mono text-zinc-500 text-center">
-                Interação direta e transparente · Sem spam
+                Canal direto com Thiago · Sem intermediários ou risco de perda
               </p>
             </form>
           </div>
