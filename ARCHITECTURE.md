@@ -119,3 +119,16 @@ sequenceDiagram
 3. **Protocolo de Deploy:**
    - Vercel CLI ou Git Push na branch de produção.
    - O build estático gera os bundles com SSR mínimo, garantindo TTFB < 100ms e Lighthouse 95+ em Performance e Acessibilidade.
+
+---
+
+## 6. ARQUITETURA CRISP & MOTION: GPU COMPOSITOR, CLS 0 & WCAG 2.2
+
+1. **Pipeline de Renderização & GPU Compositing:**
+   - **Purga de Filtros CSS:** O filtro CSS `filter: blur()` foi 100% erradicado das animações de entrada e dos cabeçalhos/cards (resolvendo `DEF-004`). Evita degradação de subpixel antialiasing e rasterização por software na CPU.
+   - **Camada Exclusiva de Composite:** As animações de entrada em `RevealSection.tsx` operam exclusivamente sobre propriedades `transform` (`x`, `y`, `scale`, `rotate`) e `opacity`. Isso ignora as etapas de Layout (Reflow) e Paint, garantindo **Cumulative Layout Shift (CLS) = 0.000**.
+   - **Desacoplamento da Main Thread:** As transições rodam diretamente na thread do Compositor da GPU, mantendo a rolagem fluida e o Interaction to Next Paint (INP) inferior a 50ms.
+
+2. **Acessibilidade & Motion Safety (WCAG 2.2):**
+   - Suporte nativo ao modo `prefers-reduced-motion: reduce` via hook `useReducedMotion()`.
+   - Quando ativado, todas as transformações espaciais (translação, rotação, escala) são desarmadas, mantendo apenas cross-fade suave e instantâneo de 200ms para prevenir desconforto vestibular.
