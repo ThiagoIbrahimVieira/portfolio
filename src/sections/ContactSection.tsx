@@ -11,7 +11,7 @@ export function ContactSection() {
     email: "",
     mensagem: "",
   });
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "activation_needed" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -47,9 +47,12 @@ export function ContactSection() {
       if (response.ok && (data.success === "true" || data.success === true)) {
         setStatus("success");
         setFormData({ nome: "", email: "", mensagem: "" });
+      } else if (data.message && data.message.includes("Activation")) {
+        setStatus("activation_needed");
+        setErrorMessage("Ativação necessária: a FormSubmit enviou um e-mail de ativação para thiagoibrahimvieira@gmail.com. Abra seu e-mail e clique em 'Activate Form' para liberar todos os envios!");
       } else {
         setStatus("error");
-        setErrorMessage("Erro ao despachar mensagem. Tente novamente em instantes.");
+        setErrorMessage(data.message || "Erro ao despachar mensagem. Tente novamente em instantes.");
       }
     } catch {
       setStatus("error");
@@ -138,6 +141,16 @@ export function ContactSection() {
                 <div className="flex items-center gap-2 p-3 bg-red-950/60 border border-red-500/50 rounded text-red-200 text-xs font-mono">
                   <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
                   <span>{errorMessage}</span>
+                </div>
+              )}
+
+              {status === "activation_needed" && (
+                <div className="flex items-start gap-3 p-4 bg-amber-950/60 border border-[#fbbf24]/60 rounded text-amber-200 text-xs font-mono animate-fadeIn">
+                  <AlertCircle className="w-5 h-5 text-[#fbbf24] shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-bold text-white mb-1">ATIVAÇÃO NECESSÁRIA NO SEU E-MAIL:</p>
+                    <p>{errorMessage}</p>
+                  </div>
                 </div>
               )}
 
