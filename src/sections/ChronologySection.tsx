@@ -57,7 +57,7 @@ export function ChronologySection() {
               </div>
             </div>
 
-            <div className="w-full h-[520px] md:h-[580px] relative">
+            <div className="w-full h-[420px] sm:h-[480px] md:h-[580px] relative">
               <ConstellationCanvas
                 onSelectProject={(id) => {
                   const found = siteData.projects.find((p) => p.id === id);
@@ -73,14 +73,14 @@ export function ChronologySection() {
           </figure>
         </RevealSection>
 
-        {/* 2. Mobile Snap-to-Card Carousel (< 768px) */}
+        {/* 2. Mobile Snap-to-Card Carousel (< 768px) com rolagem vertical livre */}
         <div className="block md:hidden mb-16">
           <p className="text-xs font-mono text-zinc-400 mb-3 flex items-center gap-1.5">
-            <span className="text-[#fbbf24]">◀ ▶</span> Deslize para navegar pelos 4 cards nucleares (Snap 60 FPS)
+            <span className="text-[#fbbf24]">◀ ▶</span> Deslize para navegar pelos 4 cards nucleares
           </p>
-          <div className="flex overflow-x-auto snap-x snap-mandatory gap-5 pb-6 -mx-6 px-6 scrollbar-none touch-pan-x">
+          <div className="flex overflow-x-auto gap-4 pb-6 -mx-4 px-4 scrollbar-none overscroll-x-contain touch-pan-y">
             {featuredProjects.map((p) => (
-              <div key={p.id} className="snap-center shrink-0 w-[86vw] max-w-sm">
+              <div key={p.id} className="shrink-0 w-[84vw] max-w-sm">
                 <ProjectStreetCard project={p} onSelect={setSelectedProject} />
               </div>
             ))}
@@ -183,7 +183,7 @@ function ProjectStreetCard({
           : "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)",
         transition: isHover ? "transform 0.1s ease-out" : "transform 0.4s ease-out",
       }}
-      className="bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-6 md:p-8 relative flex flex-col justify-between shadow-[6px_6px_0px_#000000] hover:border-amber-400/80 transition-colors group overflow-hidden scroll-mt-28 cursor-pointer"
+      className="bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-6 md:p-8 relative flex flex-col justify-between shadow-[6px_6px_0px_#000000] hover:border-amber-400/80 transition-colors group overflow-hidden scroll-mt-28 cursor-pointer touch-pan-y"
     >
       {/* Specular Glare Effect on Hover */}
       {isHover && (
