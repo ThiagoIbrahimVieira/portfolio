@@ -1,0 +1,1079 @@
+[
+  {
+    "section": "Layout Desktop",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Verificação de Overflow Horizontal",
+    "expected": "scrollWidth <= clientWidth (0px)",
+    "obtained": "diff = 0px",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": "Sem barra de rolagem lateral espúria."
+  },
+  {
+    "section": "Navbar Desktop",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Clique no link 'Projetos'",
+    "expected": "Rolagem suave via Anime.js até ~1119px",
+    "obtained": "Posição atual: 1119px (Alvo: 1199)",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Navbar Desktop",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Clique no link 'Arsenal'",
+    "expected": "Rolagem suave via Anime.js até ~5175px",
+    "obtained": "Posição atual: 5175px (Alvo: 5255)",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Navbar Desktop",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Clique no link 'Jornada'",
+    "expected": "Rolagem suave via Anime.js até ~6275px",
+    "obtained": "Posição atual: 6275px (Alvo: 6355)",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Navbar Desktop",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Clique no link 'Princípios'",
+    "expected": "Rolagem suave via Anime.js até ~7445px",
+    "obtained": "Posição atual: 7445px (Alvo: 7525)",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Navbar Desktop",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Clique no link 'Contato'",
+    "expected": "Rolagem suave via Anime.js até ~8311px",
+    "obtained": "Posição atual: 8311px (Alvo: 8391)",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Navbar Desktop",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Clique no Logo TT",
+    "expected": "Rolar até o topo (#hero)",
+    "obtained": "Posição Y: 67px",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Navbar Desktop",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Botão GITHUB Header",
+    "expected": "Link externo abrindo em nova aba (target='_blank')",
+    "obtained": "Href: https://github.com/ThiagoIbrahimVieira, target: _blank",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "SectionNavigator",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Visibilidade do Navegador Lateral",
+    "expected": "Visível no desktop fixado na lateral direita",
+    "obtained": "Visível: true",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "SectionNavigator",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Clique no Marcador '02 // PROJETOS'",
+    "expected": "Rolar até seção de Projetos",
+    "obtained": "Posição Y: 1115px",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "SectionNavigator",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Clique no Botão Seta 'Avançar seção'",
+    "expected": "Avançar scroll para próxima seção",
+    "obtained": "Posição Y: 5159px",
+    "status": "PASS",
+    "severity": "Baixo",
+    "details": ""
+  },
+  {
+    "section": "Hero Section",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Selo Circular Rotativo Animado",
+    "expected": "SVG com rotação contínua e texto 'THIAGO IBRAHIM • 1º TÉCNICO EM INFORMÁTICA'",
+    "obtained": "Encontrado: true, Texto: 'THIAGO IBRAHIM • 1º TÉCNICO EM INFO...', Selo TT: true",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Hero Section",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Sticker Die-Cut 3:4 & Fita",
+    "expected": "Foto carregada com fita 'THIAGO // 1º TI' inclinada",
+    "obtained": "Foto carregada: true, Fita: 'THIAGO // 1º TI'",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Hero Section",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Card Manifesto do Construtor",
+    "expected": "Card manifesto centralizado com fita no canto sem sobrepor texto",
+    "obtained": "Encontrado: true, Fita: 'THIAGO // 1º TI', Sobreposição: false",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Hero Section",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Clique no CTA 'VER OS 4 PROJETOS NUCLEARES'",
+    "expected": "Rolar suavemente até a seção de Projetos",
+    "obtained": "Posição Y após clique: 1199px",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Visualizador Interativo Grafo AST",
+    "expected": "Canvas 2D ativo com física orbital e nós interconectados",
+    "obtained": "Dimensões: 1116x540px",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Efeito 3D Tilt nos Cards Desktop",
+    "expected": "Cards com perspective(1000px) e rotação no hover",
+    "obtained": "Tilt ativo: true, Cursor: none",
+    "status": "PASS",
+    "severity": "Baixo",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Abertura Modal Técnico: CODEATLAS",
+    "expected": "Modal abre em overlay escuro com pipeline e links",
+    "obtained": "Aberto: true, Título: CODEATLAS, Etapas Pipeline: 11, GitHub: https://github.com/ThiagoIbrahimVieira/CodeAtlas",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Fechamento Modal: CODEATLAS",
+    "expected": "Modal fecha e restaura overflow",
+    "obtained": "Fechado: true",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Abertura Modal Técnico: WHATSAPP AUTO STICKER",
+    "expected": "Modal abre em overlay escuro com pipeline e links",
+    "obtained": "Aberto: true, Título: WHATSAPP AUTO STICKER, Etapas Pipeline: 12, GitHub: https://github.com/ThiagoIbrahimVieira/whatsappbot",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Fechamento Modal: WHATSAPP AUTO STICKER",
+    "expected": "Modal fecha e restaura overflow",
+    "obtained": "Fechado: true",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Abertura Modal Técnico: INTERVIEWAI",
+    "expected": "Modal abre em overlay escuro com pipeline e links",
+    "obtained": "Aberto: true, Título: INTERVIEWAI, Etapas Pipeline: 11, GitHub: https://github.com/ThiagoIbrahimVieira/interview-ai",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Fechamento Modal: INTERVIEWAI",
+    "expected": "Modal fecha e restaura overflow",
+    "obtained": "Fechado: true",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Abertura Modal Técnico: WASPER",
+    "expected": "Modal abre em overlay escuro com pipeline e links",
+    "obtained": "Aberto: true, Título: WASPER, Etapas Pipeline: 10, GitHub: https://github.com/ThiagoIbrahimVieira/wasper",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Fechamento Modal: WASPER",
+    "expected": "Modal fecha e restaura overflow",
+    "obtained": "Fechado: true",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Links Externos de Repositórios GitHub",
+    "expected": "Todos os links apontam para ThiagoIbrahimVieira com target='_blank'",
+    "obtained": "Total de links testados: 11, Válidos: true",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Washi Tapes nos Cards (Posicionamento)",
+    "expected": "Inclinadas na ponta superior direita sem sobrepor badges",
+    "obtained": "Total de cards: 11, Colisões: 0",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Arsenal Técnico",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Grid Desktop de Stacks (4 Categorias)",
+    "expected": "Grid 2x2 com 4 categorias e 10 tecnologias homologadas",
+    "obtained": "Categorias: 4 (SISTEMAS & BAIXO NÍVEL, FRONTEND & INTERFACES, BACKEND & ENGENHARIA DE MÍDIA, FERRAMENTAS DE IA & AUTOMAÇÃO), Itens: 10",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Princípios",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Grid Desktop de Princípios (4 Pilares)",
+    "expected": "Grid com 4 princípios de engenharia e governança",
+    "obtained": "Pilares encontrados: 4 (VERIFICAÇÃO REAL & EVIDÊNCIA, ENGENHARIA TRANSPARENTE, IA COMO BRAÇO, NÃO PILOTO AUTOMÁTICO, LOCAL-FIRST & RESPEITO AO USUÁRIO)",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Jornada",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Coluna Desktop do Autor & Linha do Tempo",
+    "expected": "Card de perfil à direita com foto carregada e 5 marcos de timeline à esquerda",
+    "obtained": "Card visível: true, Foto carregada: true, Marcos: 5",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Contato",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Clique no Botão 'Copiar E-mail'",
+    "expected": "Copia 'thiagoibrahimvieira@gmail.com' e muda botão para 'Copiado!'",
+    "obtained": "Exibiu 'Copiado!': true, Conteúdo copiado: 'thiagoibrahimvieira@gmail.com'",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Contato",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Validação de Envio Vazio (WhatsApp)",
+    "expected": "Exibe alerta vermelho exigindo preenchimento de nome e mensagem",
+    "obtained": "Mensagem obtida: 'Preencha ao menos seu nome e a mensagem para enviar no WhatsApp.'",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Contato",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Clique no Botão 'ENVIAR NO WHATSAPP'",
+    "expected": "Gera URL wa.me com número e mensagem URI codificada",
+    "obtained": "URL: https://wa.me/5511919498217?text=Ol%C3%A1%20Thiago!%20Sou%20Steve... (Válida: true)",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Contato",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Clique no Botão 'ENVIAR PELO EMAIL'",
+    "expected": "Disparo POST para /api/contact e retorno de sucesso do Resend",
+    "obtained": "Sucesso: true, Mensagem: 'DISPATCH ENVIADO COM SUCESSO!  Thiago recebeu seu e-mail diretamente e responderá em breve.'",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Erros de Runtime",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Console Errors",
+    "expected": "Zero erros de console",
+    "obtained": "Zero erros",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Erros de Runtime",
+    "viewport": "Full HD (1920x1080)",
+    "action": "Page Uncaught Errors",
+    "expected": "Zero erros não capturados na página",
+    "obtained": "Zero erros",
+    "status": "PASS",
+    "details": ""
+  },
+  {
+    "section": "Layout Desktop",
+    "viewport": "Laptop (1440x900)",
+    "action": "Verificação de Overflow Horizontal",
+    "expected": "scrollWidth <= clientWidth (0px)",
+    "obtained": "diff = 0px",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": "Sem barra de rolagem lateral espúria."
+  },
+  {
+    "section": "Navbar Desktop",
+    "viewport": "Laptop (1440x900)",
+    "action": "Clique no link 'Projetos'",
+    "expected": "Rolagem suave via Anime.js até ~1119px",
+    "obtained": "Posição atual: 1119px (Alvo: 1199)",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Navbar Desktop",
+    "viewport": "Laptop (1440x900)",
+    "action": "Clique no link 'Arsenal'",
+    "expected": "Rolagem suave via Anime.js até ~5175px",
+    "obtained": "Posição atual: 5175px (Alvo: 5255)",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Navbar Desktop",
+    "viewport": "Laptop (1440x900)",
+    "action": "Clique no link 'Jornada'",
+    "expected": "Rolagem suave via Anime.js até ~6275px",
+    "obtained": "Posição atual: 6275px (Alvo: 6355)",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Navbar Desktop",
+    "viewport": "Laptop (1440x900)",
+    "action": "Clique no link 'Princípios'",
+    "expected": "Rolagem suave via Anime.js até ~7445px",
+    "obtained": "Posição atual: 7445px (Alvo: 7525)",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Navbar Desktop",
+    "viewport": "Laptop (1440x900)",
+    "action": "Clique no link 'Contato'",
+    "expected": "Rolagem suave via Anime.js até ~8311px",
+    "obtained": "Posição atual: 8311px (Alvo: 8391)",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Navbar Desktop",
+    "viewport": "Laptop (1440x900)",
+    "action": "Clique no Logo TT",
+    "expected": "Rolar até o topo (#hero)",
+    "obtained": "Posição Y: 67px",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Navbar Desktop",
+    "viewport": "Laptop (1440x900)",
+    "action": "Botão GITHUB Header",
+    "expected": "Link externo abrindo em nova aba (target='_blank')",
+    "obtained": "Href: https://github.com/ThiagoIbrahimVieira, target: _blank",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "SectionNavigator",
+    "viewport": "Laptop (1440x900)",
+    "action": "Visibilidade do Navegador Lateral",
+    "expected": "Visível no desktop fixado na lateral direita",
+    "obtained": "Visível: true",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "SectionNavigator",
+    "viewport": "Laptop (1440x900)",
+    "action": "Clique no Marcador '02 // PROJETOS'",
+    "expected": "Rolar até seção de Projetos",
+    "obtained": "Posição Y: 1115px",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "SectionNavigator",
+    "viewport": "Laptop (1440x900)",
+    "action": "Clique no Botão Seta 'Avançar seção'",
+    "expected": "Avançar scroll para próxima seção",
+    "obtained": "Posição Y: 5160px",
+    "status": "PASS",
+    "severity": "Baixo",
+    "details": ""
+  },
+  {
+    "section": "Hero Section",
+    "viewport": "Laptop (1440x900)",
+    "action": "Selo Circular Rotativo Animado",
+    "expected": "SVG com rotação contínua e texto 'THIAGO IBRAHIM • 1º TÉCNICO EM INFORMÁTICA'",
+    "obtained": "Encontrado: true, Texto: 'THIAGO IBRAHIM • 1º TÉCNICO EM INFO...', Selo TT: true",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Hero Section",
+    "viewport": "Laptop (1440x900)",
+    "action": "Sticker Die-Cut 3:4 & Fita",
+    "expected": "Foto carregada com fita 'THIAGO // 1º TI' inclinada",
+    "obtained": "Foto carregada: true, Fita: 'THIAGO // 1º TI'",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Hero Section",
+    "viewport": "Laptop (1440x900)",
+    "action": "Card Manifesto do Construtor",
+    "expected": "Card manifesto centralizado com fita no canto sem sobrepor texto",
+    "obtained": "Encontrado: true, Fita: 'THIAGO // 1º TI', Sobreposição: false",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Hero Section",
+    "viewport": "Laptop (1440x900)",
+    "action": "Clique no CTA 'VER OS 4 PROJETOS NUCLEARES'",
+    "expected": "Rolar suavemente até a seção de Projetos",
+    "obtained": "Posição Y após clique: 1199px",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "Laptop (1440x900)",
+    "action": "Visualizador Interativo Grafo AST",
+    "expected": "Canvas 2D ativo com física orbital e nós interconectados",
+    "obtained": "Dimensões: 1116x540px",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "Laptop (1440x900)",
+    "action": "Efeito 3D Tilt nos Cards Desktop",
+    "expected": "Cards com perspective(1000px) e rotação no hover",
+    "obtained": "Tilt ativo: true, Cursor: none",
+    "status": "PASS",
+    "severity": "Baixo",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "Laptop (1440x900)",
+    "action": "Abertura Modal Técnico: CODEATLAS",
+    "expected": "Modal abre em overlay escuro com pipeline e links",
+    "obtained": "Aberto: true, Título: CODEATLAS, Etapas Pipeline: 11, GitHub: https://github.com/ThiagoIbrahimVieira/CodeAtlas",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "Laptop (1440x900)",
+    "action": "Fechamento Modal: CODEATLAS",
+    "expected": "Modal fecha e restaura overflow",
+    "obtained": "Fechado: true",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "Laptop (1440x900)",
+    "action": "Abertura Modal Técnico: WHATSAPP AUTO STICKER",
+    "expected": "Modal abre em overlay escuro com pipeline e links",
+    "obtained": "Aberto: true, Título: WHATSAPP AUTO STICKER, Etapas Pipeline: 12, GitHub: https://github.com/ThiagoIbrahimVieira/whatsappbot",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "Laptop (1440x900)",
+    "action": "Fechamento Modal: WHATSAPP AUTO STICKER",
+    "expected": "Modal fecha e restaura overflow",
+    "obtained": "Fechado: true",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "Laptop (1440x900)",
+    "action": "Abertura Modal Técnico: INTERVIEWAI",
+    "expected": "Modal abre em overlay escuro com pipeline e links",
+    "obtained": "Aberto: true, Título: INTERVIEWAI, Etapas Pipeline: 11, GitHub: https://github.com/ThiagoIbrahimVieira/interview-ai",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "Laptop (1440x900)",
+    "action": "Fechamento Modal: INTERVIEWAI",
+    "expected": "Modal fecha e restaura overflow",
+    "obtained": "Fechado: true",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "Laptop (1440x900)",
+    "action": "Abertura Modal Técnico: WASPER",
+    "expected": "Modal abre em overlay escuro com pipeline e links",
+    "obtained": "Aberto: true, Título: WASPER, Etapas Pipeline: 10, GitHub: https://github.com/ThiagoIbrahimVieira/wasper",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "Laptop (1440x900)",
+    "action": "Fechamento Modal: WASPER",
+    "expected": "Modal fecha e restaura overflow",
+    "obtained": "Fechado: true",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "Laptop (1440x900)",
+    "action": "Links Externos de Repositórios GitHub",
+    "expected": "Todos os links apontam para ThiagoIbrahimVieira com target='_blank'",
+    "obtained": "Total de links testados: 11, Válidos: true",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "Laptop (1440x900)",
+    "action": "Washi Tapes nos Cards (Posicionamento)",
+    "expected": "Inclinadas na ponta superior direita sem sobrepor badges",
+    "obtained": "Total de cards: 11, Colisões: 0",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Arsenal Técnico",
+    "viewport": "Laptop (1440x900)",
+    "action": "Grid Desktop de Stacks (4 Categorias)",
+    "expected": "Grid 2x2 com 4 categorias e 10 tecnologias homologadas",
+    "obtained": "Categorias: 4 (SISTEMAS & BAIXO NÍVEL, FRONTEND & INTERFACES, BACKEND & ENGENHARIA DE MÍDIA, FERRAMENTAS DE IA & AUTOMAÇÃO), Itens: 10",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Princípios",
+    "viewport": "Laptop (1440x900)",
+    "action": "Grid Desktop de Princípios (4 Pilares)",
+    "expected": "Grid com 4 princípios de engenharia e governança",
+    "obtained": "Pilares encontrados: 4 (VERIFICAÇÃO REAL & EVIDÊNCIA, ENGENHARIA TRANSPARENTE, IA COMO BRAÇO, NÃO PILOTO AUTOMÁTICO, LOCAL-FIRST & RESPEITO AO USUÁRIO)",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Jornada",
+    "viewport": "Laptop (1440x900)",
+    "action": "Coluna Desktop do Autor & Linha do Tempo",
+    "expected": "Card de perfil à direita com foto carregada e 5 marcos de timeline à esquerda",
+    "obtained": "Card visível: true, Foto carregada: true, Marcos: 5",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Contato",
+    "viewport": "Laptop (1440x900)",
+    "action": "Clique no Botão 'Copiar E-mail'",
+    "expected": "Copia 'thiagoibrahimvieira@gmail.com' e muda botão para 'Copiado!'",
+    "obtained": "Exibiu 'Copiado!': true, Conteúdo copiado: 'thiagoibrahimvieira@gmail.com'",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Contato",
+    "viewport": "Laptop (1440x900)",
+    "action": "Validação de Envio Vazio (WhatsApp)",
+    "expected": "Exibe alerta vermelho exigindo preenchimento de nome e mensagem",
+    "obtained": "Mensagem obtida: 'Preencha ao menos seu nome e a mensagem para enviar no WhatsApp.'",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Contato",
+    "viewport": "Laptop (1440x900)",
+    "action": "Clique no Botão 'ENVIAR NO WHATSAPP'",
+    "expected": "Gera URL wa.me com número e mensagem URI codificada",
+    "obtained": "URL: https://wa.me/5511919498217?text=Ol%C3%A1%20Thiago!%20Sou%20Steve... (Válida: true)",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Contato",
+    "viewport": "Laptop (1440x900)",
+    "action": "Clique no Botão 'ENVIAR PELO EMAIL'",
+    "expected": "Disparo POST para /api/contact e retorno de sucesso do Resend",
+    "obtained": "Sucesso: true, Mensagem: 'DISPATCH ENVIADO COM SUCESSO!  Thiago recebeu seu e-mail diretamente e responderá em breve.'",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Erros de Runtime",
+    "viewport": "Laptop (1440x900)",
+    "action": "Console Errors",
+    "expected": "Zero erros de console",
+    "obtained": "Zero erros",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Erros de Runtime",
+    "viewport": "Laptop (1440x900)",
+    "action": "Page Uncaught Errors",
+    "expected": "Zero erros não capturados na página",
+    "obtained": "Zero erros",
+    "status": "PASS",
+    "details": ""
+  },
+  {
+    "section": "Layout Desktop",
+    "viewport": "HD (1280x720)",
+    "action": "Verificação de Overflow Horizontal",
+    "expected": "scrollWidth <= clientWidth (0px)",
+    "obtained": "diff = 0px",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": "Sem barra de rolagem lateral espúria."
+  },
+  {
+    "section": "Navbar Desktop",
+    "viewport": "HD (1280x720)",
+    "action": "Clique no link 'Projetos'",
+    "expected": "Rolagem suave via Anime.js até ~1119px",
+    "obtained": "Posição atual: 1119px (Alvo: 1199)",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Navbar Desktop",
+    "viewport": "HD (1280x720)",
+    "action": "Clique no link 'Arsenal'",
+    "expected": "Rolagem suave via Anime.js até ~5175px",
+    "obtained": "Posição atual: 5175px (Alvo: 5255)",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Navbar Desktop",
+    "viewport": "HD (1280x720)",
+    "action": "Clique no link 'Jornada'",
+    "expected": "Rolagem suave via Anime.js até ~6275px",
+    "obtained": "Posição atual: 6275px (Alvo: 6355)",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Navbar Desktop",
+    "viewport": "HD (1280x720)",
+    "action": "Clique no link 'Princípios'",
+    "expected": "Rolagem suave via Anime.js até ~7445px",
+    "obtained": "Posição atual: 7445px (Alvo: 7525)",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Navbar Desktop",
+    "viewport": "HD (1280x720)",
+    "action": "Clique no link 'Contato'",
+    "expected": "Rolagem suave via Anime.js até ~8311px",
+    "obtained": "Posição atual: 8311px (Alvo: 8391)",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Navbar Desktop",
+    "viewport": "HD (1280x720)",
+    "action": "Clique no Logo TT",
+    "expected": "Rolar até o topo (#hero)",
+    "obtained": "Posição Y: 67px",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Navbar Desktop",
+    "viewport": "HD (1280x720)",
+    "action": "Botão GITHUB Header",
+    "expected": "Link externo abrindo em nova aba (target='_blank')",
+    "obtained": "Href: https://github.com/ThiagoIbrahimVieira, target: _blank",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "SectionNavigator",
+    "viewport": "HD (1280x720)",
+    "action": "Visibilidade do Navegador Lateral",
+    "expected": "Visível no desktop fixado na lateral direita",
+    "obtained": "Visível: true",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "SectionNavigator",
+    "viewport": "HD (1280x720)",
+    "action": "Clique no Marcador '02 // PROJETOS'",
+    "expected": "Rolar até seção de Projetos",
+    "obtained": "Posição Y: 1114px",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "SectionNavigator",
+    "viewport": "HD (1280x720)",
+    "action": "Clique no Botão Seta 'Avançar seção'",
+    "expected": "Avançar scroll para próxima seção",
+    "obtained": "Posição Y: 5157px",
+    "status": "PASS",
+    "severity": "Baixo",
+    "details": ""
+  },
+  {
+    "section": "Hero Section",
+    "viewport": "HD (1280x720)",
+    "action": "Selo Circular Rotativo Animado",
+    "expected": "SVG com rotação contínua e texto 'THIAGO IBRAHIM • 1º TÉCNICO EM INFORMÁTICA'",
+    "obtained": "Encontrado: true, Texto: 'THIAGO IBRAHIM • 1º TÉCNICO EM INFO...', Selo TT: true",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Hero Section",
+    "viewport": "HD (1280x720)",
+    "action": "Sticker Die-Cut 3:4 & Fita",
+    "expected": "Foto carregada com fita 'THIAGO // 1º TI' inclinada",
+    "obtained": "Foto carregada: true, Fita: 'THIAGO // 1º TI'",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Hero Section",
+    "viewport": "HD (1280x720)",
+    "action": "Card Manifesto do Construtor",
+    "expected": "Card manifesto centralizado com fita no canto sem sobrepor texto",
+    "obtained": "Encontrado: true, Fita: 'THIAGO // 1º TI', Sobreposição: false",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Hero Section",
+    "viewport": "HD (1280x720)",
+    "action": "Clique no CTA 'VER OS 4 PROJETOS NUCLEARES'",
+    "expected": "Rolar suavemente até a seção de Projetos",
+    "obtained": "Posição Y após clique: 1199px",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "HD (1280x720)",
+    "action": "Visualizador Interativo Grafo AST",
+    "expected": "Canvas 2D ativo com física orbital e nós interconectados",
+    "obtained": "Dimensões: 1116x540px",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "HD (1280x720)",
+    "action": "Efeito 3D Tilt nos Cards Desktop",
+    "expected": "Cards com perspective(1000px) e rotação no hover",
+    "obtained": "Tilt ativo: true, Cursor: none",
+    "status": "PASS",
+    "severity": "Baixo",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "HD (1280x720)",
+    "action": "Abertura Modal Técnico: CODEATLAS",
+    "expected": "Modal abre em overlay escuro com pipeline e links",
+    "obtained": "Aberto: true, Título: CODEATLAS, Etapas Pipeline: 11, GitHub: https://github.com/ThiagoIbrahimVieira/CodeAtlas",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "HD (1280x720)",
+    "action": "Fechamento Modal: CODEATLAS",
+    "expected": "Modal fecha e restaura overflow",
+    "obtained": "Fechado: true",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "HD (1280x720)",
+    "action": "Abertura Modal Técnico: WHATSAPP AUTO STICKER",
+    "expected": "Modal abre em overlay escuro com pipeline e links",
+    "obtained": "Aberto: true, Título: WHATSAPP AUTO STICKER, Etapas Pipeline: 12, GitHub: https://github.com/ThiagoIbrahimVieira/whatsappbot",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "HD (1280x720)",
+    "action": "Fechamento Modal: WHATSAPP AUTO STICKER",
+    "expected": "Modal fecha e restaura overflow",
+    "obtained": "Fechado: true",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "HD (1280x720)",
+    "action": "Abertura Modal Técnico: INTERVIEWAI",
+    "expected": "Modal abre em overlay escuro com pipeline e links",
+    "obtained": "Aberto: true, Título: INTERVIEWAI, Etapas Pipeline: 11, GitHub: https://github.com/ThiagoIbrahimVieira/interview-ai",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "HD (1280x720)",
+    "action": "Fechamento Modal: INTERVIEWAI",
+    "expected": "Modal fecha e restaura overflow",
+    "obtained": "Fechado: true",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "HD (1280x720)",
+    "action": "Abertura Modal Técnico: WASPER",
+    "expected": "Modal abre em overlay escuro com pipeline e links",
+    "obtained": "Aberto: true, Título: WASPER, Etapas Pipeline: 10, GitHub: https://github.com/ThiagoIbrahimVieira/wasper",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "HD (1280x720)",
+    "action": "Fechamento Modal: WASPER",
+    "expected": "Modal fecha e restaura overflow",
+    "obtained": "Fechado: true",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "HD (1280x720)",
+    "action": "Links Externos de Repositórios GitHub",
+    "expected": "Todos os links apontam para ThiagoIbrahimVieira com target='_blank'",
+    "obtained": "Total de links testados: 11, Válidos: true",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Seção Projetos",
+    "viewport": "HD (1280x720)",
+    "action": "Washi Tapes nos Cards (Posicionamento)",
+    "expected": "Inclinadas na ponta superior direita sem sobrepor badges",
+    "obtained": "Total de cards: 11, Colisões: 0",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Arsenal Técnico",
+    "viewport": "HD (1280x720)",
+    "action": "Grid Desktop de Stacks (4 Categorias)",
+    "expected": "Grid 2x2 com 4 categorias e 10 tecnologias homologadas",
+    "obtained": "Categorias: 4 (SISTEMAS & BAIXO NÍVEL, FRONTEND & INTERFACES, BACKEND & ENGENHARIA DE MÍDIA, FERRAMENTAS DE IA & AUTOMAÇÃO), Itens: 10",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Princípios",
+    "viewport": "HD (1280x720)",
+    "action": "Grid Desktop de Princípios (4 Pilares)",
+    "expected": "Grid com 4 princípios de engenharia e governança",
+    "obtained": "Pilares encontrados: 4 (VERIFICAÇÃO REAL & EVIDÊNCIA, ENGENHARIA TRANSPARENTE, IA COMO BRAÇO, NÃO PILOTO AUTOMÁTICO, LOCAL-FIRST & RESPEITO AO USUÁRIO)",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Jornada",
+    "viewport": "HD (1280x720)",
+    "action": "Coluna Desktop do Autor & Linha do Tempo",
+    "expected": "Card de perfil à direita com foto carregada e 5 marcos de timeline à esquerda",
+    "obtained": "Card visível: true, Foto carregada: true, Marcos: 5",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Contato",
+    "viewport": "HD (1280x720)",
+    "action": "Clique no Botão 'Copiar E-mail'",
+    "expected": "Copia 'thiagoibrahimvieira@gmail.com' e muda botão para 'Copiado!'",
+    "obtained": "Exibiu 'Copiado!': true, Conteúdo copiado: 'thiagoibrahimvieira@gmail.com'",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Contato",
+    "viewport": "HD (1280x720)",
+    "action": "Validação de Envio Vazio (WhatsApp)",
+    "expected": "Exibe alerta vermelho exigindo preenchimento de nome e mensagem",
+    "obtained": "Mensagem obtida: 'Preencha ao menos seu nome e a mensagem para enviar no WhatsApp.'",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Contato",
+    "viewport": "HD (1280x720)",
+    "action": "Clique no Botão 'ENVIAR NO WHATSAPP'",
+    "expected": "Gera URL wa.me com número e mensagem URI codificada",
+    "obtained": "URL: https://wa.me/5511919498217?text=Ol%C3%A1%20Thiago!%20Sou%20Steve... (Válida: true)",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Contato",
+    "viewport": "HD (1280x720)",
+    "action": "Clique no Botão 'ENVIAR PELO EMAIL'",
+    "expected": "Disparo POST para /api/contact e retorno de sucesso do Resend",
+    "obtained": "Sucesso: true, Mensagem: 'DISPATCH ENVIADO COM SUCESSO!  Thiago recebeu seu e-mail diretamente e responderá em breve.'",
+    "status": "PASS",
+    "severity": "Crítico",
+    "details": ""
+  },
+  {
+    "section": "Erros de Runtime",
+    "viewport": "HD (1280x720)",
+    "action": "Console Errors",
+    "expected": "Zero erros de console",
+    "obtained": "Zero erros",
+    "status": "PASS",
+    "severity": "Médio",
+    "details": ""
+  },
+  {
+    "section": "Erros de Runtime",
+    "viewport": "HD (1280x720)",
+    "action": "Page Uncaught Errors",
+    "expected": "Zero erros não capturados na página",
+    "obtained": "Zero erros",
+    "status": "PASS",
+    "details": ""
+  }
+]

@@ -1,16 +1,20 @@
 import { siteData } from "@/data/site";
 import { ShieldCheck, Cpu, Eye, HardDrive } from "lucide-react";
 import { RevealSection } from "@/components/effects/RevealSection";
+import { ParallaxWatermark } from "@/components/effects/ParallaxWatermark";
 
 const icons = [ShieldCheck, Eye, Cpu, HardDrive];
 
 export function PrinciplesSection() {
   return (
-    <section id="principios" aria-labelledby="principios-heading" className="relative z-10 py-24 md:py-32 bg-transparent">
-      <div className="mx-auto max-w-7xl px-6 md:px-12">
+    <section id="principios" aria-labelledby="principios-heading" className="relative z-10 py-10 sm:py-14 md:py-32 bg-transparent overflow-hidden">
+      {/* Parallax Watermark de Fundo */}
+      <ParallaxWatermark number="04" label="RULES // PRINCÍPIOS NUCLEARES" position="left" speed={55} />
+
+      <div className="mx-auto max-w-7xl px-6 md:px-12 relative z-10">
         <div className="max-w-4xl mx-auto">
           <RevealSection>
-            <div className="text-center mb-16">
+            <div className="text-center mb-8 sm:mb-12 md:mb-16">
               <span className="font-handwriting text-[#fbbf24] text-xl md:text-2xl block mb-1">
                 {"// governança inegociável"}
               </span>

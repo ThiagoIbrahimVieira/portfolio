@@ -1,13 +1,28 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { siteData } from "@/data/site";
 import { Terminal, ArrowUpRight, Cpu, Code2 } from "lucide-react";
 import { RevealSection } from "@/components/effects/RevealSection";
+import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
+import { ParallaxWatermark } from "@/components/effects/ParallaxWatermark";
 
 export function HeroSection() {
   const [time, setTime] = useState("");
+  const sectionRef = useRef<HTMLElement>(null);
+  const shouldReduceMotion = useReducedMotion();
+
+  // Scroll Parallax para o Hero
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+
+  const stickerY = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? [0, 0] : [0, 44]);
+  const sealY = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? [0, 0] : [0, 68]);
+  const manifestY = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? [0, 0] : [0, 24]);
+  const titleY = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? [0, 0] : [0, -16]);
 
   useEffect(() => {
     const tick = () => {
@@ -24,8 +39,16 @@ export function HeroSection() {
   const person = siteData.person;
 
   return (
-    <section id="hero" aria-labelledby="hero-heading" className="relative z-10 pt-10 sm:pt-14 pb-16 md:py-28 overflow-hidden bg-transparent">
-      <div className="mx-auto max-w-7xl px-6 md:px-12">
+    <section
+      id="hero"
+      ref={sectionRef}
+      aria-labelledby="hero-heading"
+      className="relative z-10 pt-10 sm:pt-14 pb-8 sm:pb-12 md:py-28 overflow-hidden bg-transparent"
+    >
+      {/* Parallax Watermark de Fundo */}
+      <ParallaxWatermark number="00" label="TI // ITAPEVI · 2026" position="right" speed={55} />
+
+      <div className="mx-auto max-w-7xl px-6 md:px-12 relative z-10">
         {/* Top telemetry bar */}
         <RevealSection>
           <div className="flex flex-wrap items-center justify-between gap-4 py-3 px-4 mb-8 sm:mb-12 bg-[#141418] border border-zinc-800 rounded-lg font-mono text-xs text-zinc-400 shadow-[4px_4px_0px_#000000]">
@@ -44,21 +67,23 @@ export function HeroSection() {
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           <div className="lg:col-span-8 space-y-6">
             <RevealSection delay={0.1}>
-              {/* Handwritten highlight note */}
-              <div className="inline-block">
-                <span className="font-handwriting text-[#fbbf24] text-2xl md:text-3xl rotate-[-2deg] block select-none">
-                  {person.handwrittenNote ?? "Building real systems from Itapevi 🚀"}
-                </span>
-              </div>
+              <motion.div style={{ y: titleY }} className="will-change-transform">
+                {/* Handwritten highlight note */}
+                <div className="inline-block">
+                  <span className="font-handwriting text-[#fbbf24] text-2xl md:text-3xl rotate-[-2deg] block select-none">
+                    {person.handwrittenNote ?? "Building real systems from Itapevi 🚀"}
+                  </span>
+                </div>
 
-              {/* Giant Display Headline */}
-              <h1
-                id="hero-heading"
-                className="font-display text-white text-[clamp(3.5rem,11vw,8.5rem)] leading-[0.88] tracking-tighter"
-              >
-                THIAGO<br />
-                <span className="text-[#fbbf24]">IBRAHIM</span>
-              </h1>
+                {/* Giant Display Headline */}
+                <h1
+                  id="hero-heading"
+                  className="font-display text-white text-[clamp(3.5rem,11vw,8.5rem)] leading-[0.88] tracking-tighter"
+                >
+                  THIAGO<br />
+                  <span className="text-[#fbbf24]">IBRAHIM</span>
+                </h1>
+              </motion.div>
             </RevealSection>
 
             {/* Subtitle & Value Proposition */}
@@ -111,11 +136,14 @@ export function HeroSection() {
             </RevealSection>
           </div>
 
-          {/* Right Column: 3:4 Die-Cut Sticker Slot & Rotating Seal */}
+          {/* Right Column: 3:4 Die-Cut Sticker Slot & Rotating Seal com Parallax de Profundidade */}
           <div className="lg:col-span-4 flex flex-col items-center justify-center relative mt-8 lg:mt-0">
             <RevealSection delay={0.2}>
-              {/* 3:4 Aspect Ratio Sticker Slot */}
-              <div className="w-full max-w-[280px] sm:max-w-xs aspect-[3/4] relative mb-12 sm:mb-10 sticker-die-cut rounded-2xl bg-[#141418] border-2 border-white/90 shadow-[4px_10px_25px_rgba(0,0,0,0.8)] mx-auto overflow-visible">
+              {/* 3:4 Aspect Ratio Sticker Slot com Parallax Suave */}
+              <motion.div
+                style={{ y: stickerY }}
+                className="w-full max-w-[280px] sm:max-w-xs aspect-[3/4] relative mb-8 sm:mb-10 sticker-die-cut rounded-2xl bg-[#141418] border-2 border-white/90 shadow-[4px_10px_25px_rgba(0,0,0,0.8)] mx-auto overflow-visible will-change-transform"
+              >
                 <div className="relative w-full h-full rounded-2xl overflow-hidden">
                   <Image
                     src="/images/thiago-hero-sticker.png"
@@ -129,10 +157,13 @@ export function HeroSection() {
                 <div className="tape-strip -top-3.5 -right-3 w-28 bg-[#fbbf24]/70 text-black text-center flex items-center justify-center font-mono text-[9px] font-bold z-20 rotate-[5deg] shadow-md border border-black/30">
                   THIAGO // 1º TI
                 </div>
-              </div>
+              </motion.div>
 
-              {/* Rotating Circular Seal */}
-              <div className="relative w-36 h-36 mb-6 hidden sm:flex items-center justify-center mx-auto">
+              {/* Rotating Circular Seal com Parallax Acentuado */}
+              <motion.div
+                style={{ y: sealY }}
+                className="relative w-36 h-36 mb-6 hidden sm:flex items-center justify-center mx-auto will-change-transform"
+              >
                 <svg className="w-full h-full animate-spin-slow select-none" viewBox="0 0 100 100">
                   <path
                     id="circlePath"
@@ -148,10 +179,13 @@ export function HeroSection() {
                 <div className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-[#141418] border-2 border-[#fbbf24] flex items-center justify-center shadow-[0_0_15px_rgba(251,191,36,0.2)]">
                   <span className="font-display text-xl text-white">TT</span>
                 </div>
-              </div>
+              </motion.div>
 
-              {/* Manifest Card with Torn Edge - Centralizado e com respiro da imagem */}
-              <div className="w-full max-w-sm sm:max-w-md mx-auto bg-[#141418] border border-zinc-800 pt-8 pb-6 px-5 sm:p-7 sm:pt-8 rounded-lg relative shadow-[4px_4px_0px_#000000] mt-16 sm:mt-12 text-center overflow-visible">
+              {/* Manifest Card with Torn Edge - Parallax Leve */}
+              <motion.div
+                style={{ y: manifestY }}
+                className="w-full max-w-sm sm:max-w-md mx-auto bg-[#141418] border border-zinc-800 pt-8 pb-6 px-5 sm:p-7 sm:pt-8 rounded-lg relative shadow-[4px_4px_0px_#000000] mt-8 sm:mt-12 text-center overflow-visible will-change-transform"
+              >
                 <div className="tape-strip -top-3.5 -right-3 w-24 bg-amber-500/50 text-amber-200 border border-amber-400/70 text-center flex items-center justify-center font-mono text-[9px] font-bold z-20 rotate-[5deg] shadow-md">
                   MANIFESTO
                 </div>
@@ -164,7 +198,7 @@ export function HeroSection() {
                 <p className="text-xs font-mono text-zinc-500">
                   — Thiago Ibrahim (16 anos) · ETEC Itapevi
                 </p>
-              </div>
+              </motion.div>
             </RevealSection>
           </div>
         </div>

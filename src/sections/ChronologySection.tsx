@@ -8,6 +8,7 @@ import { RevealSection } from "@/components/effects/RevealSection";
 import { ProjectDetailModal } from "@/components/ProjectDetailModal";
 import { ExternalLink, Sparkles } from "lucide-react";
 import { GithubIcon } from "@/components/icons/GithubIcon";
+import { ParallaxWatermark } from "@/components/effects/ParallaxWatermark";
 import type { Project } from "@/types/site";
 
 export function ChronologySection() {
@@ -16,11 +17,14 @@ export function ChronologySection() {
   const otherProjects = siteData.projects.filter((p) => !p.isFeaturedPillar);
 
   return (
-    <section id="projetos" aria-labelledby="projetos-heading" className="relative z-10 py-24 md:py-32 bg-transparent">
-      <div className="mx-auto max-w-7xl px-6 md:px-12">
+    <section id="projetos" aria-labelledby="projetos-heading" className="relative z-10 py-10 sm:py-14 md:py-32 bg-transparent overflow-hidden">
+      {/* Parallax Watermark de Fundo */}
+      <ParallaxWatermark number="01" label="CORE // PROJETOS NUCLEARES" position="right" speed={55} />
+
+      <div className="mx-auto max-w-7xl px-6 md:px-12 relative z-10">
         {/* Section Header */}
         <RevealSection>
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 pb-6 border-b border-zinc-800">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-12 md:mb-16 pb-6 border-b border-zinc-800">
             <div>
               <span className="font-handwriting text-[#fbbf24] text-xl md:text-2xl block mb-1">
                 {"// 4 obras reais de engenharia"}
@@ -38,7 +42,7 @@ export function ChronologySection() {
 
         {/* 1. Constellation Graph Card - Topologia Dinâmica */}
         <RevealSection delay={0.1}>
-          <figure className="bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-4 sm:p-6 md:p-8 mb-16 md:mb-20 shadow-[6px_6px_0px_#000000] relative overflow-hidden group">
+          <figure className="bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-4 sm:p-6 md:p-8 mb-8 md:mb-16 shadow-[6px_6px_0px_#000000] relative overflow-hidden group">
             {/* Ambient Backlight Glow */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-24 bg-gradient-to-b from-amber-500/10 via-cyan-500/5 to-transparent blur-2xl pointer-events-none" />
 
@@ -74,7 +78,7 @@ export function ChronologySection() {
         </RevealSection>
 
         {/* 2. Mobile Snap-to-Card Carousel (< 768px) com rolagem fluida e snap */}
-        <div className="block md:hidden mb-16">
+        <div className="block md:hidden mb-8 sm:mb-12 md:mb-16">
           <p className="text-xs font-mono text-zinc-400 mb-3 flex items-center gap-1.5">
             <span className="text-[#fbbf24]">◀ ▶</span> Deslize para navegar pelos 4 cards nucleares
           </p>

@@ -1,5 +1,6 @@
 import { siteData } from "@/data/site";
 import { RevealSection } from "@/components/effects/RevealSection";
+import { ParallaxWatermark } from "@/components/effects/ParallaxWatermark";
 
 const groups = [
   {
@@ -26,10 +27,13 @@ const groups = [
 
 export function ToolboxSection() {
   return (
-    <section id="arsenal" aria-labelledby="arsenal-heading" className="relative z-10 py-24 md:py-32 bg-transparent">
-      <div className="mx-auto max-w-7xl px-6 md:px-12">
+    <section id="arsenal" aria-labelledby="arsenal-heading" className="relative z-10 py-10 sm:py-14 md:py-32 bg-transparent overflow-hidden">
+      {/* Parallax Watermark de Fundo */}
+      <ParallaxWatermark number="02" label="STACK // ARSENAL TÉCNICO" position="left" speed={55} />
+
+      <div className="mx-auto max-w-7xl px-6 md:px-12 relative z-10">
         <RevealSection>
-          <div className="text-center mb-16">
+          <div className="text-center mb-8 sm:mb-12 md:mb-16">
             <div className="inline-block">
               <span className="font-handwriting text-[#fbbf24] text-xl md:text-2xl rotate-[-2deg] block mb-1">
                 {"// inventário de combate"}

@@ -1,13 +1,17 @@
 import Image from "next/image";
 import { siteData } from "@/data/site";
 import { RevealSection } from "@/components/effects/RevealSection";
+import { ParallaxWatermark } from "@/components/effects/ParallaxWatermark";
 
 export function JournalSection() {
   return (
-    <section id="jornada" aria-labelledby="jornada-heading" className="relative z-10 py-24 md:py-32 bg-transparent">
-      <div className="mx-auto max-w-7xl px-6 md:px-12">
+    <section id="jornada" aria-labelledby="jornada-heading" className="relative z-10 py-10 sm:py-14 md:py-32 bg-transparent overflow-hidden">
+      {/* Parallax Watermark de Fundo */}
+      <ParallaxWatermark number="03" label="LOG // JORNADA DO CONSTRUTOR" position="right" speed={55} />
+
+      <div className="mx-auto max-w-7xl px-6 md:px-12 relative z-10">
         <RevealSection>
-          <div className="text-center mb-16">
+          <div className="text-center mb-8 sm:mb-12 md:mb-16">
             <span className="font-handwriting text-[#fbbf24] text-xl md:text-2xl block mb-1">
               {"// log de evolução contínua"}
             </span>
