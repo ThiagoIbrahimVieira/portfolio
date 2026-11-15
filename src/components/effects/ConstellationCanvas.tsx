@@ -73,7 +73,7 @@ export function ConstellationCanvas({
 }: {
   onSelectProject?: (projectId: string) => void;
 } = {}) {
-  const { containerRef, shouldRenderHeavy } = usePerformanceVisibility(0.15);
+  const { containerRef, shouldRenderLight } = usePerformanceVisibility(0.05);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [hoveredNode, setHoveredNode] = useState<Node | null>(null);
   const hoverRef = useRef<string | null>(null);
@@ -159,7 +159,7 @@ export function ConstellationCanvas({
   }, []);
 
   useEffect(() => {
-    if (!shouldRenderHeavy) return;
+    if (!shouldRenderLight) return;
 
     const canvas = canvasRef.current;
     const container = containerRef.current;
@@ -224,7 +224,6 @@ export function ConstellationCanvas({
 
       const cx = width / 2;
       const cy = height / 2;
-      const minDim = Math.min(width, height);
       const activeHoverId = hoverRef.current;
       const mouse = mousePosRef.current;
 
@@ -234,12 +233,12 @@ export function ConstellationCanvas({
 
       // Cálculo adaptativo seguro para garantir que NENHUM nó seja cortado nas bordas (Desktop e Mobile)
       const isMobileScreen = width < 640;
-      const marginX = isMobileScreen ? 70 : 200;
-      const marginY = isMobileScreen ? 70 : 150;
-      const safeRadiusX = Math.max(isMobileScreen ? 70 : 120, (width - marginX) / 2);
-      const safeRadiusY = Math.max(isMobileScreen ? 70 : 110, (height - marginY) / 2);
-      const safeProjectRadius = Math.min(safeRadiusX, safeRadiusY * (isMobileScreen ? 0.95 : 1.02));
-      const safeStackRadius = safeProjectRadius * (isMobileScreen ? 0.45 : 0.42);
+      const marginX = isMobileScreen ? 48 : 200;
+      const marginY = isMobileScreen ? 36 : 150;
+      const safeRadiusX = Math.max(isMobileScreen ? 55 : 120, (width - marginX) / 2);
+      const safeRadiusY = Math.max(isMobileScreen ? 48 : 110, (height - marginY) / 2);
+      const safeProjectRadius = Math.min(safeRadiusX, safeRadiusY * (isMobileScreen ? 0.90 : 1.02));
+      const safeStackRadius = safeProjectRadius * (isMobileScreen ? 0.44 : 0.42);
 
       nodes.forEach((n) => {
         // Velocidade orbital suave, estável e uniforme (sem oscilação radial)
@@ -341,7 +340,7 @@ export function ConstellationCanvas({
       });
 
       // 4. Renderiza nós (Halos, Círculos e Rótulos)
-      nodes.forEach((n, i) => {
+      nodes.forEach((n) => {
         const isHover = activeHoverId === n.id;
         const isConnected =
           activeHoverId !== null &&
@@ -524,10 +523,10 @@ export function ConstellationCanvas({
       container.removeEventListener("touchstart", onTouchStart);
       container.removeEventListener("touchend", onTouchEnd);
     };
-  }, [shouldRenderHeavy, initialNodes, initialEdges, containerRef, onSelectProject]);
+  }, [shouldRenderLight, initialNodes, initialEdges, containerRef, onSelectProject]);
 
   return (
-    <div ref={containerRef} className="relative w-full h-[400px] sm:h-[480px] md:h-[580px] select-none">
+    <div ref={containerRef} className="relative w-full h-[280px] sm:h-[380px] md:h-[540px] select-none">
       <canvas
         ref={canvasRef}
         className="block w-full h-full cursor-crosshair touch-pan-y"

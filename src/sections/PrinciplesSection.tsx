@@ -23,7 +23,33 @@ export function PrinciplesSection() {
             </div>
           </RevealSection>
 
-          <div className="grid sm:grid-cols-2 gap-6">
+          {/* Mobile Snap Carousel (< 640px) */}
+          <div className="block sm:hidden">
+            <p className="text-xs font-mono text-zinc-400 mb-3 flex items-center gap-1.5">
+              <span className="text-[#fbbf24]">◀ ▶</span> Deslize para navegar pelos princípios
+            </p>
+            <div className="flex overflow-x-auto gap-4 pb-4 -mx-4 px-4 snap-x snap-mandatory scrollbar-none touch-pan-x overscroll-x-contain">
+              {siteData.principles.map((p, i) => {
+                const Icon = icons[i % icons.length];
+                return (
+                  <div key={p.id} className="shrink-0 w-[80vw] max-w-[280px] snap-center">
+                    <div className="bg-[#141418] border border-zinc-800 p-4 rounded-lg relative shadow-[4px_4px_0px_#000000] h-full flex flex-col justify-between">
+                      <div>
+                        <div className="w-8 h-8 rounded bg-zinc-900 border border-zinc-700 flex items-center justify-center text-[#fbbf24] mb-3">
+                          <Icon className="w-4 h-4" />
+                        </div>
+                        <h3 className="font-display text-lg text-white mb-1.5">{p.title}</h3>
+                        <p className="text-xs text-zinc-400 leading-relaxed font-sans">{p.description}</p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Desktop Grid (>= 640px) */}
+          <div className="hidden sm:grid sm:grid-cols-2 gap-6">
             {siteData.principles.map((p, i) => {
               const Icon = icons[i % icons.length];
               return (

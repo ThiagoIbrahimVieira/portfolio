@@ -6,7 +6,7 @@ import { siteData } from "@/data/site";
 import { ConstellationCanvas } from "@/components/effects/ConstellationCanvas";
 import { RevealSection } from "@/components/effects/RevealSection";
 import { ProjectDetailModal } from "@/components/ProjectDetailModal";
-import { ExternalLink, Sparkles, ArrowUpRight } from "lucide-react";
+import { ExternalLink, Sparkles } from "lucide-react";
 import { GithubIcon } from "@/components/icons/GithubIcon";
 import type { Project } from "@/types/site";
 
@@ -38,7 +38,7 @@ export function ChronologySection() {
 
         {/* 1. Constellation Graph Card - Topologia Dinâmica */}
         <RevealSection delay={0.1}>
-          <figure className="bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-6 md:p-8 mb-20 shadow-[6px_6px_0px_#000000] relative overflow-hidden group">
+          <figure className="bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-4 sm:p-6 md:p-8 mb-16 md:mb-20 shadow-[6px_6px_0px_#000000] relative overflow-hidden group">
             {/* Ambient Backlight Glow */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-24 bg-gradient-to-b from-amber-500/10 via-cyan-500/5 to-transparent blur-2xl pointer-events-none" />
 
@@ -57,7 +57,7 @@ export function ChronologySection() {
               </div>
             </div>
 
-            <div className="w-full h-[420px] sm:h-[480px] md:h-[580px] relative">
+            <div className="w-full h-[280px] sm:h-[380px] md:h-[540px] relative">
               <ConstellationCanvas
                 onSelectProject={(id) => {
                   const found = siteData.projects.find((p) => p.id === id);
@@ -73,14 +73,14 @@ export function ChronologySection() {
           </figure>
         </RevealSection>
 
-        {/* 2. Mobile Snap-to-Card Carousel (< 768px) com rolagem vertical livre */}
+        {/* 2. Mobile Snap-to-Card Carousel (< 768px) com rolagem fluida e snap */}
         <div className="block md:hidden mb-16">
           <p className="text-xs font-mono text-zinc-400 mb-3 flex items-center gap-1.5">
             <span className="text-[#fbbf24]">◀ ▶</span> Deslize para navegar pelos 4 cards nucleares
           </p>
-          <div className="flex overflow-x-auto gap-4 pb-6 -mx-4 px-4 scrollbar-none overscroll-x-contain touch-pan-y">
+          <div className="flex overflow-x-auto gap-4 pb-4 -mx-4 px-4 snap-x snap-mandatory scrollbar-none overscroll-x-contain touch-pan-x">
             {featuredProjects.map((p) => (
-              <div key={p.id} className="shrink-0 w-[84vw] max-w-sm">
+              <div key={p.id} className="shrink-0 w-[84vw] max-w-[340px] snap-center">
                 <ProjectStreetCard project={p} onSelect={setSelectedProject} />
               </div>
             ))}
@@ -183,7 +183,7 @@ function ProjectStreetCard({
           : "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)",
         transition: isHover ? "transform 0.1s ease-out" : "transform 0.4s ease-out",
       }}
-      className="bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-6 md:p-8 relative flex flex-col justify-between shadow-[6px_6px_0px_#000000] hover:border-amber-400/80 transition-colors group overflow-hidden scroll-mt-28 cursor-pointer touch-pan-y"
+      className="bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-4 sm:p-6 md:p-8 relative flex flex-col justify-between shadow-[6px_6px_0px_#000000] hover:border-amber-400/80 transition-colors group overflow-hidden scroll-mt-28 cursor-pointer touch-pan-x"
     >
       {/* Specular Glare Effect on Hover */}
       {isHover && (
@@ -225,7 +225,7 @@ function ProjectStreetCard({
       <div>
         {/* Project Visual Banner (If Available) */}
         {project.image && (
-          <div className="relative w-full aspect-[16/9] mb-6 rounded-lg overflow-hidden border border-zinc-700 shadow-[4px_4px_0px_#000000] bg-zinc-950">
+          <div className="relative w-full aspect-[16/9] max-h-36 sm:max-h-48 md:max-h-none mb-3 md:mb-6 rounded-lg overflow-hidden border border-zinc-700 shadow-[4px_4px_0px_#000000] bg-zinc-950">
             <Image
               src={project.image}
               alt={project.name}
@@ -236,7 +236,7 @@ function ProjectStreetCard({
           </div>
         )}
         {/* Status & Badge */}
-        <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-2 md:mb-3">
           <span className="font-mono text-xs font-bold text-zinc-400 uppercase tracking-wider">
             {project.statusLabel}
           </span>
@@ -248,28 +248,28 @@ function ProjectStreetCard({
         </div>
 
         {/* Project Title */}
-        <h3 className="font-display text-2xl md:text-3xl text-white tracking-tight mb-2 group-hover:text-amber-300 transition-colors">
+        <h3 className="font-display text-xl sm:text-2xl md:text-3xl text-white tracking-tight mb-1.5 md:mb-2 group-hover:text-amber-300 transition-colors">
           {project.name}
         </h3>
 
         {/* Handwritten Tagline */}
         {project.taglineHandwritten && (
-          <p className="font-handwriting text-[#fbbf24] text-base md:text-lg mb-4 select-none">
+          <p className="font-handwriting text-[#fbbf24] text-sm sm:text-base md:text-lg mb-2 md:mb-4 select-none">
             {project.taglineHandwritten}
           </p>
         )}
 
         {/* Vision Statement */}
-        <p className="text-sm text-zinc-300 leading-relaxed mb-6 font-sans">
+        <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed mb-3 md:mb-6 font-sans line-clamp-2 md:line-clamp-none">
           {project.vision}
         </p>
 
-        {/* Technical Bullets */}
-        <ul className="space-y-2 mb-6 text-xs text-zinc-400 font-sans">
-          {project.bullets.map((b, i) => (
-            <li key={i} className="flex items-start gap-2">
+        {/* Technical Bullets - Compactado no mobile */}
+        <ul className="space-y-1.5 md:space-y-2 mb-3 md:mb-6 text-xs text-zinc-400 font-sans">
+          {project.bullets.slice(0, 2).map((b, i) => (
+            <li key={i} className="flex items-start gap-1.5 md:gap-2">
               <span className="text-[#fbbf24] mt-0.5 select-none font-bold">▸</span>
-              <span>{b}</span>
+              <span className="line-clamp-1 md:line-clamp-none">{b}</span>
             </li>
           ))}
         </ul>
@@ -277,7 +277,7 @@ function ProjectStreetCard({
 
       <div>
         {/* Stack Pills */}
-        <div className="flex flex-wrap gap-1.5 mb-6">
+        <div className="flex flex-wrap gap-1.5 mb-3 md:mb-6">
           {project.stack.map((t, i) => (
             <span
               key={i}
@@ -289,7 +289,7 @@ function ProjectStreetCard({
         </div>
 
         {/* Real Metrics Grid */}
-        <div className="grid grid-cols-2 gap-3 pt-4 border-t border-zinc-800 bg-zinc-950/60 -mx-6 -mb-6 md:-mx-8 md:-mb-8 p-4 md:p-6 rounded-b-xl">
+        <div className="grid grid-cols-2 gap-2 md:gap-3 pt-3 md:pt-4 border-t border-zinc-800 bg-zinc-950/60 -mx-4 -mb-4 md:-mx-8 md:-mb-8 p-3 md:p-6 rounded-b-xl">
           {project.metrics.map((m, i) => (
             <div key={i} className="flex flex-col">
               <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
@@ -303,13 +303,13 @@ function ProjectStreetCard({
         </div>
 
         {/* Ações & Links */}
-        <div className="mt-5 pt-3 border-t border-zinc-800 flex flex-col gap-2.5">
+        <div className="mt-3 md:mt-5 pt-2.5 md:pt-3 border-t border-zinc-800 flex flex-col gap-2">
           <button
             onClick={(e) => {
               e.stopPropagation();
               onSelect(project);
             }}
-            className="w-full py-2.5 px-4 bg-zinc-900 hover:bg-[#fbbf24] hover:text-black border border-zinc-700 hover:border-black rounded-lg font-mono text-xs font-bold flex items-center justify-center gap-2 shadow-[2px_2px_0px_#000000] transition-all cursor-pointer"
+            className="w-full py-2 md:py-2.5 px-3 md:px-4 bg-zinc-900 hover:bg-[#fbbf24] hover:text-black border border-zinc-700 hover:border-black rounded-lg font-mono text-xs font-bold flex items-center justify-center gap-2 shadow-[2px_2px_0px_#000000] transition-all cursor-pointer"
           >
             <span>VER TELA DO PROJETO & REPO ↗</span>
           </button>

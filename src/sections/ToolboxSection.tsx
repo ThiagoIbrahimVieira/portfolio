@@ -44,7 +44,42 @@ export function ToolboxSection() {
           </div>
         </RevealSection>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        {/* Mobile Snap Carousel (< 768px) */}
+        <div className="block md:hidden">
+          <p className="text-xs font-mono text-zinc-400 mb-3 flex items-center gap-1.5">
+            <span className="text-[#fbbf24]">◀ ▶</span> Deslize para navegar pelas stacks
+          </p>
+          <div className="flex overflow-x-auto gap-4 pb-4 -mx-4 px-4 snap-x snap-mandatory scrollbar-none touch-pan-x overscroll-x-contain">
+            {groups.map((g) => (
+              <div key={g.name} className="shrink-0 w-[82vw] max-w-[310px] snap-center">
+                <div className="bg-[#141418] border border-zinc-800 p-4 rounded-lg relative overflow-hidden shadow-[4px_4px_0px_#000000] h-full flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center justify-between mb-4 pb-2.5 border-b border-zinc-800">
+                      <h3 className="font-display text-lg text-white tracking-wide">{g.name}</h3>
+                      <span className="text-[10px] font-mono font-bold text-[#fbbf24] px-1.5 py-0.5 bg-zinc-900 border border-zinc-700 rounded">
+                        {g.badge}
+                      </span>
+                    </div>
+
+                    <ul className="space-y-2.5">
+                      {g.items.map((a) => (
+                        <li key={a.name} className="flex items-center justify-between gap-2 border-b border-zinc-800/60 pb-1.5">
+                          <span className="font-mono text-xs font-bold text-white">{a.name}</span>
+                          <span className="text-[10px] font-mono text-zinc-400 bg-zinc-900 px-1.5 py-0.5 rounded border border-zinc-800">
+                            {a.level}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop Grid (>= 768px) */}
+        <div className="hidden md:grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {groups.map((g, idx) => (
             <RevealSection key={g.name} delay={0.12 * idx} variant="scale-up">
               <div className="bg-[#141418] border border-zinc-800 p-6 md:p-8 rounded-lg relative overflow-hidden shadow-[4px_4px_0px_#000000] hover:border-zinc-600 transition-colors">

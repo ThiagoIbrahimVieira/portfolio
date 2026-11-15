@@ -24,11 +24,11 @@ export function HeroSection() {
   const person = siteData.person;
 
   return (
-    <section id="hero" aria-labelledby="hero-heading" className="relative z-10 pt-6 pb-20 md:py-28 overflow-hidden bg-transparent">
+    <section id="hero" aria-labelledby="hero-heading" className="relative z-10 pt-10 sm:pt-14 pb-16 md:py-28 overflow-hidden bg-transparent">
       <div className="mx-auto max-w-7xl px-6 md:px-12">
         {/* Top telemetry bar */}
         <RevealSection>
-          <div className="flex flex-wrap items-center justify-between gap-4 py-3 px-4 mb-12 bg-[#141418] border border-zinc-800 rounded-lg font-mono text-xs text-zinc-400 shadow-[4px_4px_0px_#000000]">
+          <div className="flex flex-wrap items-center justify-between gap-4 py-3 px-4 mb-8 sm:mb-12 bg-[#141418] border border-zinc-800 rounded-lg font-mono text-xs text-zinc-400 shadow-[4px_4px_0px_#000000]">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
               <span className="text-zinc-200 font-bold">{person.statusPill}</span>
@@ -41,7 +41,7 @@ export function HeroSection() {
         </RevealSection>
 
         {/* Hero Core Layout */}
-        <div className="grid lg:grid-cols-12 gap-12 items-center">
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           <div className="lg:col-span-8 space-y-6">
             <RevealSection delay={0.1}>
               {/* Handwritten highlight note */}
@@ -112,10 +112,10 @@ export function HeroSection() {
           </div>
 
           {/* Right Column: 3:4 Die-Cut Sticker Slot & Rotating Seal */}
-          <div className="lg:col-span-4 flex flex-col items-center justify-center relative">
+          <div className="lg:col-span-4 flex flex-col items-center justify-center relative mt-8 lg:mt-0">
             <RevealSection delay={0.2}>
               {/* 3:4 Aspect Ratio Sticker Slot */}
-              <div className="w-full max-w-[280px] sm:max-w-xs aspect-[3/4] relative mb-8 sticker-die-cut rounded-2xl overflow-hidden bg-[#141418] border-2 border-white/90 shadow-[4px_10px_25px_rgba(0,0,0,0.8)]">
+              <div className="w-full max-w-[280px] sm:max-w-xs aspect-[3/4] relative mb-10 sm:mb-8 sticker-die-cut rounded-2xl overflow-hidden bg-[#141418] border-2 border-white/90 shadow-[4px_10px_25px_rgba(0,0,0,0.8)] mx-auto">
                 <Image
                   src="/images/thiago-hero-sticker.png"
                   alt="Thiago Ibrahim — Retrato recortado em sticker die-cut 3:4"
@@ -147,7 +147,7 @@ export function HeroSection() {
               </div>
 
               {/* Manifest Card with Torn Edge */}
-              <div className="w-full bg-[#141418] border border-zinc-800 p-6 rounded-lg relative shadow-[4px_4px_0px_#000000]">
+              <div className="w-full bg-[#141418] border border-zinc-800 p-5 sm:p-6 rounded-lg relative shadow-[4px_4px_0px_#000000] mt-4 sm:mt-0">
                 <div className="tape-strip top-[-12px] right-6 w-20" />
                 <p className="font-mono text-xs text-[#fbbf24] uppercase tracking-wider mb-2">
                   {"// MANIFESTO DO CONSTRUTOR"}
