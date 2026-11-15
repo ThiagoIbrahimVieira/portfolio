@@ -1,0 +1,92 @@
+[
+  {
+    "criterion": "Preservação de Layout",
+    "viewport": "Desktop 1920x1080",
+    "item": "Overflow Horizontal Global",
+    "expected": "0px de vazamento",
+    "obtained": "diff = 0px",
+    "status": "PASS",
+    "details": ""
+  },
+  {
+    "criterion": "Diversidade de Variantes",
+    "viewport": "Desktop 1920x1080",
+    "item": "Variante blur-fade em Títulos (#projetos)",
+    "expected": "Animação de opacidade e nitidez com blur progressivo",
+    "obtained": "Ativo: true",
+    "status": "PASS",
+    "details": ""
+  },
+  {
+    "criterion": "Cascata e Stagger",
+    "viewport": "Desktop 1920x1080",
+    "item": "Cards de Projetos com Entrada Rítmica",
+    "expected": "Cards renderizados em cascata com transição suave",
+    "obtained": "Cards visíveis: 11",
+    "status": "PASS",
+    "details": ""
+  },
+  {
+    "criterion": "Diversidade de Variantes",
+    "viewport": "Desktop 1920x1080",
+    "item": "Variante slide-left na Jornada",
+    "expected": "Timeline com entrada lateral suave e stagger por ano",
+    "obtained": "Marcos renderizados: 5",
+    "status": "PASS",
+    "details": ""
+  },
+  {
+    "criterion": "Preservação de Layout",
+    "viewport": "Mobile iPhone 14 (390x844)",
+    "item": "Overflow Horizontal Global",
+    "expected": "0px de vazamento",
+    "obtained": "diff = 0px",
+    "status": "PASS",
+    "details": ""
+  },
+  {
+    "criterion": "Diversidade de Variantes",
+    "viewport": "Mobile iPhone 14 (390x844)",
+    "item": "Variante blur-fade em Títulos (#projetos)",
+    "expected": "Animação de opacidade e nitidez com blur progressivo",
+    "obtained": "Ativo: true",
+    "status": "PASS",
+    "details": ""
+  },
+  {
+    "criterion": "Cascata e Stagger",
+    "viewport": "Mobile iPhone 14 (390x844)",
+    "item": "Cards de Projetos com Entrada Rítmica",
+    "expected": "Cards renderizados em cascata com transição suave",
+    "obtained": "Cards visíveis: 11",
+    "status": "PASS",
+    "details": ""
+  },
+  {
+    "criterion": "Diversidade de Variantes",
+    "viewport": "Mobile iPhone 14 (390x844)",
+    "item": "Variante slide-left na Jornada",
+    "expected": "Timeline com entrada lateral suave e stagger por ano",
+    "obtained": "Marcos renderizados: 5",
+    "status": "PASS",
+    "details": ""
+  },
+  {
+    "criterion": "Prefers-Reduced-Motion",
+    "viewport": "Desktop Reduced-Motion",
+    "item": "Supressão de Movimentos & Blur",
+    "expected": "Opacidade instantânea/suave sem filtros de desfoque ou saltos",
+    "obtained": "Visibilidade instantânea: true, Sem blur residual: true",
+    "status": "PASS",
+    "details": "Atende aos critérios WCAG 2.2 de acessibilidade vestibular."
+  },
+  {
+    "criterion": "Preservação de Layout",
+    "viewport": "Desktop Reduced-Motion",
+    "item": "Overflow com Reduced Motion",
+    "expected": "0px de vazamento",
+    "obtained": "diff = 0px",
+    "status": "PASS",
+    "details": ""
+  }
+]

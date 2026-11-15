@@ -102,8 +102,8 @@ export function ChronologySection() {
 
         {/* Supporting Projects Archive com o MESMO visual Street-Tech (Imagem 4) */}
         {otherProjects.length > 0 && (
-          <RevealSection variant="blur-fade" delay={0.15} duration={0.9}>
-            <div className="mt-20 pt-16 border-t border-zinc-800">
+          <div className="mt-20 pt-16 border-t border-zinc-800">
+            <RevealSection variant="blur-fade" duration={0.6}>
               <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10 pb-4 border-b border-zinc-800/80">
                 <div>
                   <span className="font-handwriting text-[#fbbf24] text-xl block mb-1 select-none">
@@ -118,17 +118,17 @@ export function ChronologySection() {
                   <span>{otherProjects.length} REPOSITÓRIOS AUDITADOS</span>
                 </div>
               </div>
+            </RevealSection>
 
-              {/* Grid idêntico aos cards nucleares com 3D tilt, fita adesiva e sticker badges */}
-              <div className="grid md:grid-cols-3 gap-8">
-                {otherProjects.map((p, idx) => (
-                  <RevealSection key={p.id} delay={0.12 + 0.15 * idx} variant="card-expand" duration={0.9}>
-                    <ProjectStreetCard project={p} onSelect={setSelectedProject} />
-                  </RevealSection>
-                ))}
-              </div>
+            {/* Grid idêntico aos cards nucleares com 3D tilt, fita adesiva e sticker badges */}
+            <div className="grid md:grid-cols-3 gap-8">
+              {otherProjects.map((p, idx) => (
+                <RevealSection key={p.id} delay={0.08 + 0.12 * idx} variant="card-expand" duration={0.6}>
+                  <ProjectStreetCard project={p} onSelect={setSelectedProject} />
+                </RevealSection>
+              ))}
             </div>
-          </RevealSection>
+          </div>
         )}
         {/* Modal de Detalhes Técnicos & Repositório */}
         <ProjectDetailModal
