@@ -23,7 +23,7 @@ export function ChronologySection() {
 
       <div className="mx-auto max-w-7xl px-6 md:px-12 relative z-10">
         {/* Section Header */}
-        <RevealSection>
+        <RevealSection variant="blur-fade" duration={0.95}>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-12 md:mb-16 pb-6 border-b border-zinc-800">
             <div>
               <span className="font-handwriting text-[#fbbf24] text-xl md:text-2xl block mb-1">
@@ -41,7 +41,7 @@ export function ChronologySection() {
         </RevealSection>
 
         {/* 1. Constellation Graph Card - Topologia Dinâmica */}
-        <RevealSection delay={0.1}>
+        <RevealSection variant="card-expand" delay={0.15} duration={1.0}>
           <figure className="bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-4 sm:p-6 md:p-8 mb-8 md:mb-16 shadow-[6px_6px_0px_#000000] relative overflow-hidden group">
             {/* Ambient Backlight Glow */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-24 bg-gradient-to-b from-amber-500/10 via-cyan-500/5 to-transparent blur-2xl pointer-events-none" />
@@ -94,7 +94,7 @@ export function ChronologySection() {
         {/* Desktop Grid Layout com 3D Tilt */}
         <div className="hidden md:grid md:grid-cols-2 gap-8 mb-20">
           {featuredProjects.map((p, idx) => (
-            <RevealSection key={p.id} delay={0.15 * idx}>
+            <RevealSection key={p.id} delay={0.15 + 0.18 * idx} variant="card-expand" duration={0.95}>
               <ProjectStreetCard project={p} onSelect={setSelectedProject} />
             </RevealSection>
           ))}
@@ -102,7 +102,7 @@ export function ChronologySection() {
 
         {/* Supporting Projects Archive com o MESMO visual Street-Tech (Imagem 4) */}
         {otherProjects.length > 0 && (
-          <RevealSection delay={0.2}>
+          <RevealSection variant="blur-fade" delay={0.15} duration={0.9}>
             <div className="mt-20 pt-16 border-t border-zinc-800">
               <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10 pb-4 border-b border-zinc-800/80">
                 <div>
@@ -122,7 +122,7 @@ export function ChronologySection() {
               {/* Grid idêntico aos cards nucleares com 3D tilt, fita adesiva e sticker badges */}
               <div className="grid md:grid-cols-3 gap-8">
                 {otherProjects.map((p, idx) => (
-                  <RevealSection key={p.id} delay={0.12 * idx} variant="scale-up">
+                  <RevealSection key={p.id} delay={0.12 + 0.15 * idx} variant="card-expand" duration={0.9}>
                     <ProjectStreetCard project={p} onSelect={setSelectedProject} />
                   </RevealSection>
                 ))}

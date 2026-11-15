@@ -10,7 +10,7 @@ export function JournalSection() {
       <ParallaxWatermark number="03" label="LOG // JORNADA DO CONSTRUTOR" position="right" speed={55} />
 
       <div className="mx-auto max-w-7xl px-6 md:px-12 relative z-10">
-        <RevealSection>
+        <RevealSection variant="blur-fade" duration={0.95}>
           <div className="text-center mb-8 sm:mb-12 md:mb-16">
             <span className="font-handwriting text-[#fbbf24] text-xl md:text-2xl block mb-1">
               {"// log de evolução contínua"}
@@ -27,7 +27,7 @@ export function JournalSection() {
         <div className="grid lg:grid-cols-12 gap-8 items-start max-w-6xl mx-auto">
           {/* Coluna da Linha do Tempo */}
           <div className="lg:col-span-7">
-            <RevealSection delay={0.15}>
+            <RevealSection variant="card-expand" delay={0.15} duration={1.0}>
               <div className="bg-[#141418] border border-zinc-800 rounded-lg p-4 sm:p-6 md:p-10 relative shadow-[4px_4px_0px_#000000] overflow-visible">
                 {/* Tape on top right, tilted */}
                 <div className="tape-strip -top-3.5 -right-3 w-28 bg-[#fbbf24]/50 text-black text-center flex items-center justify-center font-mono text-[9px] font-bold z-20 rotate-[5deg] shadow-md border border-black/30">
@@ -69,7 +69,7 @@ export function JournalSection() {
 
                 <div className="space-y-5 md:space-y-8">
                   {siteData.journey.map((j, i) => (
-                    <RevealSection key={j.year} delay={0.08 * i} variant="slide-left">
+                    <RevealSection key={j.year} delay={0.1 + 0.14 * i} variant="slide-left" duration={0.85}>
                       <div className="flex gap-3 sm:gap-4 items-start">
                         <div className="flex flex-col items-center">
                           <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-zinc-900 border border-zinc-700 text-[#fbbf24] font-mono text-[11px] sm:text-xs flex items-center justify-center font-bold shadow-[2px_2px_0px_#000000]">
@@ -102,7 +102,7 @@ export function JournalSection() {
 
           {/* Coluna da Foto de Perfil / Trajetória (Desktop) */}
           <div className="hidden lg:flex lg:col-span-5 flex-col items-center">
-            <RevealSection delay={0.25}>
+            <RevealSection variant="stamp-pop" delay={0.3} duration={1.0}>
               <div className="w-full bg-[#141418] border-2 border-zinc-700 rounded-xl p-6 relative shadow-[6px_6px_0px_#000000]">
                 <div className="tape-strip top-[-10px] right-8 w-44 bg-amber-500/30 text-amber-200 border-amber-400/50 text-center flex items-center justify-center font-mono text-[10px] font-bold">
                   AUTOR // 1º TÉCNICO EM INFORMÁTICA

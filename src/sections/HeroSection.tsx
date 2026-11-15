@@ -50,7 +50,7 @@ export function HeroSection() {
 
       <div className="mx-auto max-w-7xl px-6 md:px-12 relative z-10">
         {/* Top telemetry bar */}
-        <RevealSection>
+        <RevealSection variant="fade-up-soft" duration={0.85}>
           <div className="flex flex-wrap items-center justify-between gap-4 py-3 px-4 mb-8 sm:mb-12 bg-[#141418] border border-zinc-800 rounded-lg font-mono text-xs text-zinc-400 shadow-[4px_4px_0px_#000000]">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -66,7 +66,7 @@ export function HeroSection() {
         {/* Hero Core Layout */}
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           <div className="lg:col-span-8 space-y-6">
-            <RevealSection delay={0.1}>
+            <RevealSection variant="blur-fade" delay={0.12} duration={0.95}>
               <motion.div style={{ y: titleY }} className="will-change-transform">
                 {/* Handwritten highlight note */}
                 <div className="inline-block">
@@ -87,14 +87,14 @@ export function HeroSection() {
             </RevealSection>
 
             {/* Subtitle & Value Proposition */}
-            <RevealSection delay={0.2}>
+            <RevealSection variant="fade-up-soft" delay={0.28} duration={0.9}>
               <p className="text-lg md:text-xl text-zinc-300 max-w-2xl font-sans leading-relaxed">
                 {person.sub}
               </p>
             </RevealSection>
 
             {/* Tech Sticker Badges */}
-            <RevealSection delay={0.25}>
+            <RevealSection variant="stamp-pop" delay={0.42} duration={0.85}>
               <div className="flex flex-wrap items-center gap-2.5 pt-2">
                 <span className="badge-sticker bg-[#00d8ff] text-black border-black">
                   <Code2 className="w-3.5 h-3.5" />
@@ -115,7 +115,7 @@ export function HeroSection() {
             </RevealSection>
 
             {/* CTAs */}
-            <RevealSection delay={0.3}>
+            <RevealSection variant="fade-up-soft" delay={0.56} duration={0.85}>
               <div className="flex flex-wrap items-center gap-4 pt-4">
                 <a
                   href="#projetos"
@@ -138,7 +138,7 @@ export function HeroSection() {
 
           {/* Right Column: 3:4 Die-Cut Sticker Slot & Rotating Seal com Parallax de Profundidade */}
           <div className="lg:col-span-4 flex flex-col items-center justify-center relative mt-8 lg:mt-0">
-            <RevealSection delay={0.2}>
+            <RevealSection variant="stamp-pop" delay={0.25} duration={1.0}>
               {/* 3:4 Aspect Ratio Sticker Slot com Parallax Suave */}
               <motion.div
                 style={{ y: stickerY }}

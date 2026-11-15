@@ -13,7 +13,7 @@ export function PrinciplesSection() {
 
       <div className="mx-auto max-w-7xl px-6 md:px-12 relative z-10">
         <div className="max-w-4xl mx-auto">
-          <RevealSection>
+          <RevealSection variant="blur-fade" duration={0.95}>
             <div className="text-center mb-8 sm:mb-12 md:mb-16">
               <span className="font-handwriting text-[#fbbf24] text-xl md:text-2xl block mb-1">
                 {"// governança inegociável"}
@@ -57,7 +57,7 @@ export function PrinciplesSection() {
             {siteData.principles.map((p, i) => {
               const Icon = icons[i % icons.length];
               return (
-                <RevealSection key={p.id} delay={0.12 * i} variant="scale-up">
+                <RevealSection key={p.id} delay={0.15 + 0.15 * i} variant="card-expand" duration={0.9}>
                   <div
                     className="bg-[#141418] border border-zinc-800 p-6 rounded-lg relative shadow-[4px_4px_0px_#000000] hover:border-zinc-600 transition-colors"
                   >

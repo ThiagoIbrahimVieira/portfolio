@@ -32,7 +32,7 @@ export function ToolboxSection() {
       <ParallaxWatermark number="02" label="STACK // ARSENAL TÉCNICO" position="left" speed={55} />
 
       <div className="mx-auto max-w-7xl px-6 md:px-12 relative z-10">
-        <RevealSection>
+        <RevealSection variant="blur-fade" duration={0.95}>
           <div className="text-center mb-8 sm:mb-12 md:mb-16">
             <div className="inline-block">
               <span className="font-handwriting text-[#fbbf24] text-xl md:text-2xl rotate-[-2deg] block mb-1">
@@ -85,7 +85,7 @@ export function ToolboxSection() {
         {/* Desktop Grid (>= 768px) */}
         <div className="hidden md:grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {groups.map((g, idx) => (
-            <RevealSection key={g.name} delay={0.12 * idx} variant="scale-up">
+            <RevealSection key={g.name} delay={0.16 + 0.16 * idx} variant="card-expand" duration={0.95}>
               <div className="bg-[#141418] border border-zinc-800 p-6 md:p-8 rounded-lg relative overflow-hidden shadow-[4px_4px_0px_#000000] hover:border-zinc-600 transition-colors">
                 <div className="flex items-center justify-between mb-6 pb-3 border-b border-zinc-800">
                   <h3 className="font-display text-xl text-white tracking-wide">{g.name}</h3>

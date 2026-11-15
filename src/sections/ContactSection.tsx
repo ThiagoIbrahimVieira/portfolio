@@ -107,7 +107,7 @@ export function ContactSection() {
       <ParallaxWatermark number="05" label="PING // CONTATO DIRETO" position="right" speed={55} />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-12 relative z-10">
-        <RevealSection>
+        <RevealSection variant="card-expand" duration={0.95}>
           <div className="bg-[#141418] border-2 border-zinc-700 rounded-xl grid md:grid-cols-2 gap-6 md:gap-10 p-5 sm:p-7 md:p-12 shadow-[5px_5px_0px_#ffffff] relative overflow-visible">
             <div className="tape-strip -top-3.5 -right-3 w-28 bg-[#fbbf24]/60 text-black text-center flex items-center justify-center font-mono text-[9px] font-bold z-20 rotate-[5deg] shadow-md border border-black/30">
               CANAL // DIRETO
