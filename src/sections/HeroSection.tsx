@@ -7,6 +7,7 @@ import { Terminal, ArrowUpRight, Cpu, Code2 } from "lucide-react";
 import { RevealSection } from "@/components/effects/RevealSection";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { ParallaxWatermark } from "@/components/effects/ParallaxWatermark";
+import { gsap } from "@/lib/gsap";
 
 export function HeroSection() {
   const [time, setTime] = useState("");
@@ -33,7 +34,46 @@ export function HeroSection() {
     };
     tick();
     const id = setInterval(tick, 1000);
-    return () => clearInterval(id);
+
+    // GSAP Hero Text Reveal & Floating Motion
+    let ctx: gsap.Context | null = null;
+    if (typeof window !== "undefined" && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      ctx = gsap.context(() => {
+        // Text mask reveal em THIAGO IBRAHIM
+        gsap.from(".hero-title-line", {
+          y: "115%",
+          opacity: 0,
+          duration: 1.15,
+          stagger: 0.18,
+          ease: "power4.out",
+          delay: 0.15,
+        });
+
+        // Floating suave no die-cut sticker
+        gsap.to(".hero-sticker-float", {
+          y: -10,
+          duration: 3.2,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+        });
+
+        // Floating suave no selo circular
+        gsap.to(".hero-seal-float", {
+          y: -7,
+          duration: 2.6,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+          delay: 0.4,
+        });
+      }, sectionRef);
+    }
+
+    return () => {
+      clearInterval(id);
+      if (ctx) ctx.revert();
+    };
   }, []);
 
   const person = siteData.person;
@@ -75,13 +115,17 @@ export function HeroSection() {
                   </span>
                 </div>
 
-                {/* Giant Display Headline */}
+                {/* Giant Display Headline com Text Mask Reveal */}
                 <h1
                   id="hero-heading"
                   className="font-display text-white text-[clamp(3.5rem,11vw,8.5rem)] leading-[0.88] tracking-tighter"
                 >
-                  THIAGO<br />
-                  <span className="text-[#fbbf24]">IBRAHIM</span>
+                  <span className="block overflow-hidden py-1">
+                    <span className="inline-block hero-title-line">THIAGO</span>
+                  </span>
+                  <span className="block overflow-hidden py-1">
+                    <span className="inline-block text-[#fbbf24] hero-title-line">IBRAHIM</span>
+                  </span>
                 </h1>
               </motion.div>
             </RevealSection>
@@ -148,7 +192,7 @@ export function HeroSection() {
             <RevealSection variant="stamp-pop" delay={0.25} duration={0.95}>
               <motion.div
                 style={{ y: stickerY }}
-                className="w-full max-w-[280px] sm:max-w-xs aspect-[3/4] relative mb-8 sm:mb-10 sticker-die-cut rounded-2xl bg-[#141418] border-2 border-white/90 shadow-[4px_10px_25px_rgba(0,0,0,0.8)] mx-auto overflow-visible will-change-transform"
+                className="hero-sticker-float w-full max-w-[280px] sm:max-w-xs aspect-[3/4] relative mb-8 sm:mb-10 sticker-die-cut rounded-2xl bg-[#141418] border-2 border-white/90 shadow-[4px_10px_25px_rgba(0,0,0,0.8)] mx-auto overflow-visible will-change-transform"
               >
                 <div className="relative w-full h-full rounded-2xl overflow-hidden">
                   <Image
@@ -170,7 +214,7 @@ export function HeroSection() {
             <RevealSection variant="fade-up-soft" delay={0.42} duration={0.85}>
               <motion.div
                 style={{ y: sealY }}
-                className="relative w-36 h-36 mb-6 hidden sm:flex items-center justify-center mx-auto will-change-transform"
+                className="hero-seal-float relative w-36 h-36 mb-6 hidden sm:flex items-center justify-center mx-auto will-change-transform"
               >
                 <svg className="w-full h-full animate-spin-slow select-none" viewBox="0 0 100 100">
                   <path

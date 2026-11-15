@@ -56,46 +56,47 @@ export function RevealSection({
     switch (variant) {
       case "blur-fade":
       case "fade-up":
-        fromVars = { opacity: 0, y: 36 };
+        fromVars = { opacity: 0, y: 55 };
         toVars.y = 0;
         toVars.ease = "power3.out";
         break;
       case "stamp-pop":
       case "pop":
-        fromVars = { opacity: 0, scale: 0.88, rotate: -3 };
+        fromVars = { opacity: 0, scale: 0.78, rotate: -4 };
         toVars.scale = 1;
         toVars.rotate = 0;
-        toVars.ease = "back.out(1.5)";
+        toVars.duration = Math.max(0.7, duration);
+        toVars.ease = "back.out(1.8)";
         break;
       case "card-expand":
       case "scale-up":
-        fromVars = { opacity: 0, scale: 0.92, y: 44 };
+        fromVars = { opacity: 0, scale: 0.90, y: 65 };
         toVars.scale = 1;
         toVars.y = 0;
         toVars.ease = "power3.out";
         break;
       case "fade-up-soft":
-        fromVars = { opacity: 0, y: 40 };
+        fromVars = { opacity: 0, y: 50 };
         toVars.y = 0;
         toVars.ease = "power2.out";
         break;
       case "fade-down":
-        fromVars = { opacity: 0, y: -36 };
+        fromVars = { opacity: 0, y: -50 };
         toVars.y = 0;
         toVars.ease = "power3.out";
         break;
       case "slide-left":
-        fromVars = { opacity: 0, x: -44 };
+        fromVars = { opacity: 0, x: -65 };
         toVars.x = 0;
         toVars.ease = "power3.out";
         break;
       case "slide-right":
-        fromVars = { opacity: 0, x: 44 };
+        fromVars = { opacity: 0, x: 65 };
         toVars.x = 0;
         toVars.ease = "power3.out";
         break;
       default:
-        fromVars = { opacity: 0, y: 32 };
+        fromVars = { opacity: 0, y: 45 };
         toVars.y = 0;
         toVars.ease = "power3.out";
     }
