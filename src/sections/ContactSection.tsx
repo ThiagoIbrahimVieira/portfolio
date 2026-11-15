@@ -2,11 +2,60 @@
 
 import { useState } from "react";
 import { siteData } from "@/data/site";
-import { Send, Terminal } from "lucide-react";
+import { Send, Terminal, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import { RevealSection } from "@/components/effects/RevealSection";
 
 export function ContactSection() {
-  const [sent, setSent] = useState(false);
+  const [formData, setFormData] = useState({
+    nome: "",
+    email: "",
+    mensagem: "",
+  });
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.nome.trim() || !formData.email.trim() || !formData.mensagem.trim()) {
+      setStatus("error");
+      setErrorMessage("Por favor, preencha todos os campos antes do envio.");
+      return;
+    }
+
+    setStatus("loading");
+    setErrorMessage("");
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/thiagoibrahimvieira@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          nome: formData.nome,
+          email: formData.email,
+          mensagem: formData.mensagem,
+          _subject: `⚡ Novo Dispatch do Portfólio // ${formData.nome}`,
+          _template: "table",
+          _captcha: "false",
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && (data.success === "true" || data.success === true)) {
+        setStatus("success");
+        setFormData({ nome: "", email: "", mensagem: "" });
+      } else {
+        setStatus("error");
+        setErrorMessage("Erro ao despachar mensagem. Tente novamente em instantes.");
+      }
+    } catch {
+      setStatus("error");
+      setErrorMessage("Falha de rede ao conectar com o serviço de despacho.");
+    }
+  };
 
   return (
     <section id="contato" aria-labelledby="contato-heading" className="relative z-10 py-24 md:py-32 bg-transparent">
@@ -47,15 +96,18 @@ export function ContactSection() {
               </div>
             </div>
 
-            <div className="flex flex-col gap-3">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-3">
               <label className="sr-only" htmlFor="nome">
                 Nome
               </label>
               <input
                 id="nome"
                 type="text"
+                required
+                value={formData.nome}
+                onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
                 placeholder="Seu nome / organização"
-                className="bg-zinc-900 border border-zinc-700 text-white placeholder:text-zinc-500 px-4 h-12 rounded focus:outline-none focus:border-[#fbbf24] font-sans text-sm"
+                className="bg-zinc-900 border border-zinc-700 text-white placeholder:text-zinc-500 px-4 h-12 rounded focus:outline-none focus:border-[#fbbf24] font-sans text-sm transition-colors"
               />
               <label className="sr-only" htmlFor="email">
                 E-mail
@@ -63,30 +115,65 @@ export function ContactSection() {
               <input
                 id="email"
                 type="email"
+                required
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 placeholder="seu-email@dominio.com"
-                className="bg-zinc-900 border border-zinc-700 text-white placeholder:text-zinc-500 px-4 h-12 rounded focus:outline-none focus:border-[#fbbf24] font-sans text-sm"
+                className="bg-zinc-900 border border-zinc-700 text-white placeholder:text-zinc-500 px-4 h-12 rounded focus:outline-none focus:border-[#fbbf24] font-sans text-sm transition-colors"
               />
               <label className="sr-only" htmlFor="msg">
                 Mensagem
               </label>
               <textarea
                 id="msg"
-                placeholder="Descreva a demanda técnica ou ideia de colaboração..."
+                required
                 rows={4}
-                className="bg-zinc-900 border border-zinc-700 text-white placeholder:text-zinc-500 px-4 py-3 rounded focus:outline-none focus:border-[#fbbf24] font-sans text-sm resize-none"
+                value={formData.mensagem}
+                onChange={(e) => setFormData({ ...formData, mensagem: e.target.value })}
+                placeholder="Descreva a demanda técnica ou ideia de colaboração..."
+                className="bg-zinc-900 border border-zinc-700 text-white placeholder:text-zinc-500 px-4 py-3 rounded focus:outline-none focus:border-[#fbbf24] font-sans text-sm resize-none transition-colors"
               />
+
+              {status === "error" && (
+                <div className="flex items-center gap-2 p-3 bg-red-950/60 border border-red-500/50 rounded text-red-200 text-xs font-mono">
+                  <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+                  <span>{errorMessage}</span>
+                </div>
+              )}
+
+              {status === "success" && (
+                <div className="flex items-center gap-2 p-3 bg-emerald-950/60 border border-emerald-500/50 rounded text-emerald-200 text-xs font-mono animate-fadeIn">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>DISPATCH ENVIADO COM SUCESSO! A mensagem caiu na caixa postal de Thiago.</span>
+                </div>
+              )}
+
               <button
-                type="button"
-                onClick={() => setSent(true)}
-                className="bg-[#fbbf24] text-black h-12 font-display text-sm tracking-wider uppercase rounded hover:bg-[#f59e0b] active:scale-[0.98] transition-all flex items-center justify-center gap-2 border border-black shadow-[2px_2px_0px_#000000]"
+                type="submit"
+                disabled={status === "loading"}
+                className="bg-[#fbbf24] text-black h-12 font-display text-sm tracking-wider uppercase rounded hover:bg-[#f59e0b] active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 border border-black shadow-[2px_2px_0px_#000000]"
               >
-                <Send className="w-4 h-4" />
-                {sent ? "MENSAGEM ENVIADA (SIMULADO)" : "ENVIAR DISPATCH"}
+                {status === "loading" ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>DESPACHANDO TELEMETRIA...</span>
+                  </>
+                ) : status === "success" ? (
+                  <>
+                    <CheckCircle2 className="w-4 h-4" />
+                    <span>DISPATCH CONCLUÍDO</span>
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4" />
+                    <span>ENVIAR DISPATCH</span>
+                  </>
+                )}
               </button>
               <p className="text-xs font-mono text-zinc-500 text-center">
                 Interação direta e transparente · Sem spam
               </p>
-            </div>
+            </form>
           </div>
         </RevealSection>
       </div>
