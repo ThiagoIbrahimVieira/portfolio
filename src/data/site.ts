@@ -1,0 +1,285 @@
+import type { SiteData } from "@/types/site";
+
+export const siteData: SiteData = {
+  person: {
+    name: "Thiago Ibrahim",
+    nickname: "TT",
+    position:
+      "Estudante do 1º Técnico em Informática na ETEC de Itapevi (16 anos) construindo software real, ferramentas de alto desempenho e sistemas locais.",
+    anchor:
+      "Não escrevo na parede que sei tudo. Registro no log o que já sei construir.",
+    anchorHighlight: "construir",
+    sub:
+      "Engenharia de software com atitude Street-Tech: pipelines de mídia em memória, aceleração em GPU (CUDA float16), análise de ASTs no browser e interfaces táteis de alta fluidez.",
+    statusPill: "ETEC ITAPEVI · 1º TÉCNICO EM INFORMÁTICA",
+    handwrittenNote: "Building real systems from Itapevi 🚀",
+  },
+  projects: [
+    {
+      id: "codeatlas",
+      name: "CodeAtlas",
+      status: "ativo-fase",
+      statusLabel: "ATIVO · FASE 4",
+      taglineHandwritten: "AST Analyzer & Interactive Graph • Zero Network",
+      tapeStyle: "blueprint",
+      badgeSticker: "100% Client-Side",
+      image: "/images/projects/codeatlas.png",
+      isFeaturedPillar: true,
+      vision:
+        "Visualizador interativo de arquitetura e ASTs no browser. Analisa dependências e topologia de código em tempo real 100% no cliente sem envio de código para servidores externos.",
+      bullets: [
+        "Parser e gerador de grafos AST desacoplado da UI (AtlasProject, AtlasFile, AtlasEdge)",
+        "Adaptadores sob demanda com dynamic import para JS/TS, Python e Java",
+        "Core de grafo ultra-leve code-split em apenas 4.93 kB",
+        "Suíte de qualidade com 190 testes automatizados via Vitest e linting veloz via Oxlint",
+      ],
+      stack: ["React 19", "@xyflow/react", "TypeScript 5.8", "Vite 8", "Vitest", "Oxlint"],
+      maturity: 5,
+      metrics: [
+        { label: "Testes", value: "190 aprovados" },
+        { label: "Lint & Tipos", value: "0 erros / 0 warnings" },
+        { label: "Bundle Core", value: "4.93 kB split" },
+        { label: "Privacidade", value: "100% client-side" },
+      ],
+      links: {
+        github: "https://github.com/ThiagoIbrahimVieira/CodeAtlas",
+      },
+    },
+    {
+      id: "whatsapp-auto-sticker",
+      name: "WhatsApp Auto Sticker",
+      status: "concluído",
+      statusLabel: "CONCLUÍDO · EM OPERAÇÃO",
+      taglineHandwritten: "In-Memory Media Pipeline • 0 Disk Writes",
+      tapeStyle: "amber",
+      badgeSticker: "0 Disk Writes",
+      image: "/images/projects/sticker-bot.png",
+      isFeaturedPillar: true,
+      vision:
+        "Bot autônomo assíncrono para WhatsApp com pipeline de conversão de mídia 100% em memória, transformando fotos e vídeos em stickers animados sem gravar nenhum byte no disco.",
+      bullets: [
+        "Pipeline de conversão multimídia em streams de RAM com Sharp e FFmpeg",
+        "Conexão nativa e resiliente via protocolo WhatsApp com @whiskeysockets/baileys",
+        "Injeção dinâmica de metadados WebP (Exif / WebPMux) para figurinhas animadas instantâneas",
+        "Validação estrita de contratos via Zod e suíte de testes unitários com Vitest",
+      ],
+      stack: ["Node.js", "TypeScript 5.7", "Baileys", "Sharp", "FFmpeg", "Vitest", "Zod"],
+      maturity: 5,
+      metrics: [
+        { label: "I/O de Disco", value: "0 bytes gravados" },
+        { label: "Processamento", value: "Streams em RAM" },
+        { label: "Engine Gráfica", value: "Sharp + FFmpeg" },
+        { label: "Confiabilidade", value: "99.8% conversão" },
+      ],
+      links: {
+        github: "https://github.com/ThiagoIbrahimVieira/whatsappbot",
+      },
+    },
+    {
+      id: "interviewai",
+      name: "InterviewAI",
+      status: "ativo",
+      statusLabel: "ATIVO · FULLSTACK",
+      taglineHandwritten: "Continuous Voice Recognition • Zero Lag",
+      tapeStyle: "default",
+      badgeSticker: "AI Audio Engine",
+      isFeaturedPillar: true,
+      vision:
+        "Simulador de entrevistas técnicas com IA conversacional em tempo real, suporte a reconhecimento contínuo de voz pelo navegador e scoring automatizado por competências.",
+      bullets: [
+        "Backend de alta performance com FastAPI 0.115+, SQLAlchemy 2.0+ e persistência de sessões",
+        "Captura de fala com baixa latência e transcrição contínua via Web Speech API",
+        "Integração de inferência contextual via Puter.js com mecanismos de fallback heurístico",
+        "Autenticação segura via tokens JWT (access + refresh) e dashboard analítico de evolução",
+      ],
+      stack: ["Python 3.11", "FastAPI", "SQLAlchemy", "Puter.js", "Web Speech API", "JWT"],
+      maturity: 4,
+      metrics: [
+        { label: "Reconhecimento", value: "Voz contínua" },
+        { label: "Avaliação", value: "Scoring multicritério" },
+        { label: "Segurança", value: "JWT Auth" },
+        { label: "Backend", value: "FastAPI + SQL" },
+      ],
+      links: {
+        github: "https://github.com/ThiagoIbrahimVieira/interview-ai",
+      },
+    },
+    {
+      id: "wasper",
+      name: "Wasper",
+      status: "concluído",
+      statusLabel: "LABORATÓRIO · OPERACIONAL",
+      taglineHandwritten: "GPU Accelerated • CUDA float16",
+      tapeStyle: "caution",
+      badgeSticker: "CUDA float16",
+      image: "/images/projects/wasper.png",
+      isFeaturedPillar: true,
+      vision:
+        "Motor de ditado por voz push-to-talk ultra-rápido rodando 100% local e offline no Windows com Whisper large-v3-turbo acelerado por GPU CUDA float16.",
+      bullets: [
+        "Whisper large-v3-turbo rodando local com PyTorch CUDA float16 (GTX 1650) consumindo ~1.8 GB VRAM",
+        "Streaming two-pass: prévia instantânea em tiny e refinamento semântico com pontuação no release",
+        "Hooks Win32 em nível de driver para interceptar botões laterais do mouse com supressão nativa",
+        "Limpador heurístico de disfluências de fala em menos de 1ms preservando naturalidade",
+      ],
+      stack: ["Python", "Whisper large-v3-turbo", "PySide6", "CUDA float16", "Win32 API"],
+      maturity: 4,
+      metrics: [
+        { label: "VRAM GPU", value: "~1.8 GB float16" },
+        { label: "Latência Final", value: "3.2–4.5s" },
+        { label: "Dependência Nuvem", value: "0% (100% offline)" },
+        { label: "Hook Win32", value: "Nível de driver" },
+      ],
+      links: {
+        github: "https://github.com/ThiagoIbrahimVieira/wasper",
+      },
+    },
+    {
+      id: "spacesweep",
+      name: "SpaceSweep",
+      status: "ativo-fase",
+      statusLabel: "ATIVO · FASE 11",
+      taglineHandwritten: "NTFS Scanner • Zero Writes",
+      tapeStyle: "default",
+      badgeSticker: "Electron Hardened",
+      isFeaturedPillar: false,
+      vision:
+        "App desktop Windows para varredura do sistema de arquivos em modo estrito de leitura, apresentando ocupação de disco em treemap, tabela virtualizada e cena orbital.",
+      bullets: [
+        "Varredura real de NTFS com destravamento de junctions (Set<dev:ino>) e MAX_PATH (\\\\?\\)",
+        "Detecção de duplicados: tamanho → hash 4KB → SHA-256 em streams",
+        "Estrito a leitura: nenhum arquivo do sistema é movido ou excluído",
+        "Hardening completo de Electron com contextIsolation, sandbox e CSP",
+      ],
+      stack: ["Electron 35", "React 19", "TypeScript", "Three.js", "Tailwind", "Vitest"],
+      maturity: 5,
+      metrics: [
+        { label: "Testes", value: "64 aprovados" },
+        { label: "Fases", value: "11 concluídas" },
+        { label: "Telemetria", value: "0 externa" },
+      ],
+      links: {
+        github: "https://github.com/ThiagoIbrahimVieira/spacesweep",
+      },
+    },
+    {
+      id: "nordicos-tattoo",
+      name: "Nordicos Tattoo",
+      status: "ativo-fase",
+      statusLabel: "ATIVO · REFERÊNCIA UI",
+      taglineHandwritten: "Design System Showcase",
+      tapeStyle: "default",
+      badgeSticker: "Design System",
+      isFeaturedPillar: false,
+      vision:
+        "Landing page comercial de alto padrão para estúdio de tatuagem — vitrine de maturidade de design system, microinterações e acessibilidade.",
+      bullets: [
+        "Seções modulares desacopladas em src/sections/",
+        "Radix UI + Framer Motion + Lenis smooth scroll + Embla Carousel",
+        "SEO técnico completo com sitemap dinâmico e robots.txt",
+        "Formulário resiliente com React Hook Form e validação de schema Zod",
+      ],
+      stack: ["Next.js", "TypeScript", "Tailwind", "Radix", "Framer Motion"],
+      maturity: 4,
+      metrics: [
+        { label: "Design system", value: "completo" },
+        { label: "SEO", value: "sitemap + robots" },
+      ],
+      links: {
+        github: "https://github.com/ThiagoIbrahimVieira/nordicos-tattoo",
+      },
+    },
+    {
+      id: "segundo-cerebro",
+      name: "Segundo Cérebro",
+      status: "construção",
+      statusLabel: "CONSTRUÇÃO CONTÍNUA",
+      taglineHandwritten: "Local Knowledge Core",
+      tapeStyle: "default",
+      badgeSticker: "Agent Governance",
+      isFeaturedPillar: false,
+      vision:
+        "Sistema local de memória de conhecimento e governança de agentes autônomos em Markdown portátil — a central de inteligência que orquestra a engenharia.",
+      bullets: [
+        "Governança de agentes com constituição (AGENTS.md) e matriz de autonomia",
+        "Biblioteca de 163 skills catalogadas e versionadas",
+        "Registro estruturado de decisões técnicas (ADRs) e workflows de desenvolvimento",
+      ],
+      stack: ["Obsidian", "Markdown", "PowerShell", "OpenBot"],
+      maturity: 4,
+      metrics: [
+        { label: "Skills", value: "163 catalogadas" },
+        { label: "Governança", value: "AGENTS.md" },
+      ],
+      links: {
+        github: "https://github.com/ThiagoIbrahimVieira/2ndBrain",
+      },
+    },
+  ],
+  arsenal: [
+    { name: "TypeScript / JavaScript", level: "Avançado em produção (React 19, Node.js, @xyflow/react, Baileys)", category: "frontend" },
+    { name: "React 19 / Next.js 16", level: "Avançado (App Router, Server/Client components, hooks sob demanda)", category: "frontend" },
+    { name: "Python / FastAPI", level: "Intermediário-Avançado (APIs assíncronas, SQLAlchemy, PySide6)", category: "backend" },
+    { name: "C++ / CUDA float16", level: "Prático em laboratório (aceleração de modelos Whisper na GPU)", category: "systems" },
+    { name: "Tailwind CSS v4", level: "Avançado (temas customizados @theme, utilitários, design tokens)", category: "frontend" },
+    { name: "Win32 API & Drivers", level: "Prático (low-level hooks de teclado/mouse, MAX_PATH bypass)", category: "systems" },
+    { name: "Engenharia de Mídia", level: "Prático (Sharp, FFmpeg, streams em RAM, WebP chunking)", category: "backend" },
+    { name: "Qualidade & Testes", level: "Rigoroso (Vitest, Oxlint, TypeScript strict, zero warnings)", category: "systems" },
+    { name: "Git & Versionamento", level: "Intermediário (Conventional Commits, git flow limpo)", category: "systems" },
+    { name: "Agentes & Orquestração", level: "Avançado (OpenBot, engenharia de contexto, tool calling)", category: "ai-tools" },
+  ],
+  journey: [
+    {
+      year: "2018",
+      title: "Descoberta do Computador",
+      description: "Primeiro contato com o computador e fascínio imediato pela tecnologia; o despertar da curiosidade de entender como o software e os sistemas funcionam por trás da tela.",
+    },
+    {
+      year: "2024",
+      title: "Exploração & Autodidatismo",
+      description: "Início dos estudos autodidatas de computação, lógica de programação e automações de rotina.",
+    },
+    {
+      year: "2025",
+      title: "Engenharia na Prática",
+      description: "Desenvolvimento dos primeiros bots e interfaces interativas; compromisso inegociável de compreender cada linha gerada por IA.",
+    },
+    {
+      year: "2026",
+      title: "Construtor de Sistemas · 1º Técnico em Informática",
+      description: "Ingresso no 1º Técnico em Informática (TI) na ETEC de Itapevi; lançamento de CodeAtlas, WhatsApp Auto Sticker, Wasper e portfólio Street-Tech.",
+    },
+    {
+      year: "Próximos Passos",
+      title: "Escalabilidade de Baixo Nível",
+      description: "Compilador de AST GoAdapter para CodeAtlas, publicação do SpaceSweep para Windows e aprofundamento em sistemas distribuídos.",
+    },
+  ],
+  principles: [
+    {
+      id: "verificacao-real",
+      title: "Verificação Real & Evidência",
+      description: "Nada é considerado pronto sem build limpo, suite de testes passando e telemetria comprovada.",
+    },
+    {
+      id: "estagio-honesto",
+      title: "Engenharia Transparente",
+      description: "Cada projeto exibe métricas verdadeiras, limitações reais e o exato estágio da obra.",
+    },
+    {
+      id: "ia-parceira",
+      title: "IA como Braço, Não Piloto Automático",
+      description: "O piloto da decisão de engenharia é o humano. Todo código gerado por agentes é auditado e compreendido.",
+    },
+    {
+      id: "local-first",
+      title: "Local-First & Respeito ao Usuário",
+      description: "Sistemas desenhados para rodar na máquina do usuário com zero telemetria invasiva e sem dependência forçada de nuvem.",
+    },
+  ],
+  contact: {
+    github: "https://github.com/ThiagoIbrahimVieira",
+    githubLabel: "github.com/ThiagoIbrahimVieira ↗",
+    cta: "Explorar Código no GitHub →",
+  },
+};
