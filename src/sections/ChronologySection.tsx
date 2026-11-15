@@ -200,7 +200,7 @@ function ProjectStreetCard({
       style={{
         transform: isHover
           ? `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale3d(1.02, 1.02, 1.02)`
-          : "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)",
+          : "none",
         transition: isHover ? "transform 0.1s ease-out" : "transform 0.4s ease-out",
       }}
       className="bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-4 sm:p-6 md:p-8 relative flex flex-col justify-between shadow-[6px_6px_0px_#000000] hover:border-amber-400/80 transition-colors group overflow-visible scroll-mt-28 cursor-pointer"

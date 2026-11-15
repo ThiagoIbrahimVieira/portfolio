@@ -171,12 +171,14 @@ export function ConstellationCanvas({
     let width = 0;
     let height = 0;
     let dpr = 1;
+    const isMobileScreen = window.innerWidth < 768;
+    const enableGlow = !isMobileScreen;
 
     const updateDimensions = () => {
       const rect = container.getBoundingClientRect();
       width = rect.width;
       height = rect.height;
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      dpr = isMobileScreen ? 1 : Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
       canvas.style.width = `${width}px`;
@@ -190,16 +192,16 @@ export function ConstellationCanvas({
     nodesRef.current = initialNodes.map((n) => ({ ...n }));
     edgesRef.current = [...initialEdges];
 
-    // Inicializa partículas de fótons viajando nas arestas
+    // Inicializa partículas de fótons viajando nas arestas (otimizado no mobile)
     const particles: Particle[] = [];
     initialEdges.forEach((_, edgeIndex) => {
-      const count = 2; // 2 pacotes por linha
+      const count = isMobileScreen ? (edgeIndex % 3 === 0 ? 1 : 0) : 2;
       for (let p = 0; p < count; p++) {
         particles.push({
           edgeIndex,
           progress: Math.random(),
           speed: 0.003 + Math.random() * 0.004,
-          size: 2.2 + Math.random() * 1.5,
+          size: isMobileScreen ? 1.8 : 2.2 + Math.random() * 1.5,
           color: p % 2 === 0 ? initialEdges[edgeIndex].colorA : initialEdges[edgeIndex].colorB,
           reverse: p % 2 === 1,
         });
@@ -289,7 +291,7 @@ export function ConstellationCanvas({
           ctx.strokeStyle = grad;
           ctx.lineWidth = 2.4;
           ctx.shadowColor = a.color;
-          ctx.shadowBlur = 10;
+          ctx.shadowBlur = enableGlow ? 10 : 0;
         } else if (isConnectedToHover) {
           grad.addColorStop(0, `${a.color}aa`);
           grad.addColorStop(1, `${b.color}aa`);
@@ -331,7 +333,7 @@ export function ConstellationCanvas({
 
         ctx.fillStyle = isDirect ? "#ffffff" : p.color;
         ctx.shadowColor = p.color;
-        ctx.shadowBlur = isDirect ? 12 : 6;
+        ctx.shadowBlur = enableGlow ? (isDirect ? 12 : 6) : 0;
 
         ctx.beginPath();
         ctx.arc(px, py, pSize, 0, Math.PI * 2);
@@ -372,7 +374,7 @@ export function ConstellationCanvas({
         // Núcleo do nó
         ctx.fillStyle = isHover ? "#ffffff" : n.color;
         ctx.shadowColor = n.color;
-        ctx.shadowBlur = isHover ? 16 : 8;
+        ctx.shadowBlur = enableGlow ? (isHover ? 16 : 8) : 0;
         ctx.beginPath();
         ctx.arc(n.x, n.y, radius, 0, Math.PI * 2);
         ctx.fill();
@@ -400,7 +402,7 @@ export function ConstellationCanvas({
         if (isHover || isConnected) {
           ctx.fillStyle = "#ffffff";
           ctx.shadowColor = "#000000";
-          ctx.shadowBlur = 4;
+          ctx.shadowBlur = enableGlow ? 4 : 0;
         } else if (isProject) {
           ctx.fillStyle = "#e4e4e7";
         } else {

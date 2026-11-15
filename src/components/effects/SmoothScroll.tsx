@@ -30,19 +30,29 @@ export function SmoothScroll() {
     };
 
     gsap.ticker.add(tickerUpdate);
-    gsap.ticker.lagSmoothing(0);
+    gsap.ticker.lagSmoothing(500, 33);
 
-    // Refresh no ScrollTrigger após carregamento de imagens e fontes
-    const handleLoad = () => {
+    // Refresh no ScrollTrigger quando as fontes Google terminarem de carregar
+    if (typeof document !== "undefined" && document.fonts) {
+      document.fonts.ready.then(() => {
+        ScrollTrigger.refresh();
+      });
+    }
+
+    // Observa mudanças de altura do documento (imagens carregando, expansão dinâmica)
+    const resizeObserver = new ResizeObserver(() => {
       ScrollTrigger.refresh();
-    };
-    window.addEventListener("load", handleLoad);
+    });
+    if (document.body) {
+      resizeObserver.observe(document.body);
+    }
+
     const refreshTimer = setTimeout(() => {
       ScrollTrigger.refresh();
-    }, 500);
+    }, 600);
 
     return () => {
-      window.removeEventListener("load", handleLoad);
+      resizeObserver.disconnect();
       clearTimeout(refreshTimer);
       gsap.ticker.remove(tickerUpdate);
       lenis.destroy();

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 
 interface ParallaxWatermarkProps {
@@ -18,16 +18,26 @@ export function ParallaxWatermark({
 }: ParallaxWatermarkProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
   });
 
+  const disableParallax = shouldReduceMotion || isMobile;
+
   const y = useTransform(
     scrollYProgress,
     [0, 1],
-    shouldReduceMotion ? [0, 0] : [-speed, speed]
+    disableParallax ? [0, 0] : [-speed, speed]
   );
 
   const isRight = position === "right";
@@ -40,7 +50,7 @@ export function ParallaxWatermark({
         isRight ? "right-4 sm:right-10 text-right" : "left-4 sm:left-10 text-left"
       }`}
     >
-      <motion.div style={{ y }} className="will-change-transform">
+      <motion.div style={{ y }} className={isMobile ? "" : "will-change-transform"}>
         <span className="font-display text-[clamp(4.5rem,14vw,11rem)] leading-[0.8] text-white/[0.035] tracking-tighter uppercase block">
           {number}
         </span>

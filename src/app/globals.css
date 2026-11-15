@@ -261,3 +261,13 @@ html.lenis, html.lenis body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Print & Full-Page Capture Safeguard */
+@media print {
+  *, *::before, *::after {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    visibility: visible !important;
+  }
+}
