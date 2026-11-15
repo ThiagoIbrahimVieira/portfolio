@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
-import type { ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
+import { gsap, ScrollTrigger } from "@/lib/gsap";
 
 export type AnimationVariant =
   | "blur-fade"
@@ -24,95 +24,110 @@ interface RevealSectionProps {
   once?: boolean;
 }
 
-const VARIANTS = {
-  // 1. Editorial Blur Fade (Títulos, Headlines e Textos Nobres)
-  "blur-fade": {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-  },
-
-  // 2. Tátil Stamp Pop (Stickers, Badges, Fitas Adesivas e Selos)
-  "stamp-pop": {
-    hidden: { opacity: 0, scale: 0.94, rotate: -2 },
-    visible: { opacity: 1, scale: 1, rotate: 0 },
-  },
-
-  // 3. Card Expand & Elevate (Cards de Projetos, Módulos do Arsenal e Princípios)
-  "card-expand": {
-    hidden: { opacity: 0, scale: 0.95, y: 32 },
-    visible: { opacity: 1, scale: 1, y: 0 },
-  },
-
-  // 4. Fade Up Suave e Amplo
-  "fade-up-soft": {
-    hidden: { opacity: 0, y: 40, scale: 0.99 },
-    visible: { opacity: 1, y: 0, scale: 1 },
-  },
-
-  // 5. Timeline Slides (Diário e Jornada)
-  "slide-left": {
-    hidden: { opacity: 0, x: -36 },
-    visible: { opacity: 1, x: 0 },
-  },
-  "slide-right": {
-    hidden: { opacity: 0, x: 36 },
-    visible: { opacity: 1, x: 0 },
-  },
-
-  // 6. Aliases de compatibilidade
-  "fade-up": {
-    hidden: { opacity: 0, y: 36, scale: 0.98 },
-    visible: { opacity: 1, y: 0, scale: 1 },
-  },
-  "fade-down": {
-    hidden: { opacity: 0, y: -30, scale: 0.98 },
-    visible: { opacity: 1, y: 0, scale: 1 },
-  },
-  "scale-up": {
-    hidden: { opacity: 0, scale: 0.95, y: 24 },
-    visible: { opacity: 1, scale: 1, y: 0 },
-  },
-  pop: {
-    hidden: { opacity: 0, scale: 0.88, rotate: -2 },
-    visible: { opacity: 1, scale: 1, rotate: 0 },
-  },
-};
-
-const REDUCED_VARIANT = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1 },
-};
-
-// Curva de desaceleração premium cúbica ultra-suave
-const PREMIUM_EASE = [0.22, 1, 0.36, 1] as const;
-
 export function RevealSection({
   children,
   className = "",
   delay = 0,
-  duration = 0.9,
+  duration = 0.85,
   variant = "fade-up",
   once = true,
 }: RevealSectionProps) {
-  const shouldReduceMotion = useReducedMotion();
-  const selectedVariant = shouldReduceMotion
-    ? REDUCED_VARIANT
-    : (VARIANTS[variant] || VARIANTS["fade-up"]);
+  const elementRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = elementRef.current;
+    if (!el || typeof window === "undefined") return;
+
+    // Acessibilidade: se o usuário prefere redução de movimento, visibilidade instantânea
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      gsap.set(el, { opacity: 1, x: 0, y: 0, scale: 1, rotate: 0 });
+      return;
+    }
+
+    let fromVars: gsap.TweenVars = { opacity: 0 };
+    let toVars: gsap.TweenVars = {
+      opacity: 1,
+      duration: duration,
+      delay: delay,
+      ease: "power3.out",
+      clearProps: "transform,opacity",
+    };
+
+    switch (variant) {
+      case "blur-fade":
+      case "fade-up":
+        fromVars = { opacity: 0, y: 36 };
+        toVars.y = 0;
+        toVars.ease = "power3.out";
+        break;
+      case "stamp-pop":
+      case "pop":
+        fromVars = { opacity: 0, scale: 0.88, rotate: -3 };
+        toVars.scale = 1;
+        toVars.rotate = 0;
+        toVars.ease = "back.out(1.5)";
+        break;
+      case "card-expand":
+      case "scale-up":
+        fromVars = { opacity: 0, scale: 0.92, y: 44 };
+        toVars.scale = 1;
+        toVars.y = 0;
+        toVars.ease = "power3.out";
+        break;
+      case "fade-up-soft":
+        fromVars = { opacity: 0, y: 40 };
+        toVars.y = 0;
+        toVars.ease = "power2.out";
+        break;
+      case "fade-down":
+        fromVars = { opacity: 0, y: -36 };
+        toVars.y = 0;
+        toVars.ease = "power3.out";
+        break;
+      case "slide-left":
+        fromVars = { opacity: 0, x: -44 };
+        toVars.x = 0;
+        toVars.ease = "power3.out";
+        break;
+      case "slide-right":
+        fromVars = { opacity: 0, x: 44 };
+        toVars.x = 0;
+        toVars.ease = "power3.out";
+        break;
+      default:
+        fromVars = { opacity: 0, y: 32 };
+        toVars.y = 0;
+        toVars.ease = "power3.out";
+    }
+
+    // Identifica se já está visível na viewport inicial (ex: seção Hero)
+    const rect = el.getBoundingClientRect();
+    const isAlreadyInView = rect.top < window.innerHeight * 0.9 && rect.bottom > 0;
+
+    let tween: gsap.core.Tween;
+    if (isAlreadyInView) {
+      tween = gsap.fromTo(el, fromVars, toVars);
+    } else {
+      toVars.scrollTrigger = {
+        trigger: el,
+        start: "top 88%",
+        once: once,
+        toggleActions: once ? "play none none none" : "play none none reverse",
+      };
+      tween = gsap.fromTo(el, fromVars, toVars);
+    }
+
+    return () => {
+      if (tween.scrollTrigger) {
+        tween.scrollTrigger.kill();
+      }
+      tween.kill();
+    };
+  }, [delay, duration, once, variant]);
 
   return (
-    <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once, margin: "-70px" }}
-      variants={selectedVariant}
-      transition={{
-        duration: shouldReduceMotion ? 0.2 : duration,
-        delay: shouldReduceMotion ? 0 : delay,
-        ease: PREMIUM_EASE,
-      }}
-      className={className}
-    >
+    <div ref={elementRef} className={className}>
       {children}
-    </motion.div>
+    </div>
   );
 }
