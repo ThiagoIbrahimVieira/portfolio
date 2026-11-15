@@ -69,3 +69,53 @@ flowchart TD
      > *"Transform this portrait of a 16-year-old software developer into an authentic streetwear die-cut sticker illustration. Bold continuous white sticker outline (4px), dark urban aesthetic, subtle tech cyberpunk doodles, isolated on transparent background, 3:4 vertical ratio, ultra sharp resolution, zero blur."*
    - **Avatar Secundário da Jornada (`thiago-about.png`):**
      > *"Editorial graphic cut-out illustration of this developer working at a dark computer desk, brutalist collage, dark palette, amber accents (#fbbf24), transparent background."*
+
+---
+
+## 4. ARQUITETURA SERVERLESS DE COMUNICAÇÃO: RESEND & NEXT.JS APP ROUTER
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Visitante as Visitante / Recrutador
+    participant Form as ContactSection.tsx
+    participant API as POST /api/contact
+    participant Resend as Resend API Gateway
+    actor Thiago as thiagoibrahimvieira@gmail.com
+
+    Visitante->>Form: Preenche Nome, E-mail e Mensagem
+    Form->>API: Fetch JSON Payload { nome, email, mensagem }
+    Note over API: Validação de Schema & Sanitização HTML
+    alt RESEND_API_KEY presente
+        API->>Resend: resend.emails.send (from: onboarding@resend.dev, replyTo: email)
+        Resend->>Thiago: Despacho HTML com template Street-Tech Dark Mode
+        Resend-->>API: { id: "re_msg_id" }
+        API-->>Form: 200 OK { success: true }
+        Form-->>Visitante: Feedback visual "DISPATCH ENVIADO COM SUCESSO!"
+    else Falta RESEND_API_KEY
+        API-->>Form: 503 Service Unavailable { needsConfig: true }
+        Form-->>Visitante: Fallback gracioso mailto: pré-preenchido + cópia na área de transferência
+    end
+```
+
+### Especificação dos Módulos:
+- **Template HTML (`src/lib/email-template.ts`):** Layout responsivo dark mode `#09090b` com acento âmbar `#fbbf24`, tipografia JetBrains Mono, sanitização estrita de strings (`escapeHtml`) contra injeção de tags e botão de ação direta `mailto:${email}` para resposta com 1 clique.
+- **Handler Serverless (`src/app/api/contact/route.ts`):** Rota dinâmica (`ƒ /api/contact`) executada em ambiente Edge/Node.js Serverless na Vercel. Trata ausência de credenciais com status code 503 e payload de contingência (`needsConfig: true`).
+- **Fallback Resiliente no Cliente (`ContactSection.tsx`):** Em caso de falha de rede ou falta momentânea de token, aciona protocolo duplo: deep-link nativo do WhatsApp (`https://wa.me/5511919498217`) e `mailto` com payload copiado para o clipboard.
+
+---
+
+## 5. ESTEIRA DE CI/CD & GOVERNANÇA DE DEPLOY (VERCEL)
+
+1. **Contrato de Variáveis de Ambiente:**
+   - `.env.example` documentado no repositório.
+   - Chave obrigatória de produção na Vercel: `RESEND_API_KEY`.
+
+2. **Quality Gate de Compilação (Steve Rogers / QA):**
+   - `npx tsc --noEmit`: 0 erros (TypeScript 5.8 estrito).
+   - `npm run lint`: 0 erros e 0 warnings (ESLint 9 com `eslint-config-next`).
+   - `npm run build`: Turbopack estático + 1 Serverless Function (`/api/contact`).
+
+3. **Protocolo de Deploy:**
+   - Vercel CLI ou Git Push na branch de produção.
+   - O build estático gera os bundles com SSR mínimo, garantindo TTFB < 100ms e Lighthouse 95+ em Performance e Acessibilidade.
