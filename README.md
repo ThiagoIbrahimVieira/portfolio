@@ -2,6 +2,7 @@
 
 > **Street-Tech & Creative Brutalism** — Consola de telemetria pessoal e mostruário de engenharia de software de **Thiago Ibrahim Vieira (Thiago TT)**.
 >
+> 🌐 **Deploy no ar:** [portfolio-tt-seven.vercel.app](https://portfolio-tt-seven.vercel.app)  
 > 🔗 **GitHub:** [github.com/ThiagoIbrahimVieira](https://github.com/ThiagoIbrahimVieira)  
 > 📍 **Localização:** Itapevi / Grande São Paulo — SP  
 > 🎓 **Formação:** 1º Técnico em Informática — ETEC de Itapevi  
