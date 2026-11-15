@@ -28,7 +28,7 @@ export function PrinciplesSection() {
             <p className="text-xs font-mono text-zinc-400 mb-3 flex items-center gap-1.5">
               <span className="text-[#fbbf24]">◀ ▶</span> Deslize para navegar pelos princípios
             </p>
-            <div className="flex overflow-x-auto gap-4 pb-4 -mx-4 px-4 snap-x snap-mandatory scrollbar-none touch-pan-x overscroll-x-contain">
+            <div className="flex overflow-x-auto gap-4 pb-4 -mx-4 px-4 snap-x snap-mandatory scrollbar-none">
               {siteData.principles.map((p, i) => {
                 const Icon = icons[i % icons.length];
                 return (

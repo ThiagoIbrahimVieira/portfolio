@@ -49,7 +49,7 @@ export function ToolboxSection() {
           <p className="text-xs font-mono text-zinc-400 mb-3 flex items-center gap-1.5">
             <span className="text-[#fbbf24]">◀ ▶</span> Deslize para navegar pelas stacks
           </p>
-          <div className="flex overflow-x-auto gap-4 pb-4 -mx-4 px-4 snap-x snap-mandatory scrollbar-none touch-pan-x overscroll-x-contain">
+          <div className="flex overflow-x-auto gap-4 pb-4 -mx-4 px-4 snap-x snap-mandatory scrollbar-none">
             {groups.map((g) => (
               <div key={g.name} className="shrink-0 w-[82vw] max-w-[310px] snap-center">
                 <div className="bg-[#141418] border border-zinc-800 p-4 rounded-lg relative overflow-hidden shadow-[4px_4px_0px_#000000] h-full flex flex-col justify-between">

@@ -78,7 +78,7 @@ export function ChronologySection() {
           <p className="text-xs font-mono text-zinc-400 mb-3 flex items-center gap-1.5">
             <span className="text-[#fbbf24]">◀ ▶</span> Deslize para navegar pelos 4 cards nucleares
           </p>
-          <div className="flex overflow-x-auto gap-4 pb-4 -mx-4 px-4 snap-x snap-mandatory scrollbar-none overscroll-x-contain touch-pan-x">
+          <div className="flex overflow-x-auto gap-4 pb-4 -mx-4 px-4 snap-x snap-mandatory scrollbar-none">
             {featuredProjects.map((p) => (
               <div key={p.id} className="shrink-0 w-[84vw] max-w-[340px] snap-center">
                 <ProjectStreetCard project={p} onSelect={setSelectedProject} />
@@ -183,7 +183,7 @@ function ProjectStreetCard({
           : "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)",
         transition: isHover ? "transform 0.1s ease-out" : "transform 0.4s ease-out",
       }}
-      className="bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-4 sm:p-6 md:p-8 relative flex flex-col justify-between shadow-[6px_6px_0px_#000000] hover:border-amber-400/80 transition-colors group overflow-hidden scroll-mt-28 cursor-pointer touch-pan-x"
+      className="bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-4 sm:p-6 md:p-8 relative flex flex-col justify-between shadow-[6px_6px_0px_#000000] hover:border-amber-400/80 transition-colors group overflow-hidden scroll-mt-28 cursor-pointer"
     >
       {/* Specular Glare Effect on Hover */}
       {isHover && (
@@ -197,27 +197,27 @@ function ProjectStreetCard({
 
       {/* Tape Effect Personalizado por Projeto */}
       {isCaution ? (
-        <div className="tape-strip tape-caution top-[-10px] right-6 w-32 text-center flex items-center justify-center font-mono text-[10px] font-bold">
+        <div className="tape-strip tape-caution top-2.5 right-4 sm:top-3 sm:right-6 w-32 text-center flex items-center justify-center font-mono text-[10px] font-bold z-20">
           CUDA // LOCAL
         </div>
       ) : isBlueprint ? (
-        <div className="tape-strip top-[-10px] right-6 w-28 bg-cyan-900/50 text-cyan-200 border-cyan-400/50 text-center flex items-center justify-center font-mono text-[10px] font-bold">
+        <div className="tape-strip top-2.5 right-4 sm:top-3 sm:right-6 w-28 bg-cyan-900/50 text-cyan-200 border-cyan-400/50 text-center flex items-center justify-center font-mono text-[10px] font-bold z-20">
           AST // GRAPH
         </div>
       ) : project.id === "spacesweep" ? (
-        <div className="tape-strip top-[-10px] right-6 w-28 bg-cyan-900/50 text-cyan-200 border-cyan-400/50 text-center flex items-center justify-center font-mono text-[10px] font-bold">
+        <div className="tape-strip top-2.5 right-4 sm:top-3 sm:right-6 w-28 bg-cyan-900/50 text-cyan-200 border-cyan-400/50 text-center flex items-center justify-center font-mono text-[10px] font-bold z-20">
           NTFS // READ
         </div>
       ) : project.id === "nordicos-tattoo" ? (
-        <div className="tape-strip top-[-10px] right-6 w-28 bg-amber-500/30 text-amber-200 border-amber-400/50 text-center flex items-center justify-center font-mono text-[10px] font-bold">
+        <div className="tape-strip top-2.5 right-4 sm:top-3 sm:right-6 w-28 bg-amber-500/30 text-amber-200 border-amber-400/50 text-center flex items-center justify-center font-mono text-[10px] font-bold z-20">
           UI // SYSTEM
         </div>
       ) : project.id === "segundo-cerebro" ? (
-        <div className="tape-strip top-[-10px] right-6 w-32 bg-purple-900/50 text-purple-200 border-purple-400/50 text-center flex items-center justify-center font-mono text-[10px] font-bold">
+        <div className="tape-strip top-2.5 right-4 sm:top-3 sm:right-6 w-32 bg-purple-900/50 text-purple-200 border-purple-400/50 text-center flex items-center justify-center font-mono text-[10px] font-bold z-20">
           AGENTS // CORE
         </div>
       ) : (
-        <div className="tape-strip top-[-10px] right-6 w-24 bg-amber-500/30 text-amber-200 border-amber-400/50 text-center flex items-center justify-center font-mono text-[10px] font-bold">
+        <div className="tape-strip top-2.5 right-4 sm:top-3 sm:right-6 w-24 bg-amber-500/30 text-amber-200 border-amber-400/50 text-center flex items-center justify-center font-mono text-[10px] font-bold z-20">
           STREET // DEV
         </div>
       )}

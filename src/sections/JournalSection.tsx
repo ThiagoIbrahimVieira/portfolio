@@ -28,17 +28,8 @@ export function JournalSection() {
                 {/* Tape on top */}
                 <div className="tape-strip top-[-10px] left-8 sm:left-12 w-28" />
 
-                {/* Mobile/Tablet Compact Author Header (Foto ao lado do resumo) */}
-                <div className="flex lg:hidden items-center gap-4 p-3.5 sm:p-4 mb-6 bg-zinc-900/90 border border-zinc-700/80 rounded-lg">
-                  <div className="relative w-20 h-24 sm:w-24 sm:h-28 shrink-0 rounded-md overflow-hidden border border-zinc-700 bg-zinc-950">
-                    <Image
-                      src="/images/thiago-about.png"
-                      alt="Thiago Ibrahim Vieira — 1º Técnico em Informática"
-                      fill
-                      sizes="(max-width: 640px) 80px, 100px"
-                      className="object-cover"
-                    />
-                  </div>
+                {/* Mobile/Tablet Compact Author Header (Texto no esquerdo, Foto no lado direito) */}
+                <div className="flex lg:hidden items-center justify-between gap-3 p-3.5 sm:p-4 mb-6 bg-zinc-900/90 border border-zinc-700/80 rounded-lg">
                   <div className="min-w-0 flex-1">
                     <span className="text-[10px] font-mono font-bold text-[#fbbf24] px-1.5 py-0.5 bg-zinc-950 border border-zinc-800 rounded inline-block mb-1">
                       AUTOR · 16 ANOS
@@ -48,6 +39,15 @@ export function JournalSection() {
                     <p className="font-sans text-[11px] sm:text-xs text-zinc-300 leading-snug line-clamp-2 italic">
                       &ldquo;IA é braço de engenharia, nunca substituto do raciocínio humano.&rdquo;
                     </p>
+                  </div>
+                  <div className="relative w-20 h-24 sm:w-24 sm:h-28 shrink-0 rounded-md overflow-hidden border border-zinc-700 bg-zinc-950">
+                    <Image
+                      src="/images/thiago-about.png"
+                      alt="Thiago Ibrahim Vieira — 1º Técnico em Informática"
+                      fill
+                      sizes="(max-width: 640px) 80px, 100px"
+                      className="object-cover"
+                    />
                   </div>
                 </div>
 

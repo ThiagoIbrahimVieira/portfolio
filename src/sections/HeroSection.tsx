@@ -147,7 +147,7 @@ export function HeroSection() {
               </div>
 
               {/* Manifest Card with Torn Edge */}
-              <div className="w-full bg-[#141418] border border-zinc-800 p-5 sm:p-6 rounded-lg relative shadow-[4px_4px_0px_#000000] mt-4 sm:mt-0">
+              <div className="w-full bg-[#141418] border border-zinc-800 p-5 sm:p-6 rounded-lg relative shadow-[4px_4px_0px_#000000] mt-8 sm:mt-6">
                 <div className="tape-strip top-[-12px] right-6 w-20" />
                 <p className="font-mono text-xs text-[#fbbf24] uppercase tracking-wider mb-2">
                   {"// MANIFESTO DO CONSTRUTOR"}
