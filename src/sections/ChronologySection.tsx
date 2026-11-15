@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import { siteData } from "@/data/site";
 import { ConstellationCanvas } from "@/components/effects/ConstellationCanvas";
-import { RevealSection } from "@/components/effects/RevealSection";
+import { RevealSection, type AnimationVariant } from "@/components/effects/RevealSection";
 import { ProjectDetailModal } from "@/components/ProjectDetailModal";
 import { ExternalLink, Sparkles } from "lucide-react";
 import { GithubIcon } from "@/components/icons/GithubIcon";
@@ -91,13 +91,21 @@ export function ChronologySection() {
           </div>
         </div>
 
-        {/* Desktop Grid Layout com 3D Tilt */}
+        {/* Desktop Grid Layout com 3D Tilt e Entrada Alternada */}
         <div className="hidden md:grid md:grid-cols-2 gap-8 mb-20">
-          {featuredProjects.map((p, idx) => (
-            <RevealSection key={p.id} delay={0.15 + 0.18 * idx} variant="card-expand" duration={0.95}>
-              <ProjectStreetCard project={p} onSelect={setSelectedProject} />
-            </RevealSection>
-          ))}
+          {featuredProjects.map((p, idx) => {
+            const isLeft = idx % 2 === 0;
+            return (
+              <RevealSection
+                key={p.id}
+                delay={0.1 * (idx % 2)}
+                variant={isLeft ? "fade-left" : "fade-right"}
+                duration={0.85}
+              >
+                <ProjectStreetCard project={p} onSelect={setSelectedProject} />
+              </RevealSection>
+            );
+          })}
         </div>
 
         {/* Supporting Projects Archive com o MESMO visual Street-Tech (Imagem 4) */}
@@ -120,13 +128,21 @@ export function ChronologySection() {
               </div>
             </RevealSection>
 
-            {/* Grid idêntico aos cards nucleares com 3D tilt, fita adesiva e sticker badges */}
+            {/* Grid idêntico aos cards nucleares com 3D tilt, fita adesiva e stagger alternado */}
             <div className="grid md:grid-cols-3 gap-8">
-              {otherProjects.map((p, idx) => (
-                <RevealSection key={p.id} delay={0.08 + 0.12 * idx} variant="card-expand" duration={0.6}>
-                  <ProjectStreetCard project={p} onSelect={setSelectedProject} />
-                </RevealSection>
-              ))}
+              {otherProjects.map((p, idx) => {
+                const variants: AnimationVariant[] = ["fade-left", "card-expand", "fade-right"];
+                return (
+                  <RevealSection
+                    key={p.id}
+                    delay={0.12 * idx}
+                    variant={variants[idx % variants.length]}
+                    duration={0.8}
+                  >
+                    <ProjectStreetCard project={p} onSelect={setSelectedProject} />
+                  </RevealSection>
+                );
+              })}
             </div>
           </div>
         )}

@@ -84,31 +84,42 @@ export function ToolboxSection() {
           </RevealSection>
         </div>
 
-        {/* Desktop Grid (>= 768px) */}
+        {/* Desktop Grid (>= 768px) com Entrada Alternada e Microinterações */}
         <div className="hidden md:grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          {groups.map((g, idx) => (
-            <RevealSection key={g.name} delay={0.16 + 0.16 * idx} variant="card-expand" duration={0.95}>
-              <div className="bg-[#141418] border border-zinc-800 p-6 md:p-8 rounded-lg relative overflow-hidden shadow-[4px_4px_0px_#000000] hover:border-zinc-600 transition-colors">
-                <div className="flex items-center justify-between mb-6 pb-3 border-b border-zinc-800">
-                  <h3 className="font-display text-xl text-white tracking-wide">{g.name}</h3>
-                  <span className="text-[11px] font-mono font-bold text-[#fbbf24] px-2 py-0.5 bg-zinc-900 border border-zinc-700 rounded">
-                    {g.badge}
-                  </span>
-                </div>
+          {groups.map((g, idx) => {
+            const isLeft = idx % 2 === 0;
+            return (
+              <RevealSection
+                key={g.name}
+                delay={0.12 * idx}
+                variant={isLeft ? "fade-left" : "fade-right"}
+                duration={0.85}
+              >
+                <div className="bg-[#141418] border border-zinc-800 p-6 md:p-8 rounded-lg relative overflow-hidden shadow-[4px_4px_0px_#000000] hover:border-[#fbbf24]/70 hover:shadow-[6px_6px_0px_#fbbf24]/30 hover:-translate-y-1 transition-all duration-300 group">
+                  <div className="flex items-center justify-between mb-6 pb-3 border-b border-zinc-800 group-hover:border-zinc-700 transition-colors">
+                    <h3 className="font-display text-xl text-white tracking-wide group-hover:text-[#fbbf24] transition-colors">{g.name}</h3>
+                    <span className="text-[11px] font-mono font-bold text-[#fbbf24] px-2 py-0.5 bg-zinc-900 border border-zinc-700 rounded shadow-sm">
+                      {g.badge}
+                    </span>
+                  </div>
 
-                <ul className="space-y-4">
-                  {g.items.map((a) => (
-                    <li key={a.name} className="flex items-center justify-between gap-2 border-b border-zinc-800/60 pb-2">
-                      <span className="font-mono text-sm font-bold text-white">{a.name}</span>
-                      <span className="text-[11px] font-mono text-zinc-400 bg-zinc-900 px-2 py-0.5 rounded border border-zinc-800">
-                        {a.level}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </RevealSection>
-          ))}
+                  <ul className="space-y-4">
+                    {g.items.map((a) => (
+                      <li key={a.name} className="flex items-center justify-between gap-2 border-b border-zinc-800/60 pb-2 hover:border-zinc-600 transition-colors">
+                        <span className="font-mono text-sm font-bold text-white flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-zinc-600 group-hover:bg-[#fbbf24] transition-colors" />
+                          {a.name}
+                        </span>
+                        <span className="text-[11px] font-mono text-zinc-400 bg-zinc-900 px-2 py-0.5 rounded border border-zinc-800">
+                          {a.level}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </RevealSection>
+            );
+          })}
         </div>
       </div>
     </section>

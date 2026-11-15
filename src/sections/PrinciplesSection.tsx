@@ -54,19 +54,25 @@ export function PrinciplesSection() {
             </RevealSection>
           </div>
 
-          {/* Desktop Grid (>= 640px) */}
+          {/* Desktop Grid (>= 640px) com Entrada Alternada e Microinterações */}
           <div className="hidden sm:grid sm:grid-cols-2 gap-6">
             {siteData.principles.map((p, i) => {
               const Icon = icons[i % icons.length];
+              const isLeft = i % 2 === 0;
               return (
-                <RevealSection key={p.id} delay={0.15 + 0.15 * i} variant="card-expand" duration={0.9}>
+                <RevealSection
+                  key={p.id}
+                  delay={0.12 * Math.floor(i / 2)}
+                  variant={isLeft ? "fade-left" : "fade-right"}
+                  duration={0.85}
+                >
                   <div
-                    className="bg-[#141418] border border-zinc-800 p-6 rounded-lg relative shadow-[4px_4px_0px_#000000] hover:border-zinc-600 transition-colors"
+                    className="bg-[#141418] border border-zinc-800 p-6 rounded-lg relative shadow-[4px_4px_0px_#000000] hover:border-[#fbbf24]/70 hover:shadow-[6px_6px_0px_#fbbf24]/30 hover:-translate-y-1 transition-all duration-300 group"
                   >
-                    <div className="w-10 h-10 rounded bg-zinc-900 border border-zinc-700 flex items-center justify-center text-[#fbbf24] mb-4">
+                    <div className="w-10 h-10 rounded bg-zinc-900 border border-zinc-700 flex items-center justify-center text-[#fbbf24] mb-4 group-hover:scale-110 group-hover:border-[#fbbf24] transition-all">
                       <Icon className="w-5 h-5" />
                     </div>
-                    <h3 className="font-display text-xl text-white mb-2">{p.title}</h3>
+                    <h3 className="font-display text-xl text-white mb-2 group-hover:text-[#fbbf24] transition-colors">{p.title}</h3>
                     <p className="text-sm text-zinc-400 leading-relaxed font-sans">{p.description}</p>
                   </div>
                 </RevealSection>

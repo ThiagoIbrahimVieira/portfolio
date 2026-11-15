@@ -39,17 +39,22 @@ export function HeroSection() {
     let ctx: gsap.Context | null = null;
     if (typeof window !== "undefined" && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       ctx = gsap.context(() => {
-        // Text mask reveal em THIAGO IBRAHIM
-        gsap.from(".hero-title-line", {
-          y: "115%",
-          opacity: 0,
-          duration: 1.15,
-          stagger: 0.18,
-          ease: "power4.out",
-          delay: 0.15,
-        });
+        // Text mask reveal editorial em THIAGO IBRAHIM (sem bloqueio de opacidade no container pai)
+        gsap.fromTo(
+          ".hero-title-line",
+          { y: "115%", opacity: 0 },
+          {
+            y: "0%",
+            opacity: 1,
+            duration: 1.15,
+            stagger: 0.18,
+            ease: "power4.out",
+            delay: 0.2,
+            clearProps: "willChange",
+          }
+        );
 
-        // Floating suave no die-cut sticker
+        // Floating suave no die-cut sticker (isolado em container interno sem conflito com Framer Motion)
         gsap.to(".hero-sticker-float", {
           y: -10,
           duration: 3.2,
@@ -106,29 +111,29 @@ export function HeroSection() {
         {/* Hero Core Layout */}
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           <div className="lg:col-span-8 space-y-6">
-            <RevealSection variant="blur-fade" delay={0.12} duration={0.95}>
-              <motion.div style={{ y: titleY }} className="will-change-transform">
-                {/* Handwritten highlight note */}
+            <div className="space-y-4">
+              {/* Handwritten highlight note com entrada tátil */}
+              <RevealSection variant="stamp-pop" delay={0.1} duration={0.8}>
                 <div className="inline-block">
                   <span className="font-handwriting text-[#fbbf24] text-2xl md:text-3xl rotate-[-2deg] block select-none">
                     {person.handwrittenNote ?? "Building real systems from Itapevi 🚀"}
                   </span>
                 </div>
+              </RevealSection>
 
-                {/* Giant Display Headline com Text Mask Reveal */}
-                <h1
-                  id="hero-heading"
-                  className="font-display text-white text-[clamp(3.5rem,11vw,8.5rem)] leading-[0.88] tracking-tighter"
-                >
-                  <span className="block overflow-hidden py-1">
-                    <span className="inline-block hero-title-line">THIAGO</span>
-                  </span>
-                  <span className="block overflow-hidden py-1">
-                    <span className="inline-block text-[#fbbf24] hero-title-line">IBRAHIM</span>
-                  </span>
-                </h1>
-              </motion.div>
-            </RevealSection>
+              {/* Giant Display Headline com Text Mask Reveal Editorial GSAP (sem container com opacity: 0) */}
+              <h1
+                id="hero-heading"
+                className="font-display text-white text-[clamp(3.5rem,11vw,8.5rem)] leading-[0.88] tracking-tighter select-none"
+              >
+                <span className="block overflow-hidden py-1">
+                  <span className="inline-block hero-title-line">THIAGO</span>
+                </span>
+                <span className="block overflow-hidden py-1">
+                  <span className="inline-block text-[#fbbf24] hero-title-line">IBRAHIM</span>
+                </span>
+              </h1>
+            </div>
 
             {/* Subtitle & Value Proposition */}
             <RevealSection variant="fade-up-soft" delay={0.28} duration={0.9}>
@@ -188,48 +193,46 @@ export function HeroSection() {
 
           {/* Right Column: 3:4 Die-Cut Sticker Slot & Rotating Seal com Parallax de Profundidade */}
           <div className="lg:col-span-4 flex flex-col items-center justify-center relative mt-8 lg:mt-0">
-            {/* 3:4 Aspect Ratio Sticker Slot com Entrada Tátil e Parallax Suave */}
+            {/* 3:4 Aspect Ratio Sticker Slot com Entrada Tátil e Parallax Suave Desacoplado */}
             <RevealSection variant="stamp-pop" delay={0.25} duration={0.95}>
-              <motion.div
-                style={{ y: stickerY }}
-                className="hero-sticker-float w-full max-w-[280px] sm:max-w-xs aspect-[3/4] relative mb-8 sm:mb-10 sticker-die-cut rounded-2xl bg-[#141418] border-2 border-white/90 shadow-[4px_10px_25px_rgba(0,0,0,0.8)] mx-auto overflow-visible will-change-transform"
-              >
-                <div className="relative w-full h-full rounded-2xl overflow-hidden">
-                  <Image
-                    src="/images/thiago-hero-sticker.png"
-                    alt="Thiago Ibrahim — Retrato recortado em sticker die-cut 3:4"
-                    width={600}
-                    height={800}
-                    priority
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="tape-strip -top-3.5 -right-3 w-28 bg-[#fbbf24]/70 text-black text-center flex items-center justify-center font-mono text-[9px] font-bold z-20 rotate-[5deg] shadow-md border border-black/30">
-                  THIAGO // 1º TI
+              <motion.div style={{ y: stickerY }} className="will-change-transform">
+                <div className="hero-sticker-float w-full max-w-[280px] sm:max-w-xs aspect-[3/4] relative mb-8 sm:mb-10 sticker-die-cut rounded-2xl bg-[#141418] border-2 border-white/90 shadow-[4px_10px_25px_rgba(0,0,0,0.8)] mx-auto overflow-visible">
+                  <div className="relative w-full h-full rounded-2xl overflow-hidden">
+                    <Image
+                      src="/images/thiago-hero-sticker.png"
+                      alt="Thiago Ibrahim — Retrato recortado em sticker die-cut 3:4"
+                      width={600}
+                      height={800}
+                      priority
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="tape-strip -top-3.5 -right-3 w-28 bg-[#fbbf24]/70 text-black text-center flex items-center justify-center font-mono text-[9px] font-bold z-20 rotate-[5deg] shadow-md border border-black/30">
+                    THIAGO // 1º TI
+                  </div>
                 </div>
               </motion.div>
             </RevealSection>
 
             {/* Rotating Circular Seal com Revelação Suave e Parallax */}
             <RevealSection variant="fade-up-soft" delay={0.42} duration={0.85}>
-              <motion.div
-                style={{ y: sealY }}
-                className="hero-seal-float relative w-36 h-36 mb-6 hidden sm:flex items-center justify-center mx-auto will-change-transform"
-              >
-                <svg className="w-full h-full animate-spin-slow select-none" viewBox="0 0 100 100">
-                  <path
-                    id="circlePath"
-                    d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"
-                    fill="none"
-                  />
-                  <text className="text-[7.5px] font-mono tracking-[0.22em] fill-zinc-300 uppercase">
-                    <textPath href="#circlePath">
-                      THIAGO IBRAHIM • 1º TÉCNICO EM INFORMÁTICA • ETEC ITAPEVI •
-                    </textPath>
-                  </text>
-                </svg>
-                <div className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-[#141418] border-2 border-[#fbbf24] flex items-center justify-center shadow-[0_0_15px_rgba(251,191,36,0.2)]">
-                  <span className="font-display text-xl text-white">TT</span>
+              <motion.div style={{ y: sealY }} className="will-change-transform">
+                <div className="hero-seal-float relative w-36 h-36 mb-6 hidden sm:flex items-center justify-center mx-auto">
+                  <svg className="w-full h-full animate-spin-slow select-none" viewBox="0 0 100 100">
+                    <path
+                      id="circlePath"
+                      d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"
+                      fill="none"
+                    />
+                    <text className="text-[7.5px] font-mono tracking-[0.22em] fill-zinc-300 uppercase">
+                      <textPath href="#circlePath">
+                        THIAGO IBRAHIM • 1º TÉCNICO EM INFORMÁTICA • ETEC ITAPEVI •
+                      </textPath>
+                    </text>
+                  </svg>
+                  <div className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-[#141418] border-2 border-[#fbbf24] flex items-center justify-center shadow-[0_0_15px_rgba(251,191,36,0.2)]">
+                    <span className="font-display text-xl text-white">TT</span>
+                  </div>
                 </div>
               </motion.div>
             </RevealSection>

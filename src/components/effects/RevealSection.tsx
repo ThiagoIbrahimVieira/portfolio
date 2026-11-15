@@ -12,7 +12,12 @@ export type AnimationVariant =
   | "fade-down"
   | "slide-left"
   | "slide-right"
+  | "fade-left"
+  | "fade-right"
+  | "scale-in"
   | "scale-up"
+  | "clip-reveal"
+  | "mask-reveal"
   | "pop";
 
 interface RevealSectionProps {
@@ -22,6 +27,8 @@ interface RevealSectionProps {
   duration?: number;
   variant?: AnimationVariant;
   once?: boolean;
+  stagger?: number;
+  childSelector?: string;
 }
 
 export function RevealSection({
@@ -31,6 +38,8 @@ export function RevealSection({
   duration = 0.85,
   variant = "fade-up",
   once = true,
+  stagger,
+  childSelector,
 }: RevealSectionProps) {
   const elementRef = useRef<HTMLDivElement>(null);
 
@@ -40,9 +49,12 @@ export function RevealSection({
 
     // Acessibilidade: se o usuário prefere redução de movimento, visibilidade instantânea
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      gsap.set(el, { opacity: 1, x: 0, y: 0, scale: 1, rotate: 0 });
+      gsap.set(el, { opacity: 1, x: 0, y: 0, scale: 1, rotate: 0, clearProps: "all" });
       return;
     }
+
+    const targets = childSelector ? el.querySelectorAll(childSelector) : el;
+    if (!targets || (targets instanceof NodeList && targets.length === 0)) return;
 
     let fromVars: gsap.TweenVars = { opacity: 0 };
     let toVars: gsap.TweenVars = {
@@ -50,72 +62,103 @@ export function RevealSection({
       duration: duration,
       delay: delay,
       ease: "power3.out",
-      clearProps: "transform,opacity",
+      clearProps: "willChange",
     };
+
+    if (stagger && (targets instanceof NodeList || Array.isArray(targets))) {
+      toVars.stagger = stagger;
+    }
 
     switch (variant) {
       case "blur-fade":
-      case "fade-up":
-        fromVars = { opacity: 0, y: 55 };
+        // Headline nítido sem filtros de GPU, com curva acentuada de entrada
+        fromVars = { opacity: 0, y: 38 };
         toVars.y = 0;
-        toVars.ease = "power3.out";
+        toVars.duration = Math.max(0.9, duration);
+        toVars.ease = "power4.out";
         break;
-      case "stamp-pop":
-      case "pop":
-        fromVars = { opacity: 0, scale: 0.78, rotate: -4 };
-        toVars.scale = 1;
-        toVars.rotate = 0;
-        toVars.duration = Math.max(0.7, duration);
-        toVars.ease = "back.out(1.8)";
-        break;
-      case "card-expand":
-      case "scale-up":
-        fromVars = { opacity: 0, scale: 0.90, y: 65 };
-        toVars.scale = 1;
+      case "fade-up":
+        fromVars = { opacity: 0, y: 40 };
         toVars.y = 0;
         toVars.ease = "power3.out";
         break;
       case "fade-up-soft":
-        fromVars = { opacity: 0, y: 50 };
+        fromVars = { opacity: 0, y: 24 };
         toVars.y = 0;
         toVars.ease = "power2.out";
         break;
+      case "stamp-pop":
+      case "pop":
+        fromVars = { opacity: 0, scale: 0.82, rotate: -4 };
+        toVars.scale = 1;
+        toVars.rotate = 0;
+        toVars.duration = Math.max(0.75, duration);
+        toVars.ease = "back.out(1.8)";
+        break;
+      case "card-expand":
+      case "scale-up":
+        fromVars = { opacity: 0, scale: 0.93, y: 40 };
+        toVars.scale = 1;
+        toVars.y = 0;
+        toVars.duration = Math.max(0.9, duration);
+        toVars.ease = "power3.out";
+        break;
+      case "scale-in":
+        fromVars = { opacity: 0, scale: 0.88 };
+        toVars.scale = 1;
+        toVars.ease = "power2.out";
+        break;
       case "fade-down":
-        fromVars = { opacity: 0, y: -50 };
+        fromVars = { opacity: 0, y: -35 };
         toVars.y = 0;
         toVars.ease = "power3.out";
         break;
       case "slide-left":
-        fromVars = { opacity: 0, x: -65 };
+      case "fade-left":
+        fromVars = { opacity: 0, x: -45 };
         toVars.x = 0;
         toVars.ease = "power3.out";
         break;
       case "slide-right":
-        fromVars = { opacity: 0, x: 65 };
+      case "fade-right":
+        fromVars = { opacity: 0, x: 45 };
         toVars.x = 0;
         toVars.ease = "power3.out";
         break;
+      case "clip-reveal":
+        fromVars = { opacity: 0, clipPath: "inset(100% 0% 0% 0%)" };
+        toVars.clipPath = "inset(0% 0% 0% 0%)";
+        toVars.duration = Math.max(1.0, duration);
+        toVars.ease = "power3.inOut";
+        break;
+      case "mask-reveal":
+        fromVars = { opacity: 0, y: 55 };
+        toVars.y = 0;
+        toVars.duration = Math.max(1.0, duration);
+        toVars.ease = "power4.out";
+        break;
       default:
-        fromVars = { opacity: 0, y: 45 };
+        fromVars = { opacity: 0, y: 35 };
         toVars.y = 0;
         toVars.ease = "power3.out";
     }
 
-    // Identifica se já está visível na viewport inicial (ex: seção Hero)
+    // Identifica se já está visível na viewport inicial (ex: topo do Hero)
     const rect = el.getBoundingClientRect();
-    const isAlreadyInView = rect.top < window.innerHeight * 0.9 && rect.bottom > 0;
+    const isAlreadyInView = rect.top < window.innerHeight * 0.75 && rect.bottom > 0;
 
     let tween: gsap.core.Tween;
     if (isAlreadyInView) {
-      tween = gsap.fromTo(el, fromVars, toVars);
+      tween = gsap.fromTo(targets, fromVars, toVars);
     } else {
+      // Gatilho em top 76%: o elemento entra perceptivelmente no campo visual antes de completar a animação
       toVars.scrollTrigger = {
         trigger: el,
-        start: "top 88%",
+        start: "top 76%",
         once: once,
         toggleActions: once ? "play none none none" : "play none none reverse",
       };
-      tween = gsap.fromTo(el, fromVars, toVars);
+      tween = gsap.fromTo(targets, fromVars, toVars);
     }
 
     return () => {
@@ -124,7 +167,7 @@ export function RevealSection({
       }
       tween.kill();
     };
-  }, [delay, duration, once, variant]);
+  }, [childSelector, delay, duration, once, stagger, variant]);
 
   return (
     <div ref={elementRef} className={className}>
