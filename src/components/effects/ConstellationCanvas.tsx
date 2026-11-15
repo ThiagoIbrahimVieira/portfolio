@@ -228,18 +228,24 @@ export function ConstellationCanvas({
       const activeHoverId = hoverRef.current;
       const mouse = mousePosRef.current;
 
-      // 1. Atualiza posições orbitais com física suave
+      // 1. Atualiza posições orbitais com física suave e contenção estrita nas bordas
       const nodes = nodesRef.current;
       const nodeMap = new Map(nodes.map((n) => [n.id, n]));
+
+      // Cálculo adaptativo seguro para garantir que NENHUM nó seja cortado nas bordas
+      const safeRadiusX = Math.max(120, (width - 220) / 2);
+      const safeRadiusY = Math.max(110, (height - 160) / 2);
+      const safeProjectRadius = Math.min(safeRadiusX, safeRadiusY * 1.02);
+      const safeStackRadius = safeProjectRadius * 0.42;
 
       nodes.forEach((n) => {
         // Velocidade orbital suave, estável e uniforme (sem oscilação radial)
         const speed = n.kind === "project" ? 0.00014 : 0.00009;
         const currentAngle = n.baseAngle + accumulatedOrbitTime * speed;
-        const currentRadius = minDim * n.baseRadius;
+        const currentRadius = n.kind === "project" ? safeProjectRadius : safeStackRadius;
 
         let targetX = cx + Math.cos(currentAngle) * currentRadius;
-        let targetY = cy + Math.sin(currentAngle) * (currentRadius * 0.85);
+        let targetY = cy + Math.sin(currentAngle) * (currentRadius * 0.80);
 
         // Se o mouse estiver sobre este nó específico, leve atração magnética centrada
         if (mouse && activeHoverId === n.id) {
@@ -392,7 +398,8 @@ export function ConstellationCanvas({
           ctx.fillStyle = "#a1a1aa";
         }
 
-        ctx.fillText(n.label, n.x, n.y + radius + 14);
+        const labelY = n.y > height - 55 ? n.y - radius - 8 : n.y + radius + 14;
+        ctx.fillText(n.label, n.x, labelY);
         ctx.shadowBlur = 0;
       });
 
@@ -450,25 +457,7 @@ export function ConstellationCanvas({
         const dy = n.y - y;
         if (Math.sqrt(dx * dx + dy * dy) <= n.r + 14) {
           if (n.kind === "project") {
-            const card = document.getElementById(`project-${n.id}`);
-            if (card) {
-              const lenis = (window as unknown as { __lenis?: { scrollTo: (target: HTMLElement | string, opts?: { offset?: number }) => void } }).__lenis;
-              if (lenis && typeof lenis.scrollTo === "function") {
-                lenis.scrollTo(card, { offset: -90 });
-              } else {
-                const y = card.getBoundingClientRect().top + window.scrollY - 90;
-                window.scrollTo({ top: y, behavior: "smooth" });
-              }
-              // Destaque visual pulsante no card destino
-              card.animate(
-                [
-                  { boxShadow: "0 0 0px #fbbf24", borderColor: "rgba(251, 191, 36, 0.4)", transform: "scale(1)" },
-                  { boxShadow: "0 0 35px #fbbf24", borderColor: "#fbbf24", transform: "scale(1.025)" },
-                  { boxShadow: "0 0 0px #fbbf24", borderColor: "rgba(251, 191, 36, 0.4)", transform: "scale(1)" },
-                ],
-                { duration: 1500, easing: "ease-out" }
-              );
-            } else if (onSelectProject) {
+            if (onSelectProject) {
               onSelectProject(n.id);
             }
           }
@@ -491,7 +480,7 @@ export function ConstellationCanvas({
   }, [shouldRenderHeavy, isMobile, initialNodes, initialEdges, containerRef]);
 
   return (
-    <div ref={containerRef} className="relative w-full h-full min-h-[420px] select-none">
+    <div ref={containerRef} className="relative w-full h-[520px] md:h-[580px] select-none">
       {isMobile ? (
         /* Versão Mobile (< 768px): Card dinâmico leve a 60 FPS */
         <div className="flex flex-col items-center justify-center p-6 text-center border-2 border-zinc-800 rounded-lg bg-zinc-950/80">
@@ -564,7 +553,7 @@ export function ConstellationCanvas({
 
               {hoveredNode.kind === "project" && (
                 <div className="mt-2 pt-2 border-t border-zinc-800 text-[10px] font-mono text-[#fbbf24] font-bold flex items-center gap-1">
-                  <span>▸ CLIQUE NO NÓ PARA ROLAR ATÉ O PROJETO ↓</span>
+                  <span>▸ CLIQUE PARA ABRIR O PROJETO & REPOSITÓRIO ↗</span>
                 </div>
               )}
             </div>

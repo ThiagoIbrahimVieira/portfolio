@@ -1,4 +1,4 @@
-# Thiago Ibrahim Vieira // Portfólio & Diário de Bordo
+# Thiago Ibrahim Portifolio // Diário de Bordo
 
 > **Street-Tech & Creative Brutalism** — Consola de telemetria pessoal e mostruário de engenharia de software de **Thiago Ibrahim Vieira (Thiago TT)**.
 >

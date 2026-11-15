@@ -29,12 +29,12 @@ const geist = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "Thiago Ibrahim (TT) — Software Engineer & Systems Builder",
+  title: "Thiago Ibrahim Portifolio",
   description:
     "Portfólio de Engenharia de Software de Thiago Ibrahim Vieira. CodeAtlas, WhatsApp Auto Sticker, InterviewAI, Wasper (CUDA float16) e sistemas reais.",
-  metadataBase: new URL("https://example.com"),
+  metadataBase: new URL("https://portfolio-tt-seven.vercel.app"),
   openGraph: {
-    title: "Thiago Ibrahim (TT) — Software Engineer",
+    title: "Thiago Ibrahim Portifolio",
     description: "Portfólio de engenharia: TypeScript, C++, CUDA float16, React 19 e sistemas locais.",
     type: "website",
   },

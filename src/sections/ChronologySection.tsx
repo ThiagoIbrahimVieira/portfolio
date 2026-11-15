@@ -57,7 +57,7 @@ export function ChronologySection() {
               </div>
             </div>
 
-            <div className="min-h-[440px] relative">
+            <div className="w-full h-[520px] md:h-[580px] relative">
               <ConstellationCanvas
                 onSelectProject={(id) => {
                   const found = siteData.projects.find((p) => p.id === id);

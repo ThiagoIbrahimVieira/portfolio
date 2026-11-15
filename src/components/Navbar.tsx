@@ -41,7 +41,7 @@ export function Navbar() {
           <span className="w-8 h-8 rounded bg-[#fbbf24] text-black font-bold flex items-center justify-center text-sm shadow-[2px_2px_0px_#ffffff]">
             TT
           </span>
-          <span className="hidden sm:inline">THIAGO IBRAHIM</span>
+          <span className="hidden sm:inline">THIAGO IBRAHIM PORTIFOLIO</span>
         </a>
 
         <nav aria-label="Navegação principal" className="hidden md:flex items-center gap-7">
