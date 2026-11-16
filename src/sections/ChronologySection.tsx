@@ -16,11 +16,11 @@ export function ChronologySection() {
   const otherProjects = siteData.projects.filter((p) => !p.isFeaturedPillar);
 
   return (
-    <section id="projetos" aria-labelledby="projetos-heading" className="relative z-10 py-14 md:py-20 bg-transparent">
+    <section id="projetos" aria-labelledby="projetos-heading" className="relative z-10 py-8 md:py-14 bg-transparent">
       <div className="mx-auto max-w-7xl px-6 md:px-12">
         {/* Section Header */}
         <RevealSection>
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 pb-4 border-b border-zinc-800">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6 pb-3 border-b border-zinc-800">
             <div>
               <span className="font-handwriting text-[#fbbf24] text-xl md:text-2xl block mb-1">
                 {"// 4 obras reais de engenharia"}
@@ -38,7 +38,7 @@ export function ChronologySection() {
 
         {/* 1. Constellation Graph Card - Topologia Dinâmica */}
         <RevealSection delay={0.1} variant="scale-up">
-          <figure className="bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-6 md:p-8 mb-10 md:mb-12 shadow-[6px_6px_0px_#000000] relative overflow-hidden group">
+          <figure className="bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-5 md:p-6 mb-6 md:mb-8 shadow-[6px_6px_0px_#000000] relative overflow-hidden group">
             {/* Ambient Backlight Glow */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-24 bg-gradient-to-b from-amber-500/10 via-cyan-500/5 to-transparent blur-2xl pointer-events-none" />
 

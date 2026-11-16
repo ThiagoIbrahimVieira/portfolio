@@ -4,10 +4,10 @@ import { RevealSection } from "@/components/effects/RevealSection";
 
 export function JournalSection() {
   return (
-    <section id="jornada" aria-labelledby="jornada-heading" className="relative z-10 py-14 md:py-20 bg-transparent">
+    <section id="jornada" aria-labelledby="jornada-heading" className="relative z-10 py-8 md:py-14 bg-transparent">
       <div className="mx-auto max-w-7xl px-6 md:px-12">
         <RevealSection>
-          <div className="text-center mb-10">
+          <div className="text-center mb-6 md:mb-8">
             <span className="font-handwriting text-[#fbbf24] text-xl md:text-2xl block mb-1">
               {"// log de evolução contínua"}
             </span>
@@ -24,12 +24,12 @@ export function JournalSection() {
           {/* Coluna da Linha do Tempo */}
           <div className="lg:col-span-7 min-w-0">
             <RevealSection delay={0.15}>
-              <div className="bg-[#141418] border border-zinc-800 rounded-lg p-6 md:p-8 relative shadow-[4px_4px_0px_#000000] min-w-0">
+              <div className="bg-[#141418] border border-zinc-800 rounded-lg p-5 md:p-6 relative shadow-[4px_4px_0px_#000000] min-w-0">
                 {/* Tape on top */}
                 <div className="tape-strip top-[-10px] left-12 w-28" />
 
-                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-zinc-800">
-                  <span className="w-10 h-10 rounded-full bg-[#fbbf24] text-black font-display text-xl flex items-center justify-center font-bold shrink-0">
+                <div className="flex items-center gap-3 mb-4 pb-3 border-b border-zinc-800">
+                  <span className="w-9 h-9 rounded-full bg-[#fbbf24] text-black font-display text-lg flex items-center justify-center font-bold shrink-0">
                     TT
                   </span>
                   <div className="min-w-0">
@@ -38,7 +38,7 @@ export function JournalSection() {
                   </div>
                 </div>
 
-                <div className="space-y-6 md:space-y-7">
+                <div className="space-y-4 md:space-y-4.5">
                   {siteData.journey.map((j, i) => (
                     <RevealSection key={j.year} delay={0.08 * i} variant="slide-left">
                       <div className="flex gap-4 items-start group">
@@ -73,13 +73,13 @@ export function JournalSection() {
 
           {/* Coluna da Foto de Perfil / Trajetória */}
           <div className="lg:col-span-5 flex flex-col items-center min-w-0 w-full">
-            <RevealSection delay={0.25} variant="scale-up" className="w-full max-w-md mx-auto">
-              <div className="w-full bg-[#141418] border-2 border-zinc-700 rounded-xl p-6 relative shadow-[6px_6px_0px_#000000] min-w-0">
+            <RevealSection delay={0.25} variant="scale-up" className="w-full max-w-[340px] md:max-w-sm mx-auto">
+              <div className="w-full bg-[#141418] border-2 border-zinc-700 rounded-xl p-4 sm:p-5 relative shadow-[6px_6px_0px_#000000] min-w-0">
                 <div className="tape-strip top-[-10px] right-8 w-44 bg-amber-500/30 text-amber-200 border-amber-400/50 text-center flex items-center justify-center font-mono text-[10px] font-bold">
                   AUTOR // 1º TÉCNICO EM INFORMÁTICA
                 </div>
 
-                <div className="relative aspect-[4/5] w-full rounded-lg overflow-hidden border border-zinc-700 shadow-inner mb-6 bg-zinc-950 group">
+                <div className="relative aspect-[4/5] w-full rounded-lg overflow-hidden border border-zinc-700 shadow-inner mb-4 bg-zinc-950 group">
                   <Image
                     src="/images/thiago-about.png"
                     alt="Thiago Ibrahim Vieira — 1º Técnico em Informática na ETEC de Itapevi"
@@ -89,10 +89,10 @@ export function JournalSection() {
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <h3 className="font-display text-2xl text-white">THIAGO IBRAHIM VIEIRA</h3>
-                  <p className="font-mono text-xs text-[#fbbf24]">16 ANOS · ETEC DE ITAPEVI · 1º TÉCNICO EM INFORMÁTICA</p>
-                  <p className="font-sans text-xs text-zinc-400 leading-relaxed italic pt-2 border-t border-zinc-800">
+                <div className="space-y-1.5">
+                  <h3 className="font-display text-xl sm:text-2xl text-white">THIAGO IBRAHIM VIEIRA</h3>
+                  <p className="font-mono text-[11px] sm:text-xs text-[#fbbf24]">16 ANOS · ETEC DE ITAPEVI · 1º TÉCNICO EM INFORMÁTICA</p>
+                  <p className="font-sans text-xs text-zinc-400 leading-relaxed italic pt-1.5 border-t border-zinc-800">
                     &ldquo;Eu releio e audito todo código que os agentes geram. IA é braço de engenharia, nunca substituto do raciocínio humano.&rdquo;
                   </p>
                 </div>

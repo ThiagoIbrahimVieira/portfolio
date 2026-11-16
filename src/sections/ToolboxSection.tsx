@@ -26,10 +26,10 @@ const groups = [
 
 export function ToolboxSection() {
   return (
-    <section id="arsenal" aria-labelledby="arsenal-heading" className="relative z-10 py-14 md:py-20 bg-transparent">
+    <section id="arsenal" aria-labelledby="arsenal-heading" className="relative z-10 py-8 md:py-14 bg-transparent">
       <div className="mx-auto max-w-7xl px-6 md:px-12">
         <RevealSection>
-          <div className="text-center mb-10">
+          <div className="text-center mb-6 md:mb-8">
             <div className="inline-block">
               <span className="font-handwriting text-[#fbbf24] text-xl md:text-2xl rotate-[-2deg] block mb-1">
                 {"// inventário de combate"}
@@ -47,17 +47,17 @@ export function ToolboxSection() {
         <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
           {groups.map((g, idx) => (
             <RevealSection key={g.name} delay={0.12 * idx} variant="scale-up" className="min-w-0">
-              <div className="bg-[#141418] border border-zinc-800 p-6 rounded-lg relative overflow-hidden shadow-[4px_4px_0px_#000000] hover:border-zinc-500 hover:shadow-[4px_4px_0px_#fbbf24] transition-all duration-200 group min-w-0">
-                <div className="flex flex-wrap items-center justify-between gap-2 mb-6 pb-3 border-b border-zinc-800">
+              <div className="bg-[#141418] border border-zinc-800 p-5 md:p-6 rounded-lg relative overflow-hidden shadow-[4px_4px_0px_#000000] hover:border-zinc-500 hover:shadow-[4px_4px_0px_#fbbf24] transition-all duration-200 group min-w-0">
+                <div className="flex flex-wrap items-center justify-between gap-2 mb-4 pb-2.5 border-b border-zinc-800">
                   <h3 className="font-display text-xl text-white tracking-wide group-hover:text-amber-300 transition-colors min-w-0 truncate">{g.name}</h3>
                   <span className="text-[11px] font-mono font-bold text-[#fbbf24] px-2 py-0.5 bg-zinc-900 border border-zinc-700 rounded shrink-0">
                     {g.badge}
                   </span>
                 </div>
 
-                <ul className="space-y-4">
+                <ul className="space-y-3">
                   {g.items.map((a) => (
-                    <li key={a.name} className="flex flex-col gap-1.5 border-b border-zinc-800/60 pb-3 hover:border-zinc-700 transition-colors group/item min-w-0">
+                    <li key={a.name} className="flex flex-col gap-1 border-b border-zinc-800/60 pb-2.5 hover:border-zinc-700 transition-colors group/item min-w-0">
                       <div className="flex items-center justify-between gap-2 min-w-0">
                         <span className="font-mono text-sm font-bold text-white group-hover/item:text-[#fbbf24] group-hover/item:translate-x-1 transition-all inline-block min-w-0">
                           {a.name}
