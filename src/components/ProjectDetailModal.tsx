@@ -1,14 +1,12 @@
 "use client";
 
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink, X, Check, Copy, Terminal, Cpu, ShieldCheck } from "lucide-react";
 import { GithubIcon } from "@/components/icons/GithubIcon";
 import type { Project } from "@/types/site";
-
-const emptySubscribe = () => () => {};
 
 interface ProjectDetailModalProps {
   project: Project | null;
@@ -97,7 +95,11 @@ const PROJECT_PIPELINES: Record<string, { flow: string[]; highlights: string }> 
 
 export function ProjectDetailModal({ project, onClose }: ProjectDetailModalProps) {
   const [copied, setCopied] = useState(false);
-  const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!project) return;

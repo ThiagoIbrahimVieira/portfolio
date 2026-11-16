@@ -1,10 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { animate } from "animejs";
 import { Terminal, Layers, Cpu, Compass } from "lucide-react";
 import { GithubIcon } from "@/components/icons/GithubIcon";
-import { siteData } from "@/data/site";
 
 interface DockItem {
   id: string;
@@ -19,7 +17,7 @@ const dockItems: DockItem[] = [
   { id: "projetos", label: "Projetos", href: "#projetos", icon: Layers },
   { id: "arsenal", label: "Stack", href: "#arsenal", icon: Cpu },
   { id: "jornada", label: "Log", href: "#jornada", icon: Compass },
-  { id: "github", label: "Code", href: siteData.contact.github, icon: GithubIcon, isExternal: true },
+  { id: "github", label: "Code", href: "https://github.com/thiago-ibrahim", icon: GithubIcon, isExternal: true },
 ];
 
 export function FloatingBottomDock() {
@@ -48,23 +46,6 @@ export function FloatingBottomDock() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleItemClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, isExternal?: boolean) => {
-    if (isExternal || !href.startsWith("#")) return;
-    e.preventDefault();
-    const targetId = href.slice(1);
-    const target = document.getElementById(targetId);
-    if (!target) return;
-
-    setActive(targetId);
-    const y = target.getBoundingClientRect().top + window.scrollY - 70;
-    const scrollElement = document.scrollingElement || document.documentElement || document.body;
-    animate(scrollElement, {
-      scrollTop: y,
-      duration: 650,
-      ease: "outExpo",
-    });
-  };
-
   return (
     <aside
       aria-label="Navegação móvel tátil"
@@ -79,7 +60,6 @@ export function FloatingBottomDock() {
             <a
               key={item.id}
               href={item.href}
-              onClick={(e) => handleItemClick(e, item.href, item.isExternal)}
               target={item.isExternal ? "_blank" : undefined}
               rel={item.isExternal ? "noopener noreferrer" : undefined}
               aria-label={item.label}

@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 import Lenis from "lenis";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
 
 export function SmoothScroll() {
   useEffect(() => {
@@ -22,39 +21,15 @@ export function SmoothScroll() {
 
     (window as unknown as { __lenis?: Lenis }).__lenis = lenis;
 
-    // Conectar Lenis ao ScrollTrigger do GSAP
-    lenis.on("scroll", ScrollTrigger.update);
-
-    const tickerUpdate = (time: number) => {
-      lenis.raf(time * 1000);
-    };
-
-    gsap.ticker.add(tickerUpdate);
-    gsap.ticker.lagSmoothing(500, 33);
-
-    // Refresh no ScrollTrigger quando as fontes Google terminarem de carregar
-    if (typeof document !== "undefined" && document.fonts) {
-      document.fonts.ready.then(() => {
-        ScrollTrigger.refresh();
-      });
+    let rafId: number;
+    function raf(time: number) {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
     }
-
-    // Observa mudanças de altura do documento (imagens carregando, expansão dinâmica)
-    const resizeObserver = new ResizeObserver(() => {
-      ScrollTrigger.refresh();
-    });
-    if (document.body) {
-      resizeObserver.observe(document.body);
-    }
-
-    const refreshTimer = setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 600);
+    rafId = requestAnimationFrame(raf);
 
     return () => {
-      resizeObserver.disconnect();
-      clearTimeout(refreshTimer);
-      gsap.ticker.remove(tickerUpdate);
+      cancelAnimationFrame(rafId);
       lenis.destroy();
       delete (window as unknown as { __lenis?: Lenis }).__lenis;
     };

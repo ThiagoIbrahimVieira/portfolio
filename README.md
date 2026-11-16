@@ -1,8 +1,8 @@
-# Portifolio Thiago Ibrahim // Diário de Bordo
+# Thiago Ibrahim Portifolio // Diário de Bordo
 
 > **Street-Tech & Creative Brutalism** — Consola de telemetria pessoal e mostruário de engenharia de software de **Thiago Ibrahim Vieira (Thiago TT)**.
 >
-> 🌐 **Deploy no ar:** [portifolio-thiago-ibrahim.vercel.app](https://portifolio-thiago-ibrahim.vercel.app) (também disponível em [portfolio-thiago-ibrahim.vercel.app](https://portfolio-thiago-ibrahim.vercel.app))  
+> 🌐 **Deploy no ar:** [portfolio-tt-seven.vercel.app](https://portfolio-tt-seven.vercel.app)  
 > 🔗 **GitHub:** [github.com/ThiagoIbrahimVieira](https://github.com/ThiagoIbrahimVieira)  
 > 📍 **Localização:** Itapevi / Grande São Paulo — SP  
 > 🎓 **Formação:** 1º Técnico em Informática — ETEC de Itapevi  

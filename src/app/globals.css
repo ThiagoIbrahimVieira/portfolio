@@ -80,17 +80,6 @@ body::before {
   will-change: transform;
 }
 
-/* Otimização Mobile: evita recomposição contínua de camadas com will-change e textura repetida no touch scroll */
-@media (max-width: 768px) {
-  body::before {
-    transform: none;
-    will-change: auto;
-    background-image: linear-gradient(to bottom, rgba(10, 10, 12, 0.92), rgba(10, 10, 12, 0.98));
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-  }
-}
-
 /* Tipografia utilitária */
 .font-display {
   font-family: var(--font-display);
@@ -270,15 +259,5 @@ html.lenis, html.lenis body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-}
-
-/* Print & Full-Page Capture Safeguard */
-@media print {
-  *, *::before, *::after {
-    opacity: 1 !important;
-    transform: none !important;
-    filter: none !important;
-    visibility: visible !important;
   }
 }

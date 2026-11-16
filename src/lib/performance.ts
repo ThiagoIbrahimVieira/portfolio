@@ -43,11 +43,5 @@ export function usePerformanceVisibility(threshold = 0.1) {
     };
   }, [threshold]);
 
-  return {
-    containerRef,
-    isVisible,
-    isMobile,
-    shouldRenderHeavy: isVisible && !isMobile,
-    shouldRenderLight: isVisible,
-  };
+  return { containerRef, isVisible, isMobile, shouldRenderHeavy: isVisible && !isMobile };
 }

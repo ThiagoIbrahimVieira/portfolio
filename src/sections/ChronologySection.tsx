@@ -4,11 +4,10 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import { siteData } from "@/data/site";
 import { ConstellationCanvas } from "@/components/effects/ConstellationCanvas";
-import { RevealSection, type AnimationVariant } from "@/components/effects/RevealSection";
+import { RevealSection } from "@/components/effects/RevealSection";
 import { ProjectDetailModal } from "@/components/ProjectDetailModal";
-import { ExternalLink, Sparkles } from "lucide-react";
+import { ExternalLink, Sparkles, ArrowUpRight } from "lucide-react";
 import { GithubIcon } from "@/components/icons/GithubIcon";
-import { ParallaxWatermark } from "@/components/effects/ParallaxWatermark";
 import type { Project } from "@/types/site";
 
 export function ChronologySection() {
@@ -17,14 +16,11 @@ export function ChronologySection() {
   const otherProjects = siteData.projects.filter((p) => !p.isFeaturedPillar);
 
   return (
-    <section id="projetos" aria-labelledby="projetos-heading" className="relative z-10 py-10 sm:py-14 md:py-32 bg-transparent overflow-hidden">
-      {/* Parallax Watermark de Fundo */}
-      <ParallaxWatermark number="01" label="CORE // PROJETOS NUCLEARES" position="right" speed={55} />
-
-      <div className="mx-auto max-w-7xl px-6 md:px-12 relative z-10">
+    <section id="projetos" aria-labelledby="projetos-heading" className="relative z-10 py-24 md:py-32 bg-transparent">
+      <div className="mx-auto max-w-7xl px-6 md:px-12">
         {/* Section Header */}
-        <RevealSection variant="blur-fade" duration={0.95}>
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-12 md:mb-16 pb-6 border-b border-zinc-800">
+        <RevealSection>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 pb-6 border-b border-zinc-800">
             <div>
               <span className="font-handwriting text-[#fbbf24] text-xl md:text-2xl block mb-1">
                 {"// 4 obras reais de engenharia"}
@@ -41,8 +37,8 @@ export function ChronologySection() {
         </RevealSection>
 
         {/* 1. Constellation Graph Card - Topologia Dinâmica */}
-        <RevealSection variant="card-expand" delay={0.15} duration={1.0}>
-          <figure className="bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-4 sm:p-6 md:p-8 mb-8 md:mb-16 shadow-[6px_6px_0px_#000000] relative overflow-hidden group">
+        <RevealSection delay={0.1}>
+          <figure className="bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-6 md:p-8 mb-20 shadow-[6px_6px_0px_#000000] relative overflow-hidden group">
             {/* Ambient Backlight Glow */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-24 bg-gradient-to-b from-amber-500/10 via-cyan-500/5 to-transparent blur-2xl pointer-events-none" />
 
@@ -61,7 +57,7 @@ export function ChronologySection() {
               </div>
             </div>
 
-            <div className="w-full h-[280px] sm:h-[380px] md:h-[540px] relative">
+            <div className="w-full h-[520px] md:h-[580px] relative">
               <ConstellationCanvas
                 onSelectProject={(id) => {
                   const found = siteData.projects.find((p) => p.id === id);
@@ -77,41 +73,33 @@ export function ChronologySection() {
           </figure>
         </RevealSection>
 
-        {/* 2. Mobile Snap-to-Card Carousel (< 768px) com rolagem fluida e snap */}
-        <div className="block md:hidden mb-8 sm:mb-12 md:mb-16">
+        {/* 2. Mobile Snap-to-Card Carousel (< 768px) */}
+        <div className="block md:hidden mb-16">
           <p className="text-xs font-mono text-zinc-400 mb-3 flex items-center gap-1.5">
-            <span className="text-[#fbbf24]">◀ ▶</span> Deslize para navegar pelos 4 cards nucleares
+            <span className="text-[#fbbf24]">◀ ▶</span> Deslize para navegar pelos 4 cards nucleares (Snap 60 FPS)
           </p>
-          <div className="flex overflow-x-auto gap-4 pb-4 -mx-4 px-4 snap-x snap-mandatory scrollbar-none">
+          <div className="flex overflow-x-auto snap-x snap-mandatory gap-5 pb-6 -mx-6 px-6 scrollbar-none touch-pan-x">
             {featuredProjects.map((p) => (
-              <div key={p.id} className="shrink-0 w-[84vw] max-w-[340px] snap-center">
-                <ProjectStreetCard project={p} onSelect={setSelectedProject} idPrefix="project-mobile" />
+              <div key={p.id} className="snap-center shrink-0 w-[86vw] max-w-sm">
+                <ProjectStreetCard project={p} onSelect={setSelectedProject} />
               </div>
             ))}
           </div>
         </div>
 
-        {/* Desktop Grid Layout com 3D Tilt e Entrada Alternada com Stagger Real */}
+        {/* Desktop Grid Layout com 3D Tilt */}
         <div className="hidden md:grid md:grid-cols-2 gap-8 mb-20">
-          {featuredProjects.map((p, idx) => {
-            const isLeft = idx % 2 === 0;
-            return (
-              <RevealSection
-                key={p.id}
-                delay={0.15 * idx}
-                variant={isLeft ? "fade-left" : "fade-right"}
-                duration={0.85}
-              >
-                <ProjectStreetCard project={p} onSelect={setSelectedProject} idPrefix="project-desktop" />
-              </RevealSection>
-            );
-          })}
+          {featuredProjects.map((p, idx) => (
+            <RevealSection key={p.id} delay={0.15 * idx}>
+              <ProjectStreetCard project={p} onSelect={setSelectedProject} />
+            </RevealSection>
+          ))}
         </div>
 
         {/* Supporting Projects Archive com o MESMO visual Street-Tech (Imagem 4) */}
         {otherProjects.length > 0 && (
-          <div className="mt-20 pt-16 border-t border-zinc-800">
-            <RevealSection variant="blur-fade" duration={0.6}>
+          <RevealSection delay={0.2}>
+            <div className="mt-20 pt-16 border-t border-zinc-800">
               <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10 pb-4 border-b border-zinc-800/80">
                 <div>
                   <span className="font-handwriting text-[#fbbf24] text-xl block mb-1 select-none">
@@ -126,25 +114,17 @@ export function ChronologySection() {
                   <span>{otherProjects.length} REPOSITÓRIOS AUDITADOS</span>
                 </div>
               </div>
-            </RevealSection>
 
-            {/* Grid idêntico aos cards nucleares com 3D tilt, fita adesiva e stagger alternado */}
-            <div className="grid md:grid-cols-3 gap-8">
-              {otherProjects.map((p, idx) => {
-                const variants: AnimationVariant[] = ["fade-left", "card-expand", "fade-right"];
-                return (
-                  <RevealSection
-                    key={p.id}
-                    delay={0.15 * idx}
-                    variant={variants[idx % variants.length]}
-                    duration={0.8}
-                  >
-                    <ProjectStreetCard project={p} onSelect={setSelectedProject} idPrefix="project-support" />
+              {/* Grid idêntico aos cards nucleares com 3D tilt, fita adesiva e sticker badges */}
+              <div className="grid md:grid-cols-3 gap-8">
+                {otherProjects.map((p, idx) => (
+                  <RevealSection key={p.id} delay={0.12 * idx} variant="scale-up">
+                    <ProjectStreetCard project={p} onSelect={setSelectedProject} />
                   </RevealSection>
-                );
-              })}
+                ))}
+              </div>
             </div>
-          </div>
+          </RevealSection>
         )}
         {/* Modal de Detalhes Técnicos & Repositório */}
         <ProjectDetailModal
@@ -159,11 +139,9 @@ export function ChronologySection() {
 function ProjectStreetCard({
   project,
   onSelect,
-  idPrefix = "project-desktop",
 }: {
   project: Project;
   onSelect: (p: Project) => void;
-  idPrefix?: string;
 }) {
   const isCaution = project.tapeStyle === "caution";
   const isBlueprint = project.tapeStyle === "blueprint";
@@ -193,8 +171,7 @@ function ProjectStreetCard({
 
   return (
     <article
-      id={`${idPrefix}-${project.id}`}
-      data-project-id={project.id}
+      id={`project-${project.id}`}
       ref={cardRef}
       onClick={() => onSelect(project)}
       onMouseMove={handleMouseMove}
@@ -203,44 +180,44 @@ function ProjectStreetCard({
       style={{
         transform: isHover
           ? `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale3d(1.02, 1.02, 1.02)`
-          : "none",
+          : "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)",
         transition: isHover ? "transform 0.1s ease-out" : "transform 0.4s ease-out",
       }}
-      className="bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-4 sm:p-6 md:p-8 relative flex flex-col justify-between shadow-[6px_6px_0px_#000000] hover:border-amber-400/80 transition-colors group overflow-visible scroll-mt-28 cursor-pointer"
+      className="bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-6 md:p-8 relative flex flex-col justify-between shadow-[6px_6px_0px_#000000] hover:border-amber-400/80 transition-colors group overflow-hidden scroll-mt-28 cursor-pointer"
     >
       {/* Specular Glare Effect on Hover */}
       {isHover && (
         <div
-          className="pointer-events-none absolute inset-0 z-10 rounded-xl transition-opacity duration-200 overflow-hidden"
+          className="pointer-events-none absolute inset-0 z-10 rounded-xl transition-opacity duration-200"
           style={{
             background: `radial-gradient(circle at ${tilt.glareX}% ${tilt.glareY}%, rgba(251, 191, 36, 0.08) 0%, transparent 60%)`,
           }}
         />
       )}
 
-      {/* Tape Effect Personalizado por Projeto - Inclinado na pontinha direita */}
+      {/* Tape Effect Personalizado por Projeto */}
       {isCaution ? (
-        <div className="tape-strip tape-caution -top-3.5 -right-2.5 sm:-top-4 sm:-right-3 w-32 text-center flex items-center justify-center font-mono text-[10px] font-bold z-20 rotate-[5deg] shadow-md">
+        <div className="tape-strip tape-caution top-[-10px] right-6 w-32 text-center flex items-center justify-center font-mono text-[10px] font-bold">
           CUDA // LOCAL
         </div>
       ) : isBlueprint ? (
-        <div className="tape-strip -top-3.5 -right-2.5 sm:-top-4 sm:-right-3 w-28 bg-cyan-900/60 text-cyan-200 border-cyan-400/60 text-center flex items-center justify-center font-mono text-[10px] font-bold z-20 rotate-[5deg] shadow-md">
+        <div className="tape-strip top-[-10px] right-6 w-28 bg-cyan-900/50 text-cyan-200 border-cyan-400/50 text-center flex items-center justify-center font-mono text-[10px] font-bold">
           AST // GRAPH
         </div>
       ) : project.id === "spacesweep" ? (
-        <div className="tape-strip -top-3.5 -right-2.5 sm:-top-4 sm:-right-3 w-28 bg-cyan-900/60 text-cyan-200 border-cyan-400/60 text-center flex items-center justify-center font-mono text-[10px] font-bold z-20 rotate-[5deg] shadow-md">
+        <div className="tape-strip top-[-10px] right-6 w-28 bg-cyan-900/50 text-cyan-200 border-cyan-400/50 text-center flex items-center justify-center font-mono text-[10px] font-bold">
           NTFS // READ
         </div>
       ) : project.id === "nordicos-tattoo" ? (
-        <div className="tape-strip -top-3.5 -right-2.5 sm:-top-4 sm:-right-3 w-28 bg-amber-500/40 text-amber-200 border-amber-400/60 text-center flex items-center justify-center font-mono text-[10px] font-bold z-20 rotate-[5deg] shadow-md">
+        <div className="tape-strip top-[-10px] right-6 w-28 bg-amber-500/30 text-amber-200 border-amber-400/50 text-center flex items-center justify-center font-mono text-[10px] font-bold">
           UI // SYSTEM
         </div>
       ) : project.id === "segundo-cerebro" ? (
-        <div className="tape-strip -top-3.5 -right-2.5 sm:-top-4 sm:-right-3 w-32 bg-purple-900/60 text-purple-200 border-purple-400/60 text-center flex items-center justify-center font-mono text-[10px] font-bold z-20 rotate-[5deg] shadow-md">
+        <div className="tape-strip top-[-10px] right-6 w-32 bg-purple-900/50 text-purple-200 border-purple-400/50 text-center flex items-center justify-center font-mono text-[10px] font-bold">
           AGENTS // CORE
         </div>
       ) : (
-        <div className="tape-strip -top-3.5 -right-2.5 sm:-top-4 sm:-right-3 w-24 bg-amber-500/40 text-amber-200 border-amber-400/60 text-center flex items-center justify-center font-mono text-[10px] font-bold z-20 rotate-[5deg] shadow-md">
+        <div className="tape-strip top-[-10px] right-6 w-24 bg-amber-500/30 text-amber-200 border-amber-400/50 text-center flex items-center justify-center font-mono text-[10px] font-bold">
           STREET // DEV
         </div>
       )}
@@ -248,64 +225,51 @@ function ProjectStreetCard({
       <div>
         {/* Project Visual Banner (If Available) */}
         {project.image && (
-          <div className="relative w-full aspect-[16/9] max-h-36 sm:max-h-48 md:max-h-none mb-3 md:mb-6 rounded-lg overflow-hidden border border-zinc-700 shadow-[4px_4px_0px_#000000] bg-zinc-950">
+          <div className="relative w-full aspect-[16/9] mb-6 rounded-lg overflow-hidden border border-zinc-700 shadow-[4px_4px_0px_#000000] bg-zinc-950">
             <Image
               src={project.image}
               alt={project.name}
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
+              className="object-cover group-hover:scale-105 transition-transform duration-500"
             />
           </div>
         )}
         {/* Status & Badge */}
-        {project.image ? (
-          <div className="flex flex-wrap items-center justify-between gap-2 mb-2 md:mb-3">
-            <span className="font-mono text-xs font-bold text-zinc-400 uppercase tracking-wider">
-              {project.statusLabel}
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <span className="font-mono text-xs font-bold text-zinc-400 uppercase tracking-wider">
+            {project.statusLabel}
+          </span>
+          {project.badgeSticker && (
+            <span className="badge-sticker bg-[#fbbf24] text-black border-black text-[11px] py-0.5">
+              {project.badgeSticker}
             </span>
-            {project.badgeSticker && (
-              <span className="badge-sticker bg-[#fbbf24] text-black border-black text-[11px] py-0.5">
-                {project.badgeSticker}
-              </span>
-            )}
-          </div>
-        ) : (
-          <div className="flex flex-col items-start gap-1.5 mb-3 pt-6 pr-28">
-            <span className="font-mono text-xs font-bold text-zinc-400 uppercase tracking-wider">
-              {project.statusLabel}
-            </span>
-            {project.badgeSticker && (
-              <span className="badge-sticker bg-[#fbbf24] text-black border-black text-[11px] py-0.5 self-start">
-                {project.badgeSticker}
-              </span>
-            )}
-          </div>
-        )}
+          )}
+        </div>
 
         {/* Project Title */}
-        <h3 className="font-display text-xl sm:text-2xl md:text-3xl text-white tracking-tight mb-1.5 md:mb-2 group-hover:text-amber-300 transition-colors">
+        <h3 className="font-display text-2xl md:text-3xl text-white tracking-tight mb-2 group-hover:text-amber-300 transition-colors">
           {project.name}
         </h3>
 
         {/* Handwritten Tagline */}
         {project.taglineHandwritten && (
-          <p className="font-handwriting text-[#fbbf24] text-sm sm:text-base md:text-lg mb-2 md:mb-4 select-none">
+          <p className="font-handwriting text-[#fbbf24] text-base md:text-lg mb-4 select-none">
             {project.taglineHandwritten}
           </p>
         )}
 
         {/* Vision Statement */}
-        <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed mb-3 md:mb-6 font-sans line-clamp-2 md:line-clamp-none">
+        <p className="text-sm text-zinc-300 leading-relaxed mb-6 font-sans">
           {project.vision}
         </p>
 
-        {/* Technical Bullets - Compactado no mobile */}
-        <ul className="space-y-1.5 md:space-y-2 mb-3 md:mb-6 text-xs text-zinc-400 font-sans">
-          {project.bullets.slice(0, 2).map((b, i) => (
-            <li key={i} className="flex items-start gap-1.5 md:gap-2">
+        {/* Technical Bullets */}
+        <ul className="space-y-2 mb-6 text-xs text-zinc-400 font-sans">
+          {project.bullets.map((b, i) => (
+            <li key={i} className="flex items-start gap-2">
               <span className="text-[#fbbf24] mt-0.5 select-none font-bold">▸</span>
-              <span className="line-clamp-1 md:line-clamp-none">{b}</span>
+              <span>{b}</span>
             </li>
           ))}
         </ul>
@@ -313,7 +277,7 @@ function ProjectStreetCard({
 
       <div>
         {/* Stack Pills */}
-        <div className="flex flex-wrap gap-1.5 mb-3 md:mb-6">
+        <div className="flex flex-wrap gap-1.5 mb-6">
           {project.stack.map((t, i) => (
             <span
               key={i}
@@ -325,7 +289,7 @@ function ProjectStreetCard({
         </div>
 
         {/* Real Metrics Grid */}
-        <div className="grid grid-cols-2 gap-2 md:gap-3 pt-3 md:pt-4 border-t border-zinc-800 bg-zinc-950/60 -mx-4 -mb-4 md:-mx-8 md:-mb-8 p-3 md:p-6 rounded-b-xl">
+        <div className="grid grid-cols-2 gap-3 pt-4 border-t border-zinc-800 bg-zinc-950/60 -mx-6 -mb-6 md:-mx-8 md:-mb-8 p-4 md:p-6 rounded-b-xl">
           {project.metrics.map((m, i) => (
             <div key={i} className="flex flex-col">
               <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
@@ -339,13 +303,13 @@ function ProjectStreetCard({
         </div>
 
         {/* Ações & Links */}
-        <div className="mt-3 md:mt-5 pt-2.5 md:pt-3 border-t border-zinc-800 flex flex-col gap-2">
+        <div className="mt-5 pt-3 border-t border-zinc-800 flex flex-col gap-2.5">
           <button
             onClick={(e) => {
               e.stopPropagation();
               onSelect(project);
             }}
-            className="w-full py-2 md:py-2.5 px-3 md:px-4 bg-zinc-900 hover:bg-[#fbbf24] hover:text-black border border-zinc-700 hover:border-black rounded-lg font-mono text-xs font-bold flex items-center justify-center gap-2 shadow-[2px_2px_0px_#000000] transition-all cursor-pointer"
+            className="w-full py-2.5 px-4 bg-zinc-900 hover:bg-[#fbbf24] hover:text-black border border-zinc-700 hover:border-black rounded-lg font-mono text-xs font-bold flex items-center justify-center gap-2 shadow-[2px_2px_0px_#000000] transition-all cursor-pointer"
           >
             <span>VER TELA DO PROJETO & REPO ↗</span>
           </button>

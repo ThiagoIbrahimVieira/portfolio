@@ -73,7 +73,7 @@ export function ConstellationCanvas({
 }: {
   onSelectProject?: (projectId: string) => void;
 } = {}) {
-  const { containerRef, shouldRenderLight } = usePerformanceVisibility(0.05);
+  const { containerRef, isMobile, shouldRenderHeavy } = usePerformanceVisibility(0.15);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [hoveredNode, setHoveredNode] = useState<Node | null>(null);
   const hoverRef = useRef<string | null>(null);
@@ -159,7 +159,7 @@ export function ConstellationCanvas({
   }, []);
 
   useEffect(() => {
-    if (!shouldRenderLight) return;
+    if (!shouldRenderHeavy || isMobile) return;
 
     const canvas = canvasRef.current;
     const container = containerRef.current;
@@ -171,15 +171,12 @@ export function ConstellationCanvas({
     let width = 0;
     let height = 0;
     let dpr = 1;
-    const isMobileScreen = window.innerWidth < 768;
-    const enableGlow = !isMobileScreen;
 
     const updateDimensions = () => {
       const rect = container.getBoundingClientRect();
       width = rect.width;
       height = rect.height;
-      if (width === 0 || height === 0) return;
-      dpr = isMobileScreen ? 1 : Math.min(window.devicePixelRatio || 1, 2);
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
       canvas.style.width = `${width}px`;
@@ -193,22 +190,21 @@ export function ConstellationCanvas({
     nodesRef.current = initialNodes.map((n) => ({ ...n }));
     edgesRef.current = [...initialEdges];
 
-    // Inicializa partículas de fótons viajando nas arestas (apenas no desktop para poupar CPU/GPU mobile)
+    // Inicializa partículas de fótons viajando nas arestas
     const particles: Particle[] = [];
-    if (!isMobileScreen) {
-      initialEdges.forEach((_, edgeIndex) => {
-        for (let p = 0; p < 2; p++) {
-          particles.push({
-            edgeIndex,
-            progress: Math.random(),
-            speed: 0.003 + Math.random() * 0.004,
-            size: 2.2 + Math.random() * 1.5,
-            color: p % 2 === 0 ? initialEdges[edgeIndex].colorA : initialEdges[edgeIndex].colorB,
-            reverse: p % 2 === 1,
-          });
-        }
-      });
-    }
+    initialEdges.forEach((_, edgeIndex) => {
+      const count = 2; // 2 pacotes por linha
+      for (let p = 0; p < count; p++) {
+        particles.push({
+          edgeIndex,
+          progress: Math.random(),
+          speed: 0.003 + Math.random() * 0.004,
+          size: 2.2 + Math.random() * 1.5,
+          color: p % 2 === 0 ? initialEdges[edgeIndex].colorA : initialEdges[edgeIndex].colorB,
+          reverse: p % 2 === 1,
+        });
+      }
+    });
     particlesRef.current = particles;
 
     let lastTime = performance.now();
@@ -228,6 +224,7 @@ export function ConstellationCanvas({
 
       const cx = width / 2;
       const cy = height / 2;
+      const minDim = Math.min(width, height);
       const activeHoverId = hoverRef.current;
       const mouse = mousePosRef.current;
 
@@ -235,14 +232,11 @@ export function ConstellationCanvas({
       const nodes = nodesRef.current;
       const nodeMap = new Map(nodes.map((n) => [n.id, n]));
 
-      // Cálculo adaptativo seguro para garantir que NENHUM nó seja cortado nas bordas (Desktop e Mobile)
-      const isMobileScreen = width < 640;
-      const marginX = isMobileScreen ? 48 : 200;
-      const marginY = isMobileScreen ? 36 : 150;
-      const safeRadiusX = Math.max(isMobileScreen ? 55 : 120, (width - marginX) / 2);
-      const safeRadiusY = Math.max(isMobileScreen ? 48 : 110, (height - marginY) / 2);
-      const safeProjectRadius = Math.min(safeRadiusX, safeRadiusY * (isMobileScreen ? 0.90 : 1.02));
-      const safeStackRadius = safeProjectRadius * (isMobileScreen ? 0.44 : 0.42);
+      // Cálculo adaptativo seguro para garantir que NENHUM nó seja cortado nas bordas
+      const safeRadiusX = Math.max(120, (width - 220) / 2);
+      const safeRadiusY = Math.max(110, (height - 160) / 2);
+      const safeProjectRadius = Math.min(safeRadiusX, safeRadiusY * 1.02);
+      const safeStackRadius = safeProjectRadius * 0.42;
 
       nodes.forEach((n) => {
         // Velocidade orbital suave, estável e uniforme (sem oscilação radial)
@@ -251,7 +245,7 @@ export function ConstellationCanvas({
         const currentRadius = n.kind === "project" ? safeProjectRadius : safeStackRadius;
 
         let targetX = cx + Math.cos(currentAngle) * currentRadius;
-        let targetY = cy + Math.sin(currentAngle) * (currentRadius * (isMobileScreen ? 0.85 : 0.80));
+        let targetY = cy + Math.sin(currentAngle) * (currentRadius * 0.80);
 
         // Se o mouse estiver sobre este nó específico, leve atração magnética centrada
         if (mouse && activeHoverId === n.id) {
@@ -264,14 +258,9 @@ export function ConstellationCanvas({
           }
         }
 
-        // Interpolação suave (lerp) - No mobile ou primeiro frame, posicionamento direto sem atraso
-        if (isMobileScreen || (n.x === 0 && n.y === 0)) {
-          n.x = targetX;
-          n.y = targetY;
-        } else {
-          n.x += (targetX - n.x) * 0.1;
-          n.y += (targetY - n.y) * 0.1;
-        }
+        // Interpolação suave (lerp)
+        n.x += (targetX - n.x) * 0.1;
+        n.y += (targetY - n.y) * 0.1;
       });
 
       // 2. Renderiza arestas de conexão com gradientes vivos
@@ -298,7 +287,7 @@ export function ConstellationCanvas({
           ctx.strokeStyle = grad;
           ctx.lineWidth = 2.4;
           ctx.shadowColor = a.color;
-          ctx.shadowBlur = enableGlow ? 10 : 0;
+          ctx.shadowBlur = 10;
         } else if (isConnectedToHover) {
           grad.addColorStop(0, `${a.color}aa`);
           grad.addColorStop(1, `${b.color}aa`);
@@ -340,7 +329,7 @@ export function ConstellationCanvas({
 
         ctx.fillStyle = isDirect ? "#ffffff" : p.color;
         ctx.shadowColor = p.color;
-        ctx.shadowBlur = enableGlow ? (isDirect ? 12 : 6) : 0;
+        ctx.shadowBlur = isDirect ? 12 : 6;
 
         ctx.beginPath();
         ctx.arc(px, py, pSize, 0, Math.PI * 2);
@@ -349,7 +338,7 @@ export function ConstellationCanvas({
       });
 
       // 4. Renderiza nós (Halos, Círculos e Rótulos)
-      nodes.forEach((n) => {
+      nodes.forEach((n, i) => {
         const isHover = activeHoverId === n.id;
         const isConnected =
           activeHoverId !== null &&
@@ -381,7 +370,7 @@ export function ConstellationCanvas({
         // Núcleo do nó
         ctx.fillStyle = isHover ? "#ffffff" : n.color;
         ctx.shadowColor = n.color;
-        ctx.shadowBlur = enableGlow ? (isHover ? 16 : 8) : 0;
+        ctx.shadowBlur = isHover ? 16 : 8;
         ctx.beginPath();
         ctx.arc(n.x, n.y, radius, 0, Math.PI * 2);
         ctx.fill();
@@ -394,22 +383,15 @@ export function ConstellationCanvas({
         ctx.arc(n.x, n.y, radius, 0, Math.PI * 2);
         ctx.stroke();
 
-        // Tipografia do rótulo adaptada para mobile e desktop
-        const isSmallScreen = width < 640;
-        const fontSize = isSmallScreen
-          ? isProject
-            ? (isHover ? 10.5 : 9)
-            : (isHover ? 8.5 : 7.5)
-          : isProject
-            ? (isHover ? 12 : 11)
-            : (isHover ? 10 : 9);
+        // Tipografia do rótulo
+        const fontSize = isProject ? (isHover ? 12 : 11) : (isHover ? 10 : 9);
         ctx.font = `${isHover ? "700 " : ""}${fontSize}px "JetBrains Mono", monospace`;
         ctx.textAlign = "center";
 
         if (isHover || isConnected) {
           ctx.fillStyle = "#ffffff";
           ctx.shadowColor = "#000000";
-          ctx.shadowBlur = enableGlow ? 4 : 0;
+          ctx.shadowBlur = 4;
         } else if (isProject) {
           ctx.fillStyle = "#e4e4e7";
         } else {
@@ -421,20 +403,13 @@ export function ConstellationCanvas({
         ctx.shadowBlur = 0;
       });
 
-      // No mobile (< 768px), o grafo é renderizado sob demanda (zero loop rAF contínuo para erradicar jank de scroll)
-      if (!isMobileScreen) {
-        animFrameRef.current = requestAnimationFrame(render);
-      }
+      animFrameRef.current = requestAnimationFrame(render);
     };
 
-    // Render inicial
-    render(performance.now());
+    animFrameRef.current = requestAnimationFrame(render);
 
     const onResize = () => {
       updateDimensions();
-      if (isMobileScreen) {
-        render(performance.now());
-      }
     };
     const ro = new ResizeObserver(onResize);
     ro.observe(container);
@@ -491,51 +466,9 @@ export function ConstellationCanvas({
       }
     };
 
-    const onTouchStart = (ev: TouchEvent) => {
-      if (ev.touches.length === 1) {
-        const touch = ev.touches[0];
-        const rect = container.getBoundingClientRect();
-        const x = touch.clientX - rect.left;
-        const y = touch.clientY - rect.top;
-        mousePosRef.current = { x, y };
-
-        let found: Node | null = null;
-        for (const n of nodesRef.current) {
-          const dx = n.x - x;
-          const dy = n.y - y;
-          if (Math.sqrt(dx * dx + dy * dy) <= n.r + 20) {
-            found = n;
-            break;
-          }
-        }
-
-        hoverRef.current = found ? found.id : null;
-        setHoveredNode(found);
-
-        if (isMobileScreen) {
-          render(performance.now());
-        }
-
-        if (found && found.kind === "project" && onSelectProject) {
-          onSelectProject(found.id);
-        }
-      }
-    };
-
-    const onTouchEnd = () => {
-      mousePosRef.current = null;
-      hoverRef.current = null;
-      setHoveredNode(null);
-      if (isMobileScreen) {
-        render(performance.now());
-      }
-    };
-
     container.addEventListener("mousemove", onMove);
     container.addEventListener("mouseleave", onLeave);
     container.addEventListener("click", onClick);
-    container.addEventListener("touchstart", onTouchStart, { passive: true });
-    container.addEventListener("touchend", onTouchEnd, { passive: true });
 
     return () => {
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
@@ -543,83 +476,106 @@ export function ConstellationCanvas({
       container.removeEventListener("mousemove", onMove);
       container.removeEventListener("mouseleave", onLeave);
       container.removeEventListener("click", onClick);
-      container.removeEventListener("touchstart", onTouchStart);
-      container.removeEventListener("touchend", onTouchEnd);
     };
-  }, [shouldRenderLight, initialNodes, initialEdges, containerRef, onSelectProject]);
+  }, [shouldRenderHeavy, isMobile, initialNodes, initialEdges, containerRef]);
 
   return (
-    <div ref={containerRef} className="relative w-full h-[280px] sm:h-[380px] md:h-[540px] select-none">
-      <canvas
-        ref={canvasRef}
-        className="block w-full h-full cursor-crosshair touch-pan-y"
-        aria-label="Topologia de AST e dependências de projetos"
-      />
-
-      {/* Tooltip HUD Técnica Flutuante de Alto Impacto */}
-      {hoveredNode && (
-        <div
-          className="absolute top-3 right-3 sm:top-4 sm:right-4 max-w-[280px] sm:max-w-xs p-3 sm:p-4 rounded-lg border-2 bg-zinc-950/95 backdrop-blur-md shadow-2xl transition-all duration-200 pointer-events-none z-30"
-          style={{ borderColor: hoveredNode.color }}
-        >
-          <div className="flex items-center justify-between gap-2 mb-2">
-            <span
-              className="font-mono text-[9px] sm:text-[10px] uppercase tracking-widest px-2 py-0.5 rounded font-bold"
-              style={{ backgroundColor: `${hoveredNode.color}25`, color: hoveredNode.color }}
-            >
-              {hoveredNode.kind === "project" ? "MÓDULO DE PROJETO" : "CORE STACK"}
-            </span>
-            {hoveredNode.status && (
-              <span className="font-mono text-[9px] sm:text-[10px] text-zinc-400">
-                {hoveredNode.status}
+    <div ref={containerRef} className="relative w-full h-[520px] md:h-[580px] select-none">
+      {isMobile ? (
+        /* Versão Mobile (< 768px): Card dinâmico leve a 60 FPS */
+        <div className="flex flex-col items-center justify-center p-6 text-center border-2 border-zinc-800 rounded-lg bg-zinc-950/80">
+          <span className="badge-sticker mb-3 text-[#fbbf24] border-[#fbbf24]">
+            Topologia de Dependências
+          </span>
+          <p className="text-xs text-zinc-300 font-mono mb-4">
+            4 Projetos Nucleares interligados via ASTs, Streams em RAM e CUDA float16
+          </p>
+          <div className="flex flex-wrap justify-center gap-2">
+            {Object.entries(STACK_COLORS).map(([s, color]) => (
+              <span
+                key={s}
+                className="text-xs font-mono px-2.5 py-1 border rounded"
+                style={{ borderColor: `${color}88`, color }}
+              >
+                {s}
               </span>
-            )}
+            ))}
           </div>
-
-          <h4 className="font-display text-lg sm:text-xl text-white tracking-tight mb-1">
-            {hoveredNode.label}
-          </h4>
-
-          {hoveredNode.tagline && (
-            <p className="font-handwriting text-amber-300 text-xs sm:text-sm mb-2">
-              {hoveredNode.tagline}
-            </p>
-          )}
-
-          {hoveredNode.metric && (
-            <div className="mt-2 pt-2 border-t border-zinc-800 text-[10px] sm:text-[11px] font-mono text-zinc-300 flex items-center justify-between">
-              <span className="text-zinc-500">TELEMETRIA:</span>
-              <span className="font-bold text-white">{hoveredNode.metric}</span>
-            </div>
-          )}
-
-          <div className="mt-2 pt-2 border-t border-zinc-800 text-[9px] sm:text-[10px] font-mono text-zinc-400">
-            <span>CONEXÕES ATIVAS: {hoveredNode.connections.length} VÍNCULOS</span>
-          </div>
-
-          {hoveredNode.kind === "project" && (
-            <div className="mt-2 pt-2 border-t border-zinc-800 text-[9px] sm:text-[10px] font-mono text-[#fbbf24] font-bold flex items-center gap-1">
-              <span>▸ TOQUE PARA ABRIR O PROJETO & REPOSITÓRIO ↗</span>
-            </div>
-          )}
         </div>
-      )}
+      ) : (
+        <>
+          <canvas
+            ref={canvasRef}
+            className="block w-full h-full cursor-crosshair"
+            aria-label="Topologia de AST e dependências de projetos"
+          />
 
-      {/* Legenda de Telemetria no Rodapé do Card */}
-      <div className="absolute bottom-2 left-3 sm:bottom-3 sm:left-4 flex flex-wrap items-center gap-2 sm:gap-3 font-mono text-[9px] sm:text-[10px] text-zinc-400 pointer-events-none">
-        <span className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-[#00d8ff]" /> React/TS
-        </span>
-        <span className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-[#76b900]" /> CUDA/Nvidia
-        </span>
-        <span className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-[#22c55e]" /> Node/Streams
-        </span>
-        <span className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-[#eab308]" /> Python/FastAPI
-        </span>
-      </div>
+          {/* Tooltip HUD Técnica Flutuante de Alto Impacto */}
+          {hoveredNode && (
+            <div
+              className="absolute top-4 right-4 max-w-xs p-4 rounded-lg border-2 bg-zinc-950/95 backdrop-blur-md shadow-2xl transition-all duration-200 pointer-events-none z-30"
+              style={{ borderColor: hoveredNode.color }}
+            >
+              <div className="flex items-center justify-between gap-2 mb-2">
+                <span
+                  className="font-mono text-[10px] uppercase tracking-widest px-2 py-0.5 rounded font-bold"
+                  style={{ backgroundColor: `${hoveredNode.color}25`, color: hoveredNode.color }}
+                >
+                  {hoveredNode.kind === "project" ? "MÓDULO DE PROJETO" : "CORE STACK"}
+                </span>
+                {hoveredNode.status && (
+                  <span className="font-mono text-[10px] text-zinc-400">
+                    {hoveredNode.status}
+                  </span>
+                )}
+              </div>
+
+              <h4 className="font-display text-xl text-white tracking-tight mb-1">
+                {hoveredNode.label}
+              </h4>
+
+              {hoveredNode.tagline && (
+                <p className="font-handwriting text-amber-300 text-sm mb-2">
+                  {hoveredNode.tagline}
+                </p>
+              )}
+
+              {hoveredNode.metric && (
+                <div className="mt-2 pt-2 border-t border-zinc-800 text-[11px] font-mono text-zinc-300 flex items-center justify-between">
+                  <span className="text-zinc-500">TELEMETRIA:</span>
+                  <span className="font-bold text-white">{hoveredNode.metric}</span>
+                </div>
+              )}
+
+              <div className="mt-2 pt-2 border-t border-zinc-800 text-[10px] font-mono text-zinc-400">
+                <span>CONEXÕES ATIVAS: {hoveredNode.connections.length} VÍNCULOS</span>
+              </div>
+
+              {hoveredNode.kind === "project" && (
+                <div className="mt-2 pt-2 border-t border-zinc-800 text-[10px] font-mono text-[#fbbf24] font-bold flex items-center gap-1">
+                  <span>▸ CLIQUE PARA ABRIR O PROJETO & REPOSITÓRIO ↗</span>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Legenda de Telemetria no Rodapé do Card */}
+          <div className="absolute bottom-3 left-4 flex flex-wrap items-center gap-3 font-mono text-[10px] text-zinc-400 pointer-events-none">
+            <span className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-[#00d8ff]" /> React/TS
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-[#76b900]" /> CUDA/Nvidia
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-[#22c55e]" /> Node/Streams
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-[#eab308]" /> Python/FastAPI
+            </span>
+          </div>
+        </>
+      )}
     </div>
   );
 }
