@@ -1,162 +1,23 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import { siteData } from "@/data/site";
 import { ConstellationCanvas } from "@/components/effects/ConstellationCanvas";
-import { RevealSection } from "@/components/effects/RevealSection";
+import { RevealSection, type AnimationVariant } from "@/components/effects/RevealSection";
 import { ProjectDetailModal } from "@/components/ProjectDetailModal";
 import { ExternalLink, Sparkles } from "lucide-react";
 import { GithubIcon } from "@/components/icons/GithubIcon";
 import { ParallaxWatermark } from "@/components/effects/ParallaxWatermark";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
 import type { Project } from "@/types/site";
 
 export function ChronologySection() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const sectionRef = useRef<HTMLElement>(null);
   const featuredProjects = siteData.projects.filter((p) => p.isFeaturedPillar);
   const otherProjects = siteData.projects.filter((p) => !p.isFeaturedPillar);
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    let ctx: gsap.Context | null = null;
-
-    ctx = gsap.context(() => {
-      const mm = gsap.matchMedia();
-
-      // Desktop Animations (>= 768px)
-      mm.add("(min-width: 768px)", () => {
-        // 1. Constellation Map Entrance
-        gsap.fromTo(
-          ".constellation-card-figure",
-          { opacity: 0, scale: 0.95, y: 35 },
-          {
-            opacity: 1,
-            scale: 1,
-            y: 0,
-            duration: 0.9,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: ".constellation-card-figure",
-              start: "top 80%",
-              toggleActions: "play none none none",
-            },
-          }
-        );
-
-        // 2. The 4 Nuclear Project Cards — Diversified Motion
-        const nuclearConfigs = [
-          { id: "#project-desktop-codeatlas", from: { x: -65, opacity: 0, rotate: -1.5 } },
-          { id: "#project-desktop-whatsapp-auto-sticker", from: { x: 65, opacity: 0, rotate: 1.5 } },
-          { id: "#project-desktop-wasper", from: { y: 55, scale: 0.92, opacity: 0 } },
-          { id: "#project-desktop-spacesweep", from: { x: 65, y: 25, opacity: 0 } },
-        ];
-
-        nuclearConfigs.forEach(({ id, from }) => {
-          const cardEl = document.querySelector(id);
-          if (!cardEl) return;
-
-          // Card container entrance
-          gsap.fromTo(cardEl, from, {
-            x: 0,
-            y: 0,
-            scale: 1,
-            rotate: 0,
-            opacity: 1,
-            duration: 0.85,
-            ease: "power3.out",
-            onComplete: () => {
-              gsap.set(cardEl, { clearProps: "transform" });
-            },
-            scrollTrigger: {
-              trigger: cardEl,
-              start: "top 78%",
-              toggleActions: "play none none none",
-            },
-          });
-
-          // Banner Image Clip-path Reveal
-          const banner = cardEl.querySelector(".project-banner-wrapper");
-          if (banner) {
-            gsap.fromTo(
-              banner,
-              { clipPath: "inset(100% 0% 0% 0%)", scale: 1.05 },
-              {
-                clipPath: "inset(0% 0% 0% 0%)",
-                scale: 1,
-                duration: 0.9,
-                ease: "power3.inOut",
-                scrollTrigger: {
-                  trigger: cardEl,
-                  start: "top 78%",
-                  toggleActions: "play none none none",
-                },
-              }
-            );
-          }
-
-          // Tech pills micro-stagger
-          const pills = cardEl.querySelectorAll(".project-stack-pill");
-          if (pills.length > 0) {
-            gsap.fromTo(
-              pills,
-              { opacity: 0, scale: 0.8 },
-              {
-                opacity: 1,
-                scale: 1,
-                duration: 0.45,
-                stagger: 0.05,
-                delay: 0.25,
-                ease: "back.out(2)",
-                scrollTrigger: {
-                  trigger: cardEl,
-                  start: "top 78%",
-                  toggleActions: "play none none none",
-                },
-              }
-            );
-          }
-        });
-
-        // 3. Supporting Projects Grid
-        const supportCards = document.querySelectorAll(".project-support-card");
-        if (supportCards.length > 0) {
-          gsap.fromTo(
-            supportCards,
-            { opacity: 0, y: 40, scale: 0.94 },
-            {
-              opacity: 1,
-              y: 0,
-              scale: 1,
-              duration: 0.8,
-              stagger: 0.14,
-              ease: "power3.out",
-              scrollTrigger: {
-                trigger: supportCards[0],
-                start: "top 80%",
-                toggleActions: "play none none none",
-              },
-            }
-          );
-        }
-      });
-    }, sectionRef);
-
-    return () => {
-      if (ctx) ctx.revert();
-    };
-  }, []);
-
   return (
-    <section
-      id="projetos"
-      ref={sectionRef}
-      aria-labelledby="projetos-heading"
-      className="relative z-10 py-10 sm:py-14 md:py-32 bg-transparent overflow-hidden"
-    >
+    <section id="projetos" aria-labelledby="projetos-heading" className="relative z-10 py-10 sm:py-14 md:py-32 bg-transparent overflow-hidden">
       {/* Parallax Watermark de Fundo */}
       <ParallaxWatermark number="01" label="CORE // PROJETOS NUCLEARES" position="right" speed={55} />
 
@@ -180,39 +41,41 @@ export function ChronologySection() {
         </RevealSection>
 
         {/* 1. Constellation Graph Card - Topologia Dinâmica */}
-        <figure className="constellation-card-figure bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-4 sm:p-6 md:p-8 mb-8 md:mb-16 shadow-[6px_6px_0px_#000000] relative overflow-hidden group">
-          {/* Ambient Backlight Glow */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-24 bg-gradient-to-b from-amber-500/10 via-cyan-500/5 to-transparent blur-2xl pointer-events-none" />
+        <RevealSection variant="card-expand" delay={0.15} duration={1.0}>
+          <figure className="bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-4 sm:p-6 md:p-8 mb-8 md:mb-16 shadow-[6px_6px_0px_#000000] relative overflow-hidden group">
+            {/* Ambient Backlight Glow */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-24 bg-gradient-to-b from-amber-500/10 via-cyan-500/5 to-transparent blur-2xl pointer-events-none" />
 
-          <div className="flex flex-wrap items-center justify-between gap-3 mb-6 pb-4 border-b border-zinc-800">
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />
-              <span className="font-mono text-xs md:text-sm text-zinc-200 uppercase tracking-widest font-bold">
-                TOPOLOGIA DE DEPENDÊNCIAS & ARQUITETURA DE AST
-              </span>
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-6 pb-4 border-b border-zinc-800">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />
+                <span className="font-mono text-xs md:text-sm text-zinc-200 uppercase tracking-widest font-bold">
+                  TOPOLOGIA DE DEPENDÊNCIAS & ARQUITETURA DE AST
+                </span>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                <span className="font-mono text-xs text-[#fbbf24] bg-amber-400/10 px-2.5 py-1 rounded border border-amber-400/30">
+                  {siteData.projects.length} MÓDULOS INTERCONECTADOS
+                </span>
+              </div>
             </div>
-            <div className="flex items-center gap-3">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-              <span className="font-mono text-xs text-[#fbbf24] bg-amber-400/10 px-2.5 py-1 rounded border border-amber-400/30">
-                {siteData.projects.length} MÓDULOS INTERCONECTADOS
-              </span>
+
+            <div className="w-full h-[280px] sm:h-[380px] md:h-[540px] relative">
+              <ConstellationCanvas
+                onSelectProject={(id) => {
+                  const found = siteData.projects.find((p) => p.id === id);
+                  if (found) setSelectedProject(found);
+                }}
+              />
             </div>
-          </div>
 
-          <div className="w-full h-[280px] sm:h-[380px] md:h-[540px] relative">
-            <ConstellationCanvas
-              onSelectProject={(id) => {
-                const found = siteData.projects.find((p) => p.id === id);
-                if (found) setSelectedProject(found);
-              }}
-            />
-          </div>
-
-          <figcaption className="text-xs font-mono text-zinc-400 mt-6 pt-4 border-t border-zinc-800/80 flex flex-wrap items-center justify-between gap-2">
-            <span>— Grafo orbital em tempo real: clique em qualquer nó de projeto para abrir sua tela técnica e repositório.</span>
-            <span className="text-zinc-500 text-[11px]">[PHYSICS 60 FPS · 0% CPU ON IDLE]</span>
-          </figcaption>
-        </figure>
+            <figcaption className="text-xs font-mono text-zinc-400 mt-6 pt-4 border-t border-zinc-800/80 flex flex-wrap items-center justify-between gap-2">
+              <span>— Grafo orbital em tempo real: clique em qualquer nó de projeto para abrir sua tela técnica e repositório.</span>
+              <span className="text-zinc-500 text-[11px]">[PHYSICS 60 FPS · 0% CPU ON IDLE]</span>
+            </figcaption>
+          </figure>
+        </RevealSection>
 
         {/* 2. Mobile Snap-to-Card Carousel (< 768px) com rolagem fluida e snap */}
         <div className="block md:hidden mb-8 sm:mb-12 md:mb-16">
@@ -228,16 +91,21 @@ export function ChronologySection() {
           </div>
         </div>
 
-        {/* Desktop Grid Layout com 3D Tilt e Entrada Animada Dedicada GSAP */}
+        {/* Desktop Grid Layout com 3D Tilt e Entrada Alternada com Stagger Real */}
         <div className="hidden md:grid md:grid-cols-2 gap-8 mb-20">
-          {featuredProjects.map((p) => (
-            <ProjectStreetCard
-              key={p.id}
-              project={p}
-              onSelect={setSelectedProject}
-              idPrefix="project-desktop"
-            />
-          ))}
+          {featuredProjects.map((p, idx) => {
+            const isLeft = idx % 2 === 0;
+            return (
+              <RevealSection
+                key={p.id}
+                delay={0.15 * idx}
+                variant={isLeft ? "fade-left" : "fade-right"}
+                duration={0.85}
+              >
+                <ProjectStreetCard project={p} onSelect={setSelectedProject} idPrefix="project-desktop" />
+              </RevealSection>
+            );
+          })}
         </div>
 
         {/* Supporting Projects Archive com o MESMO visual Street-Tech (Imagem 4) */}
@@ -262,19 +130,22 @@ export function ChronologySection() {
 
             {/* Grid idêntico aos cards nucleares com 3D tilt, fita adesiva e stagger alternado */}
             <div className="grid md:grid-cols-3 gap-8">
-              {otherProjects.map((p) => (
-                <div key={p.id} className="project-support-card">
-                  <ProjectStreetCard
-                    project={p}
-                    onSelect={setSelectedProject}
-                    idPrefix="project-support"
-                  />
-                </div>
-              ))}
+              {otherProjects.map((p, idx) => {
+                const variants: AnimationVariant[] = ["fade-left", "card-expand", "fade-right"];
+                return (
+                  <RevealSection
+                    key={p.id}
+                    delay={0.15 * idx}
+                    variant={variants[idx % variants.length]}
+                    duration={0.8}
+                  >
+                    <ProjectStreetCard project={p} onSelect={setSelectedProject} idPrefix="project-support" />
+                  </RevealSection>
+                );
+              })}
             </div>
           </div>
         )}
-
         {/* Modal de Detalhes Técnicos & Repositório */}
         <ProjectDetailModal
           project={selectedProject}
@@ -375,9 +246,9 @@ function ProjectStreetCard({
       )}
 
       <div>
-        {/* Project Visual Banner with Clip-Path Reveal Class */}
+        {/* Project Visual Banner (If Available) */}
         {project.image && (
-          <div className="project-banner-wrapper relative w-full aspect-[16/9] max-h-36 sm:max-h-48 md:max-h-none mb-3 md:mb-6 rounded-lg overflow-hidden border border-zinc-700 shadow-[4px_4px_0px_#000000] bg-zinc-950">
+          <div className="relative w-full aspect-[16/9] max-h-36 sm:max-h-48 md:max-h-none mb-3 md:mb-6 rounded-lg overflow-hidden border border-zinc-700 shadow-[4px_4px_0px_#000000] bg-zinc-950">
             <Image
               src={project.image}
               alt={project.name}
@@ -441,12 +312,12 @@ function ProjectStreetCard({
       </div>
 
       <div>
-        {/* Stack Pills with Stagger Class */}
+        {/* Stack Pills */}
         <div className="flex flex-wrap gap-1.5 mb-3 md:mb-6">
           {project.stack.map((t, i) => (
             <span
               key={i}
-              className="project-stack-pill text-[11px] font-mono text-zinc-300 bg-zinc-900 border border-zinc-700/80 px-2 py-0.5 rounded shadow-sm"
+              className="text-[11px] font-mono text-zinc-300 bg-zinc-900 border border-zinc-700/80 px-2 py-0.5 rounded shadow-sm"
             >
               {t}
             </span>
@@ -457,35 +328,55 @@ function ProjectStreetCard({
         <div className="grid grid-cols-2 gap-2 md:gap-3 pt-3 md:pt-4 border-t border-zinc-800 bg-zinc-950/60 -mx-4 -mb-4 md:-mx-8 md:-mb-8 p-3 md:p-6 rounded-b-xl">
           {project.metrics.map((m, i) => (
             <div key={i} className="flex flex-col">
-              <span className="text-[10px] md:text-xs font-mono text-zinc-400 uppercase tracking-wider font-semibold">
+              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
                 {m.label}
               </span>
-              <span className="font-mono text-xs md:text-sm text-white font-bold tracking-tight">
+              <span className="text-xs font-mono font-bold text-white">
                 {m.value}
               </span>
             </div>
           ))}
         </div>
 
-        {/* Card CTA & Detail trigger button */}
-        <div className="mt-4 pt-3 flex items-center justify-between">
+        {/* Ações & Links */}
+        <div className="mt-3 md:mt-5 pt-2.5 md:pt-3 border-t border-zinc-800 flex flex-col gap-2">
           <button
-            type="button"
-            className="text-xs font-mono text-[#fbbf24] hover:text-amber-300 flex items-center gap-1 font-semibold group-hover:translate-x-1 transition-transform"
+            onClick={(e) => {
+              e.stopPropagation();
+              onSelect(project);
+            }}
+            className="w-full py-2 md:py-2.5 px-3 md:px-4 bg-zinc-900 hover:bg-[#fbbf24] hover:text-black border border-zinc-700 hover:border-black rounded-lg font-mono text-xs font-bold flex items-center justify-center gap-2 shadow-[2px_2px_0px_#000000] transition-all cursor-pointer"
           >
-            [INSPECIONAR PROJETO] →
+            <span>VER TELA DO PROJETO & REPO ↗</span>
           </button>
-          {project.links?.github && (
-            <a
-              href={project.links.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="text-zinc-500 hover:text-white p-1 rounded transition-colors"
-              aria-label={`Abrir repositório de ${project.name}`}
-            >
-              <GithubIcon className="w-4 h-4" />
-            </a>
+
+          {project.links && (
+            <div className="flex items-center justify-between">
+              {project.links.github && (
+                <a
+                  href={project.links.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="inline-flex items-center gap-1.5 text-xs font-mono text-zinc-300 hover:text-[#fbbf24] transition-colors py-1"
+                >
+                  <GithubIcon className="w-3.5 h-3.5" />
+                  Repositório GitHub ↗
+                </a>
+              )}
+              {project.links.demo && (
+                <a
+                  href={project.links.demo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="inline-flex items-center gap-1.5 text-xs font-mono text-zinc-300 hover:text-[#fbbf24] transition-colors py-1"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  Demonstração ↗
+                </a>
+              )}
+            </div>
           )}
         </div>
       </div>

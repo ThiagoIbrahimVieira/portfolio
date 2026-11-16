@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { animate } from "animejs";
 import { siteData } from "@/data/site";
 import { ArrowUpRight } from "lucide-react";
-import { gsap } from "@/lib/gsap";
 
 const links = [
   { href: "#projetos", label: "Projetos" },
@@ -16,20 +15,8 @@ const links = [
 
 export function Navbar() {
   const [active, setActive] = useState("");
-  const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    // GSAP Subtle Mount Entrance (Desktop only to prevent mobile layout jump)
-    if (typeof window !== "undefined" && headerRef.current) {
-      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        gsap.fromTo(
-          headerRef.current,
-          { y: -20, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.7, ease: "power2.out" }
-        );
-      }
-    }
-
     const obs = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
@@ -46,10 +33,7 @@ export function Navbar() {
   }, []);
 
   return (
-    <header
-      ref={headerRef}
-      className="sticky top-0 z-40 bg-[#0a0a0c]/90 backdrop-blur-md border-b border-zinc-800 will-change-transform"
-    >
+    <header className="sticky top-0 z-40 bg-[#0a0a0c]/90 backdrop-blur-md border-b border-zinc-800">
       <div className="mx-auto max-w-7xl px-6 md:px-12 py-4 flex items-center justify-between gap-6">
         <a
           href="#hero"

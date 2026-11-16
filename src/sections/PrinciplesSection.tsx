@@ -1,85 +1,13 @@
-"use client";
-
-import { useEffect, useRef } from "react";
 import { siteData } from "@/data/site";
 import { ShieldCheck, Cpu, Eye, HardDrive } from "lucide-react";
 import { RevealSection } from "@/components/effects/RevealSection";
 import { ParallaxWatermark } from "@/components/effects/ParallaxWatermark";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
 
 const icons = [ShieldCheck, Eye, Cpu, HardDrive];
 
 export function PrinciplesSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    let ctx: gsap.Context | null = null;
-
-    ctx = gsap.context(() => {
-      const mm = gsap.matchMedia();
-
-      mm.add("(min-width: 640px)", () => {
-        const cards = document.querySelectorAll(".principle-desktop-card");
-        if (cards.length > 0) {
-          cards.forEach((card, i) => {
-            const isLeft = i % 2 === 0;
-            gsap.fromTo(
-              card,
-              { x: isLeft ? -50 : 50, opacity: 0 },
-              {
-                x: 0,
-                opacity: 1,
-                duration: 0.8,
-                delay: 0.1 * i,
-                ease: "power3.out",
-                scrollTrigger: {
-                  trigger: card,
-                  start: "top 80%",
-                  toggleActions: "play none none none",
-                },
-              }
-            );
-
-            // Icon pop on entry
-            const iconBox = card.querySelector(".principle-icon-box");
-            if (iconBox) {
-              gsap.fromTo(
-                iconBox,
-                { scale: 0.6, rotate: -12 },
-                {
-                  scale: 1,
-                  rotate: 0,
-                  duration: 0.5,
-                  delay: 0.15 * i + 0.15,
-                  ease: "back.out(2)",
-                  scrollTrigger: {
-                    trigger: card,
-                    start: "top 80%",
-                    toggleActions: "play none none none",
-                  },
-                }
-              );
-            }
-          });
-        }
-      });
-    }, sectionRef);
-
-    return () => {
-      if (ctx) ctx.revert();
-    };
-  }, []);
-
   return (
-    <section
-      id="principios"
-      ref={sectionRef}
-      aria-labelledby="principios-heading"
-      className="relative z-10 py-10 sm:py-14 md:py-32 bg-transparent overflow-hidden"
-    >
+    <section id="principios" aria-labelledby="principios-heading" className="relative z-10 py-10 sm:py-14 md:py-32 bg-transparent overflow-hidden">
       {/* Parallax Watermark de Fundo */}
       <ParallaxWatermark number="04" label="RULES // PRINCÍPIOS NUCLEARES" position="left" speed={55} />
 
@@ -126,21 +54,28 @@ export function PrinciplesSection() {
             </RevealSection>
           </div>
 
-          {/* Desktop Grid (>= 640px) com Entrada Alternada GSAP ScrollTrigger e Microinterações */}
+          {/* Desktop Grid (>= 640px) com Entrada Alternada, Stagger Progressivo e Microinterações */}
           <div className="hidden sm:grid sm:grid-cols-2 gap-6">
             {siteData.principles.map((p, i) => {
               const Icon = icons[i % icons.length];
+              const isLeft = i % 2 === 0;
               return (
-                <div
+                <RevealSection
                   key={p.id}
-                  className="principle-desktop-card bg-[#141418] border border-zinc-800 p-6 rounded-lg relative shadow-[4px_4px_0px_#000000] hover:border-[#fbbf24]/70 hover:shadow-[6px_6px_0px_#fbbf24]/30 hover:-translate-y-1 transition-all duration-300 group"
+                  delay={0.12 * i}
+                  variant={isLeft ? "fade-left" : "fade-right"}
+                  duration={0.85}
                 >
-                  <div className="principle-icon-box w-10 h-10 rounded bg-zinc-900 border border-zinc-700 flex items-center justify-center text-[#fbbf24] mb-4 group-hover:scale-110 group-hover:border-[#fbbf24] transition-all">
-                    <Icon className="w-5 h-5 group-hover:rotate-6 transition-transform duration-300" />
+                  <div
+                    className="bg-[#141418] border border-zinc-800 p-6 rounded-lg relative shadow-[4px_4px_0px_#000000] hover:border-[#fbbf24]/70 hover:shadow-[6px_6px_0px_#fbbf24]/30 hover:-translate-y-1 transition-all duration-300 group"
+                  >
+                    <div className="w-10 h-10 rounded bg-zinc-900 border border-zinc-700 flex items-center justify-center text-[#fbbf24] mb-4 group-hover:scale-110 group-hover:border-[#fbbf24] transition-all">
+                      <Icon className="w-5 h-5 group-hover:rotate-6 transition-transform duration-300" />
+                    </div>
+                    <h3 className="font-display text-xl text-white mb-2 group-hover:text-[#fbbf24] transition-colors">{p.title}</h3>
+                    <p className="text-sm text-zinc-400 leading-relaxed font-sans">{p.description}</p>
                   </div>
-                  <h3 className="font-display text-xl text-white mb-2 group-hover:text-[#fbbf24] transition-colors">{p.title}</h3>
-                  <p className="text-sm text-zinc-400 leading-relaxed font-sans">{p.description}</p>
-                </div>
+                </RevealSection>
               );
             })}
           </div>
