@@ -203,14 +203,14 @@ export function HeroSection() {
       id="hero"
       ref={sectionRef}
       aria-labelledby="hero-heading"
-      className="relative z-10 pt-10 sm:pt-14 pb-8 sm:pb-12 md:py-28 overflow-hidden bg-transparent"
+      className="relative z-10 min-h-[calc(100vh-4.5rem)] flex flex-col justify-center py-6 md:py-8 overflow-hidden bg-transparent"
     >
       {/* Parallax Watermark de Fundo */}
       <ParallaxWatermark number="00" label="TI // ITAPEVI · 2026" position="right" speed={55} />
 
-      <div className="mx-auto max-w-7xl px-6 md:px-12 relative z-10">
+      <div className="mx-auto max-w-7xl px-6 md:px-12 relative z-10 w-full">
         {/* Top telemetry bar */}
-        <div className="hero-telemetry flex flex-wrap items-center justify-between gap-4 py-3 px-4 mb-8 sm:mb-12 bg-[#141418] border border-zinc-800 rounded-lg font-mono text-xs text-zinc-400 shadow-[4px_4px_0px_#000000]">
+        <div className="hero-telemetry flex flex-wrap items-center justify-between gap-3 py-2.5 px-4 mb-5 md:mb-6 bg-[#141418] border border-zinc-800 rounded-lg font-mono text-xs text-zinc-400 shadow-[4px_4px_0px_#000000]">
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
             <span className="text-zinc-200 font-bold">{person.statusPill}</span>
@@ -222,12 +222,12 @@ export function HeroSection() {
         </div>
 
         {/* Hero Core Layout */}
-        <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-          <div className="lg:col-span-8 space-y-6">
-            <div className="space-y-4">
+        <div className="grid lg:grid-cols-12 gap-6 lg:gap-8 items-center">
+          <div className="lg:col-span-8 space-y-3.5 md:space-y-4">
+            <div className="space-y-2">
               {/* Handwritten highlight note com entrada tátil */}
               <div className="hero-handwriting inline-block">
-                <span className="font-handwriting text-[#fbbf24] text-2xl md:text-3xl rotate-[-2deg] block select-none">
+                <span className="font-handwriting text-[#fbbf24] text-xl md:text-2xl rotate-[-2deg] block select-none">
                   {person.handwrittenNote ?? "Building real systems from Itapevi 🚀"}
                 </span>
               </div>
@@ -235,118 +235,124 @@ export function HeroSection() {
               {/* Giant Display Headline com Text Mask Reveal Editorial GSAP */}
               <h1
                 id="hero-heading"
-                className="font-display text-white text-[clamp(3.5rem,11vw,8.5rem)] leading-[0.88] tracking-tighter select-none"
+                className="font-display text-white text-[clamp(2.75rem,5.5vw,5.5rem)] leading-[0.92] tracking-tighter select-none"
               >
-                <span className="block overflow-hidden py-1">
+                <span className="block overflow-hidden py-0.5">
                   <span className="inline-block hero-title-line">THIAGO</span>
                 </span>
-                <span className="block overflow-hidden py-1">
+                <span className="block overflow-hidden py-0.5">
                   <span className="inline-block text-[#fbbf24] hero-title-line">IBRAHIM</span>
                 </span>
               </h1>
             </div>
 
             {/* Subtitle & Value Proposition */}
-            <p className="hero-subtitle text-lg md:text-xl text-zinc-300 max-w-2xl font-sans leading-relaxed">
+            <p className="hero-subtitle text-base md:text-lg text-zinc-300 max-w-2xl font-sans leading-relaxed">
               {person.sub}
             </p>
 
             {/* Tech Sticker Badges - Stagger Escalonado Tátil */}
-            <div className="flex flex-wrap items-center gap-2.5 pt-2">
-              <span className="hero-badge badge-sticker bg-[#00d8ff] text-black border-black">
+            <div className="flex flex-wrap items-center gap-2 pt-1">
+              <span className="hero-badge badge-sticker bg-[#00d8ff] text-black border-black text-[11px] py-1 px-2.5">
                 <Code2 className="w-3.5 h-3.5" />
                 React 19 / TS 5.8
               </span>
-              <span className="hero-badge badge-sticker bg-[#76b900] text-black border-black">
+              <span className="hero-badge badge-sticker bg-[#76b900] text-black border-black text-[11px] py-1 px-2.5">
                 <Cpu className="w-3.5 h-3.5" />
                 CUDA float16
               </span>
-              <span className="hero-badge badge-sticker bg-[#22c55e] text-black border-black">
+              <span className="hero-badge badge-sticker bg-[#22c55e] text-black border-black text-[11px] py-1 px-2.5">
                 <Terminal className="w-3.5 h-3.5" />
                 Baileys & Streams
               </span>
-              <span className="hero-badge badge-sticker bg-[#fbbf24] text-black border-black">
+              <span className="hero-badge badge-sticker bg-[#fbbf24] text-black border-black text-[11px] py-1 px-2.5">
                 Local-First Win32
               </span>
             </div>
 
             {/* CTAs com Entrada Sequencial Suave */}
-            <div className="hero-cta flex flex-wrap items-center gap-4 pt-4">
+            <div className="hero-cta flex flex-wrap items-center gap-3.5 pt-2">
               <a
                 href="#projetos"
-                className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#fbbf24] text-black font-display text-base tracking-wider rounded-md border-2 border-black shadow-[4px_4px_0px_#ffffff] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#ffffff] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
+                className="inline-flex items-center gap-2 px-5 py-3 bg-[#fbbf24] text-black font-display text-sm md:text-base tracking-wider rounded-md border-2 border-black shadow-[4px_4px_0px_#ffffff] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#ffffff] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
               >
                 VER OS 4 PROJETOS NUCLEARES
-                <ArrowUpRight className="w-5 h-5" />
+                <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5" />
               </a>
               <a
                 href={siteData.contact.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#141418] text-white font-mono text-xs uppercase tracking-wider rounded-md border border-zinc-700 hover:border-white transition-colors"
+                className="inline-flex items-center gap-2 px-5 py-3 bg-[#141418] text-white font-mono text-xs uppercase tracking-wider rounded-md border border-zinc-700 hover:border-white transition-colors"
               >
                 GITHUB REPOS ↗
               </a>
             </div>
           </div>
 
-          {/* Right Column: 3:4 Die-Cut Sticker Slot & Rotating Seal com Parallax de Profundidade */}
-          <div className="lg:col-span-4 flex flex-col items-center justify-center relative mt-8 lg:mt-0">
-            {/* 3:4 Aspect Ratio Sticker Slot com Entrada Tátil e Parallax Suave Desacoplado */}
-            <motion.div style={{ y: stickerY }} className="hero-sticker-card will-change-transform">
-              <div className="hero-sticker-float w-full max-w-[280px] sm:max-w-xs aspect-[3/4] relative mb-8 sm:mb-10 sticker-die-cut rounded-2xl bg-[#141418] border-2 border-white/90 shadow-[4px_10px_25px_rgba(0,0,0,0.8)] mx-auto overflow-visible">
-                <div className="relative w-full h-full rounded-2xl overflow-hidden">
-                  <Image
-                    src="/images/thiago-hero-sticker.png"
-                    alt="Thiago Ibrahim — Retrato recortado em sticker die-cut 3:4"
-                    width={600}
-                    height={800}
-                    priority
-                    className="w-full h-full object-cover"
-                  />
+          {/* Right Column: 3:4 Die-Cut Sticker Slot, Overlaid Rotating Seal & Compact Manifest */}
+          <div className="lg:col-span-4 flex flex-col items-center justify-center relative mt-6 lg:mt-0">
+            {/* Wrapper com Sticker Foto e Selo Sobreposto */}
+            <div className="relative w-full max-w-[230px] sm:max-w-[250px] md:max-w-[265px] mx-auto">
+              {/* 3:4 Aspect Ratio Sticker Slot com Entrada Tátil e Parallax Suave Desacoplado */}
+              <motion.div style={{ y: stickerY }} className="hero-sticker-card will-change-transform">
+                <div className="hero-sticker-float w-full aspect-[3/4] relative sticker-die-cut rounded-2xl bg-[#141418] border-2 border-white/90 shadow-[4px_10px_25px_rgba(0,0,0,0.8)] overflow-visible">
+                  <div className="relative w-full h-full rounded-2xl overflow-hidden">
+                    <Image
+                      src="/images/thiago-hero-sticker.png"
+                      alt="Thiago Ibrahim — Retrato recortado em sticker die-cut 3:4"
+                      width={600}
+                      height={800}
+                      priority
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="tape-strip -top-3.5 -right-3 w-28 bg-[#fbbf24]/70 text-black text-center flex items-center justify-center font-mono text-[9px] font-bold z-20 rotate-[5deg] shadow-md border border-black/30">
+                    THIAGO // 1º TI
+                  </div>
                 </div>
-                <div className="tape-strip -top-3.5 -right-3 w-28 bg-[#fbbf24]/70 text-black text-center flex items-center justify-center font-mono text-[9px] font-bold z-20 rotate-[5deg] shadow-md border border-black/30">
-                  THIAGO // 1º TI
-                </div>
-              </div>
-            </motion.div>
+              </motion.div>
 
-            {/* Rotating Circular Seal com Revelação Suave e Parallax */}
-            <motion.div style={{ y: sealY }} className="hero-seal-card will-change-transform">
-              <div className="hero-seal-float relative w-36 h-36 mb-6 hidden sm:flex items-center justify-center mx-auto">
-                <svg className="w-full h-full animate-spin-slow select-none" viewBox="0 0 100 100">
-                  <path
-                    id="circlePath"
-                    d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"
-                    fill="none"
-                  />
-                  <text className="text-[7.5px] font-mono tracking-[0.22em] fill-zinc-300 uppercase">
-                    <textPath href="#circlePath">
-                      THIAGO IBRAHIM • 1º TÉCNICO EM INFORMÁTICA • ETEC ITAPEVI •
-                    </textPath>
-                  </text>
-                </svg>
-                <div className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-[#141418] border-2 border-[#fbbf24] flex items-center justify-center shadow-[0_0_15px_rgba(251,191,36,0.2)]">
-                  <span className="font-display text-xl text-white">TT</span>
+              {/* Rotating Circular Seal posicionado organicamente como selo de autenticação sobre a foto */}
+              <motion.div
+                style={{ y: sealY }}
+                className="hero-seal-card absolute -bottom-5 -left-6 md:-left-8 z-30 pointer-events-none will-change-transform"
+              >
+                <div className="hero-seal-float relative w-28 h-28 md:w-32 md:h-32 hidden sm:flex items-center justify-center">
+                  <svg className="w-full h-full animate-spin-slow select-none" viewBox="0 0 100 100">
+                    <path
+                      id="circlePath"
+                      d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"
+                      fill="none"
+                    />
+                    <text className="text-[7.5px] font-mono tracking-[0.22em] fill-zinc-300 uppercase">
+                      <textPath href="#circlePath">
+                        THIAGO IBRAHIM • 1º TÉCNICO EM INFORMÁTICA • ETEC ITAPEVI •
+                      </textPath>
+                    </text>
+                  </svg>
+                  <div className="absolute inset-0 m-auto w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#141418] border-2 border-[#fbbf24] flex items-center justify-center shadow-[0_0_15px_rgba(251,191,36,0.3)]">
+                    <span className="font-display text-base md:text-lg text-white">TT</span>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            </div>
 
-            {/* Manifest Card with Torn Edge - Parallax Leve e Entrada Tátil */}
+            {/* Manifest Card Compacto & Harmônico */}
             <motion.div
               style={{ y: manifestY }}
-              className="hero-manifest-card w-full max-w-sm sm:max-w-md mx-auto bg-[#141418] border border-zinc-800 pt-8 pb-6 px-5 sm:p-7 sm:pt-8 rounded-lg relative shadow-[4px_4px_0px_#000000] mt-8 sm:mt-12 text-center overflow-visible will-change-transform"
+              className="hero-manifest-card w-full max-w-[240px] sm:max-w-[260px] md:max-w-[275px] mx-auto bg-[#141418] border border-zinc-800 pt-5 pb-3 px-3.5 sm:px-4 rounded-lg relative shadow-[3px_3px_0px_#000000] mt-3.5 sm:mt-4 text-center overflow-visible will-change-transform"
             >
-              <div className="tape-strip -top-3.5 -right-3 w-24 bg-amber-500/50 text-amber-200 border border-amber-400/70 text-center flex items-center justify-center font-mono text-[9px] font-bold z-20 rotate-[5deg] shadow-md">
+              <div className="tape-strip -top-2.5 -right-2 w-20 bg-amber-500/50 text-amber-200 border border-amber-400/70 text-center flex items-center justify-center font-mono text-[8px] font-bold z-20 rotate-[5deg] shadow-md">
                 MANIFESTO
               </div>
-              <p className="font-mono text-xs text-[#fbbf24] uppercase tracking-wider mb-2">
+              <p className="font-mono text-[10px] text-[#fbbf24] uppercase tracking-wider mb-1">
                 {"// MANIFESTO DO CONSTRUTOR"}
               </p>
-              <p className="text-zinc-300 font-sans text-sm leading-relaxed italic mb-3">
+              <p className="text-zinc-300 font-sans text-xs leading-relaxed italic mb-1.5">
                 &ldquo;{person.anchor}&rdquo;
               </p>
-              <p className="text-xs font-mono text-zinc-500">
+              <p className="text-[10px] font-mono text-zinc-500">
                 — Thiago Ibrahim (16 anos) · ETEC Itapevi
               </p>
             </motion.div>
