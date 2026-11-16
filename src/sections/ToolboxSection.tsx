@@ -47,9 +47,9 @@ export function ToolboxSection() {
         <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
           {groups.map((g, idx) => (
             <RevealSection key={g.name} delay={0.12 * idx} variant="scale-up">
-              <div className="bg-[#141418] border border-zinc-800 p-6 rounded-lg relative overflow-hidden shadow-[4px_4px_0px_#000000] hover:border-zinc-600 transition-colors">
+              <div className="bg-[#141418] border border-zinc-800 p-6 rounded-lg relative overflow-hidden shadow-[4px_4px_0px_#000000] hover:border-zinc-500 hover:shadow-[4px_4px_0px_#fbbf24] transition-all duration-200 group">
                 <div className="flex items-center justify-between mb-6 pb-3 border-b border-zinc-800">
-                  <h3 className="font-display text-xl text-white tracking-wide">{g.name}</h3>
+                  <h3 className="font-display text-xl text-white tracking-wide group-hover:text-amber-300 transition-colors">{g.name}</h3>
                   <span className="text-[11px] font-mono font-bold text-[#fbbf24] px-2 py-0.5 bg-zinc-900 border border-zinc-700 rounded">
                     {g.badge}
                   </span>
@@ -57,8 +57,8 @@ export function ToolboxSection() {
 
                 <ul className="space-y-4">
                   {g.items.map((a) => (
-                    <li key={a.name} className="flex items-center justify-between gap-2 border-b border-zinc-800/60 pb-2">
-                      <span className="font-mono text-sm font-bold text-white">{a.name}</span>
+                    <li key={a.name} className="flex items-center justify-between gap-2 border-b border-zinc-800/60 pb-2 hover:border-zinc-700 transition-colors group/item">
+                      <span className="font-mono text-sm font-bold text-white group-hover/item:text-[#fbbf24] transition-colors">{a.name}</span>
                       <span className="text-[11px] font-mono text-zinc-400 bg-zinc-900 px-2 py-0.5 rounded border border-zinc-800">
                         {a.level}
                       </span>

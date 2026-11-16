@@ -29,12 +29,12 @@ export function PrinciplesSection() {
               return (
                 <RevealSection key={p.id} delay={0.12 * i} variant="scale-up">
                   <div
-                    className="bg-[#141418] border border-zinc-800 p-6 rounded-lg relative shadow-[4px_4px_0px_#000000] hover:border-zinc-600 transition-colors"
+                    className="bg-[#141418] border border-zinc-800 p-6 rounded-lg relative shadow-[4px_4px_0px_#000000] hover:border-zinc-500 hover:shadow-[4px_4px_0px_#fbbf24] transition-all duration-200 group"
                   >
-                    <div className="w-10 h-10 rounded bg-zinc-900 border border-zinc-700 flex items-center justify-center text-[#fbbf24] mb-4">
+                    <div className="w-10 h-10 rounded bg-zinc-900 border border-zinc-700 group-hover:border-amber-400/60 flex items-center justify-center text-[#fbbf24] mb-4 transition-colors">
                       <Icon className="w-5 h-5" />
                     </div>
-                    <h3 className="font-display text-xl text-white mb-2">{p.title}</h3>
+                    <h3 className="font-display text-xl text-white mb-2 group-hover:text-amber-300 transition-colors">{p.title}</h3>
                     <p className="text-sm text-zinc-400 leading-relaxed font-sans">{p.description}</p>
                   </div>
                 </RevealSection>

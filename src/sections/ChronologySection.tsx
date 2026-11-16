@@ -37,7 +37,7 @@ export function ChronologySection() {
         </RevealSection>
 
         {/* 1. Constellation Graph Card - Topologia Dinâmica */}
-        <RevealSection delay={0.1}>
+        <RevealSection delay={0.1} variant="scale-up">
           <figure className="bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-6 md:p-8 mb-10 md:mb-12 shadow-[6px_6px_0px_#000000] relative overflow-hidden group">
             {/* Ambient Backlight Glow */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-24 bg-gradient-to-b from-amber-500/10 via-cyan-500/5 to-transparent blur-2xl pointer-events-none" />
@@ -89,11 +89,18 @@ export function ChronologySection() {
 
         {/* Desktop Grid Layout com 3D Tilt */}
         <div className="hidden md:grid md:grid-cols-2 gap-6 md:gap-7 mb-14 md:mb-16">
-          {featuredProjects.map((p, idx) => (
-            <RevealSection key={p.id} delay={0.15 * idx}>
-              <ProjectStreetCard project={p} onSelect={setSelectedProject} />
-            </RevealSection>
-          ))}
+          {featuredProjects.map((p, idx) => {
+            const isLeft = idx % 2 === 0;
+            return (
+              <RevealSection
+                key={p.id}
+                delay={0.12 * idx}
+                variant={isLeft ? "slide-left" : "slide-right"}
+              >
+                <ProjectStreetCard project={p} onSelect={setSelectedProject} />
+              </RevealSection>
+            );
+          })}
         </div>
 
         {/* Supporting Projects Archive com o MESMO visual Street-Tech (Imagem 4) */}
@@ -180,7 +187,7 @@ function ProjectStreetCard({
       style={{
         transform: isHover
           ? `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale3d(1.02, 1.02, 1.02)`
-          : "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)",
+          : "none",
         transition: isHover ? "transform 0.1s ease-out" : "transform 0.4s ease-out",
       }}
       className="bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-6 md:p-8 relative flex flex-col justify-between shadow-[6px_6px_0px_#000000] hover:border-amber-400/80 transition-colors group overflow-hidden scroll-mt-28 cursor-pointer"

@@ -58,12 +58,17 @@ body {
   font-size: var(--step-body);
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
   position: relative;
 }
 
-/* Textura contínua de papel amassado acelerada por GPU (Zero repaints no scroll) */
+img, video, canvas {
+  image-rendering: -webkit-optimize-contrast;
+}
+
+/* Textura contínua de papel amassado (Zero blur & zero repaints no scroll) */
 body::before {
   content: "";
   position: fixed;
@@ -76,8 +81,14 @@ body::before {
     url('/images/textures/dark-crumpled-paper.png');
   background-size: 100% 100%, 700px 700px;
   background-repeat: no-repeat, repeat;
-  transform: translate3d(0, 0, 0);
-  will-change: transform;
+}
+
+@media (max-width: 768px) {
+  body::before {
+    background-image: linear-gradient(to bottom, rgba(10, 10, 12, 0.92), rgba(10, 10, 12, 0.98));
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+  }
 }
 
 /* Tipografia utilitária */
@@ -110,14 +121,10 @@ body::before {
   background-repeat: no-repeat, repeat;
 }
 
-/* Efeito de adesivo recortado (Sticker Die-Cut) */
+/* Efeito de adesivo recortado (Sticker Die-Cut com Zero Blur) */
 .sticker-die-cut {
-  filter: drop-shadow(0 3px 0 #ffffff) 
-          drop-shadow(0 -3px 0 #ffffff) 
-          drop-shadow(3px 0 0 #ffffff) 
-          drop-shadow(-3px 0 0 #ffffff)
-          drop-shadow(4px 10px 20px rgba(0, 0, 0, 0.75));
-  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 0 0 2.5px #ffffff, 4px 10px 25px rgba(0, 0, 0, 0.85);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
 }
 
 .sticker-die-cut:hover {
