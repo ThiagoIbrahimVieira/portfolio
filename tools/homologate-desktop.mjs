@@ -105,6 +105,9 @@ async function homologateDesktop() {
     });
     console.log(`Cards Check (${vp.name}):`, cardsCheck);
     await page.screenshot({ path: `tools/art/desktop-${vp.name}-cards-grid.png` });
+    if (vp.name === "1440x900") {
+      await page.screenshot({ path: `tools/art/desktop-cards-grid.png` });
+    }
 
     // Testar Hover 3D no Card Desktop CodeAtlas
     const cardDesktop = await page.$("#project-desktop-codeatlas");
@@ -128,6 +131,9 @@ async function homologateDesktop() {
       };
       console.log(`Hover 3D (${vp.name}):`, hoverResult);
       await page.screenshot({ path: `tools/art/desktop-${vp.name}-card-hover.png` });
+      if (vp.name === "1440x900") {
+        await page.screenshot({ path: `tools/art/desktop-card-hover.png` });
+      }
     }
 
     // PROVA 03 — DEMAIS SEÇÕES
@@ -157,6 +163,9 @@ async function homologateDesktop() {
     }
     console.log(`Status Seções (${vp.name}):`, sectionsStatus);
     await page.screenshot({ path: `tools/art/desktop-${vp.name}-sections.png` });
+    if (vp.name === "1440x900") {
+      await page.screenshot({ path: "tools/art/desktop-sections.png" });
+    }
 
     report.desktopProofs[vp.name] = {
       cardsCheck,
