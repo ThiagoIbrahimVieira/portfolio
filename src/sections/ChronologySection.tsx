@@ -85,24 +85,24 @@ export function ChronologySection() {
           <div className="flex overflow-x-auto gap-4 pb-4 -mx-4 px-4 snap-x snap-mandatory scrollbar-none">
             {featuredProjects.map((p) => (
               <div key={p.id} className="shrink-0 w-[84vw] max-w-[340px] snap-center">
-                <ProjectStreetCard project={p} onSelect={setSelectedProject} />
+                <ProjectStreetCard project={p} onSelect={setSelectedProject} idPrefix="project-mobile" />
               </div>
             ))}
           </div>
         </div>
 
-        {/* Desktop Grid Layout com 3D Tilt e Entrada Alternada */}
+        {/* Desktop Grid Layout com 3D Tilt e Entrada Alternada com Stagger Real */}
         <div className="hidden md:grid md:grid-cols-2 gap-8 mb-20">
           {featuredProjects.map((p, idx) => {
             const isLeft = idx % 2 === 0;
             return (
               <RevealSection
                 key={p.id}
-                delay={0.1 * (idx % 2)}
+                delay={0.15 * idx}
                 variant={isLeft ? "fade-left" : "fade-right"}
                 duration={0.85}
               >
-                <ProjectStreetCard project={p} onSelect={setSelectedProject} />
+                <ProjectStreetCard project={p} onSelect={setSelectedProject} idPrefix="project-desktop" />
               </RevealSection>
             );
           })}
@@ -135,11 +135,11 @@ export function ChronologySection() {
                 return (
                   <RevealSection
                     key={p.id}
-                    delay={0.12 * idx}
+                    delay={0.15 * idx}
                     variant={variants[idx % variants.length]}
                     duration={0.8}
                   >
-                    <ProjectStreetCard project={p} onSelect={setSelectedProject} />
+                    <ProjectStreetCard project={p} onSelect={setSelectedProject} idPrefix="project-support" />
                   </RevealSection>
                 );
               })}
@@ -159,9 +159,11 @@ export function ChronologySection() {
 function ProjectStreetCard({
   project,
   onSelect,
+  idPrefix = "project-desktop",
 }: {
   project: Project;
   onSelect: (p: Project) => void;
+  idPrefix?: string;
 }) {
   const isCaution = project.tapeStyle === "caution";
   const isBlueprint = project.tapeStyle === "blueprint";
@@ -191,7 +193,8 @@ function ProjectStreetCard({
 
   return (
     <article
-      id={`project-${project.id}`}
+      id={`${idPrefix}-${project.id}`}
+      data-project-id={project.id}
       ref={cardRef}
       onClick={() => onSelect(project)}
       onMouseMove={handleMouseMove}
@@ -251,7 +254,7 @@ function ProjectStreetCard({
               alt={project.name}
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover group-hover:scale-105 transition-transform duration-500"
+              className="object-cover scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
             />
           </div>
         )}

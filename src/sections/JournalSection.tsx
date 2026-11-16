@@ -69,7 +69,7 @@ export function JournalSection() {
 
                 <div className="space-y-5 md:space-y-8">
                   {siteData.journey.map((j, i) => (
-                    <RevealSection key={j.year} delay={0.1 + 0.14 * i} variant="slide-left" duration={0.85}>
+                    <RevealSection key={j.year} delay={0.1 + 0.14 * i} variant="mask-reveal" duration={0.85}>
                       <div className="flex gap-3 sm:gap-4 items-start">
                         <div className="flex flex-col items-center">
                           <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-zinc-900 border border-zinc-700 text-[#fbbf24] font-mono text-[11px] sm:text-xs flex items-center justify-center font-bold shadow-[2px_2px_0px_#000000]">
