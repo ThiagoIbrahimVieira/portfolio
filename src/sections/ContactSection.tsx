@@ -9,7 +9,7 @@ export function ContactSection() {
   const [sent, setSent] = useState(false);
 
   return (
-    <section id="contato" aria-labelledby="contato-heading" className="relative z-10 py-14 md:py-20 bg-transparent">
+    <section id="contato" aria-labelledby="contato-heading" className="relative z-10 pt-14 pb-28 md:py-20 bg-transparent">
       <div className="mx-auto max-w-7xl px-6 md:px-12">
         <RevealSection>
           <div className="bg-[#141418] border-2 border-zinc-700 rounded-xl grid md:grid-cols-2 gap-8 p-6 md:p-10 shadow-[6px_6px_0px_#ffffff] relative overflow-hidden min-w-0">
