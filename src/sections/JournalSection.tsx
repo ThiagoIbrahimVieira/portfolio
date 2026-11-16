@@ -4,10 +4,10 @@ import { RevealSection } from "@/components/effects/RevealSection";
 
 export function JournalSection() {
   return (
-    <section id="jornada" aria-labelledby="jornada-heading" className="relative z-10 py-24 md:py-32 bg-transparent">
+    <section id="jornada" aria-labelledby="jornada-heading" className="relative z-10 py-14 md:py-20 bg-transparent">
       <div className="mx-auto max-w-7xl px-6 md:px-12">
         <RevealSection>
-          <div className="text-center mb-16">
+          <div className="text-center mb-10">
             <span className="font-handwriting text-[#fbbf24] text-xl md:text-2xl block mb-1">
               {"// log de evolução contínua"}
             </span>
@@ -24,11 +24,11 @@ export function JournalSection() {
           {/* Coluna da Linha do Tempo */}
           <div className="lg:col-span-7">
             <RevealSection delay={0.15}>
-              <div className="bg-[#141418] border border-zinc-800 rounded-lg p-8 md:p-10 relative shadow-[4px_4px_0px_#000000]">
+              <div className="bg-[#141418] border border-zinc-800 rounded-lg p-6 md:p-8 relative shadow-[4px_4px_0px_#000000]">
                 {/* Tape on top */}
                 <div className="tape-strip top-[-10px] left-12 w-28" />
 
-                <div className="flex items-center gap-3 mb-8 pb-4 border-b border-zinc-800">
+                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-zinc-800">
                   <span className="w-10 h-10 rounded-full bg-[#fbbf24] text-black font-display text-xl flex items-center justify-center font-bold">
                     TT
                   </span>
@@ -38,7 +38,7 @@ export function JournalSection() {
                   </div>
                 </div>
 
-                <div className="space-y-8">
+                <div className="space-y-6 md:space-y-7">
                   {siteData.journey.map((j, i) => (
                     <RevealSection key={j.year} delay={0.08 * i} variant="slide-left">
                       <div className="flex gap-4 items-start">

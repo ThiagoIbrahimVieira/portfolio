@@ -26,10 +26,10 @@ const groups = [
 
 export function ToolboxSection() {
   return (
-    <section id="arsenal" aria-labelledby="arsenal-heading" className="relative z-10 py-24 md:py-32 bg-transparent">
+    <section id="arsenal" aria-labelledby="arsenal-heading" className="relative z-10 py-14 md:py-20 bg-transparent">
       <div className="mx-auto max-w-7xl px-6 md:px-12">
         <RevealSection>
-          <div className="text-center mb-16">
+          <div className="text-center mb-10">
             <div className="inline-block">
               <span className="font-handwriting text-[#fbbf24] text-xl md:text-2xl rotate-[-2deg] block mb-1">
                 {"// inventário de combate"}
@@ -44,10 +44,10 @@ export function ToolboxSection() {
           </div>
         </RevealSection>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
           {groups.map((g, idx) => (
             <RevealSection key={g.name} delay={0.12 * idx} variant="scale-up">
-              <div className="bg-[#141418] border border-zinc-800 p-6 md:p-8 rounded-lg relative overflow-hidden shadow-[4px_4px_0px_#000000] hover:border-zinc-600 transition-colors">
+              <div className="bg-[#141418] border border-zinc-800 p-6 rounded-lg relative overflow-hidden shadow-[4px_4px_0px_#000000] hover:border-zinc-600 transition-colors">
                 <div className="flex items-center justify-between mb-6 pb-3 border-b border-zinc-800">
                   <h3 className="font-display text-xl text-white tracking-wide">{g.name}</h3>
                   <span className="text-[11px] font-mono font-bold text-[#fbbf24] px-2 py-0.5 bg-zinc-900 border border-zinc-700 rounded">

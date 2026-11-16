@@ -4,8 +4,8 @@ import { ArrowUpRight } from "lucide-react";
 export function Footer() {
   return (
     <footer className="bg-transparent border-t border-zinc-800 text-zinc-400 font-sans pb-24 md:pb-16">
-      <div className="mx-auto max-w-7xl px-6 md:px-12 py-16 md:py-20">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+      <div className="mx-auto max-w-7xl px-6 md:px-12 py-10 md:py-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 md:mb-10">
           <div>
             <p className="font-display text-[clamp(3.5rem,10vw,7rem)] leading-[0.85] tracking-tight text-white mb-2">
               THIAGO IBRAHIM
@@ -60,7 +60,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-6 border-t border-zinc-800/60 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-zinc-500">
+        <div className="mt-8 md:mt-10 pt-5 border-t border-zinc-800/60 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-zinc-500">
           <p>© 2026 Thiago Ibrahim. Todos os direitos de código reservados.</p>
           <p>ETEC de Itapevi · 1º Técnico em Informática</p>
         </div>

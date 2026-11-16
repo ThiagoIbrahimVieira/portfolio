@@ -6,11 +6,11 @@ const icons = [ShieldCheck, Eye, Cpu, HardDrive];
 
 export function PrinciplesSection() {
   return (
-    <section id="principios" aria-labelledby="principios-heading" className="relative z-10 py-24 md:py-32 bg-transparent">
+    <section id="principios" aria-labelledby="principios-heading" className="relative z-10 py-14 md:py-20 bg-transparent">
       <div className="mx-auto max-w-7xl px-6 md:px-12">
         <div className="max-w-4xl mx-auto">
           <RevealSection>
-            <div className="text-center mb-16">
+            <div className="text-center mb-10">
               <span className="font-handwriting text-[#fbbf24] text-xl md:text-2xl block mb-1">
                 {"// governança inegociável"}
               </span>
@@ -23,7 +23,7 @@ export function PrinciplesSection() {
             </div>
           </RevealSection>
 
-          <div className="grid sm:grid-cols-2 gap-6">
+          <div className="grid sm:grid-cols-2 gap-5 md:gap-6">
             {siteData.principles.map((p, i) => {
               const Icon = icons[i % icons.length];
               return (

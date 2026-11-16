@@ -16,11 +16,11 @@ export function ChronologySection() {
   const otherProjects = siteData.projects.filter((p) => !p.isFeaturedPillar);
 
   return (
-    <section id="projetos" aria-labelledby="projetos-heading" className="relative z-10 py-24 md:py-32 bg-transparent">
+    <section id="projetos" aria-labelledby="projetos-heading" className="relative z-10 py-14 md:py-20 bg-transparent">
       <div className="mx-auto max-w-7xl px-6 md:px-12">
         {/* Section Header */}
         <RevealSection>
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 pb-6 border-b border-zinc-800">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 pb-4 border-b border-zinc-800">
             <div>
               <span className="font-handwriting text-[#fbbf24] text-xl md:text-2xl block mb-1">
                 {"// 4 obras reais de engenharia"}
@@ -38,7 +38,7 @@ export function ChronologySection() {
 
         {/* 1. Constellation Graph Card - Topologia Dinâmica */}
         <RevealSection delay={0.1}>
-          <figure className="bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-6 md:p-8 mb-20 shadow-[6px_6px_0px_#000000] relative overflow-hidden group">
+          <figure className="bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-6 md:p-8 mb-10 md:mb-12 shadow-[6px_6px_0px_#000000] relative overflow-hidden group">
             {/* Ambient Backlight Glow */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-24 bg-gradient-to-b from-amber-500/10 via-cyan-500/5 to-transparent blur-2xl pointer-events-none" />
 
@@ -57,7 +57,7 @@ export function ChronologySection() {
               </div>
             </div>
 
-            <div className="w-full h-[520px] md:h-[580px] relative">
+            <div className="w-full h-[480px] md:h-[520px] relative">
               <ConstellationCanvas
                 onSelectProject={(id) => {
                   const found = siteData.projects.find((p) => p.id === id);
@@ -74,7 +74,7 @@ export function ChronologySection() {
         </RevealSection>
 
         {/* 2. Mobile Snap-to-Card Carousel (< 768px) */}
-        <div className="block md:hidden mb-16">
+        <div className="block md:hidden mb-10 md:mb-12">
           <p className="text-xs font-mono text-zinc-400 mb-3 flex items-center gap-1.5">
             <span className="text-[#fbbf24]">◀ ▶</span> Deslize para navegar pelos 4 cards nucleares (Snap 60 FPS)
           </p>
@@ -88,7 +88,7 @@ export function ChronologySection() {
         </div>
 
         {/* Desktop Grid Layout com 3D Tilt */}
-        <div className="hidden md:grid md:grid-cols-2 gap-8 mb-20">
+        <div className="hidden md:grid md:grid-cols-2 gap-6 md:gap-7 mb-14 md:mb-16">
           {featuredProjects.map((p, idx) => (
             <RevealSection key={p.id} delay={0.15 * idx}>
               <ProjectStreetCard project={p} onSelect={setSelectedProject} />
@@ -99,8 +99,8 @@ export function ChronologySection() {
         {/* Supporting Projects Archive com o MESMO visual Street-Tech (Imagem 4) */}
         {otherProjects.length > 0 && (
           <RevealSection delay={0.2}>
-            <div className="mt-20 pt-16 border-t border-zinc-800">
-              <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10 pb-4 border-b border-zinc-800/80">
+            <div className="mt-12 pt-10 border-t border-zinc-800">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6 pb-3 border-b border-zinc-800/80">
                 <div>
                   <span className="font-handwriting text-[#fbbf24] text-xl block mb-1 select-none">
                     {"// obras complementares & experimentos auditados"}
@@ -116,7 +116,7 @@ export function ChronologySection() {
               </div>
 
               {/* Grid idêntico aos cards nucleares com 3D tilt, fita adesiva e sticker badges */}
-              <div className="grid md:grid-cols-3 gap-8">
+              <div className="grid md:grid-cols-3 gap-6">
                 {otherProjects.map((p, idx) => (
                   <RevealSection key={p.id} delay={0.12 * idx} variant="scale-up">
                     <ProjectStreetCard project={p} onSelect={setSelectedProject} />

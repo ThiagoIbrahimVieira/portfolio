@@ -24,11 +24,11 @@ export function HeroSection() {
   const person = siteData.person;
 
   return (
-    <section id="hero" aria-labelledby="hero-heading" className="relative z-10 pt-6 pb-20 md:py-28 overflow-hidden bg-transparent">
-      <div className="mx-auto max-w-7xl px-6 md:px-12">
+    <section id="hero" aria-labelledby="hero-heading" className="relative z-10 min-h-[calc(100vh-4.5rem)] flex flex-col justify-center py-10 md:py-12 overflow-hidden bg-transparent">
+      <div className="mx-auto max-w-7xl px-6 md:px-12 w-full">
         {/* Top telemetry bar */}
         <RevealSection>
-          <div className="flex flex-wrap items-center justify-between gap-4 py-3 px-4 mb-12 bg-[#141418] border border-zinc-800 rounded-lg font-mono text-xs text-zinc-400 shadow-[4px_4px_0px_#000000]">
+          <div className="flex flex-wrap items-center justify-between gap-4 py-3 px-4 mb-6 md:mb-8 bg-[#141418] border border-zinc-800 rounded-lg font-mono text-xs text-zinc-400 shadow-[4px_4px_0px_#000000]">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
               <span className="text-zinc-200 font-bold">{person.statusPill}</span>
@@ -41,8 +41,8 @@ export function HeroSection() {
         </RevealSection>
 
         {/* Hero Core Layout */}
-        <div className="grid lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-8 space-y-6">
+        <div className="grid lg:grid-cols-12 gap-8 md:gap-10 items-center">
+          <div className="lg:col-span-8 space-y-4 md:space-y-5">
             <RevealSection delay={0.1}>
               {/* Handwritten highlight note */}
               <div className="inline-block">
@@ -115,7 +115,7 @@ export function HeroSection() {
           <div className="lg:col-span-4 flex flex-col items-center justify-center relative">
             <RevealSection delay={0.2}>
               {/* 3:4 Aspect Ratio Sticker Slot */}
-              <div className="w-full max-w-[280px] sm:max-w-xs aspect-[3/4] relative mb-8 sticker-die-cut rounded-2xl overflow-hidden bg-[#141418] border-2 border-white/90 shadow-[4px_10px_25px_rgba(0,0,0,0.8)]">
+              <div className="w-full max-w-[240px] sm:max-w-[270px] aspect-[3/4] relative mb-5 md:mb-6 sticker-die-cut rounded-2xl overflow-hidden bg-[#141418] border-2 border-white/90 shadow-[4px_10px_25px_rgba(0,0,0,0.8)] mx-auto">
                 <Image
                   src="/images/thiago-hero-sticker.png"
                   alt="Thiago Ibrahim — Retrato recortado em sticker die-cut 3:4"
@@ -128,7 +128,7 @@ export function HeroSection() {
               </div>
 
               {/* Rotating Circular Seal */}
-              <div className="relative w-36 h-36 mb-6 hidden sm:flex items-center justify-center mx-auto">
+              <div className="relative w-28 h-28 md:w-32 md:h-32 mb-4 md:mb-5 hidden sm:flex items-center justify-center mx-auto">
                 <svg className="w-full h-full animate-spin-slow select-none" viewBox="0 0 100 100">
                   <path
                     id="circlePath"
@@ -141,18 +141,18 @@ export function HeroSection() {
                     </textPath>
                   </text>
                 </svg>
-                <div className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-[#141418] border-2 border-[#fbbf24] flex items-center justify-center shadow-[0_0_15px_rgba(251,191,36,0.2)]">
-                  <span className="font-display text-xl text-white">TT</span>
+                <div className="absolute inset-0 m-auto w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#141418] border-2 border-[#fbbf24] flex items-center justify-center shadow-[0_0_15px_rgba(251,191,36,0.2)]">
+                  <span className="font-display text-base md:text-lg text-white">TT</span>
                 </div>
               </div>
 
               {/* Manifest Card with Torn Edge */}
-              <div className="w-full bg-[#141418] border border-zinc-800 p-6 rounded-lg relative shadow-[4px_4px_0px_#000000]">
+              <div className="w-full bg-[#141418] border border-zinc-800 p-5 rounded-lg relative shadow-[4px_4px_0px_#000000]">
                 <div className="tape-strip top-[-12px] right-6 w-20" />
                 <p className="font-mono text-xs text-[#fbbf24] uppercase tracking-wider mb-2">
                   {"// MANIFESTO DO CONSTRUTOR"}
                 </p>
-                <p className="text-zinc-300 font-sans text-sm leading-relaxed italic mb-4">
+                <p className="text-zinc-300 font-sans text-xs md:text-sm leading-relaxed italic mb-3">
                   &ldquo;{person.anchor}&rdquo;
                 </p>
                 <p className="text-xs font-mono text-zinc-500">
