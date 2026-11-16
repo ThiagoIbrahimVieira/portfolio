@@ -165,11 +165,11 @@ export function HeroSection() {
       id="hero"
       ref={heroRef}
       aria-labelledby="hero-heading"
-      className="relative z-10 min-h-[calc(100vh-4.5rem)] flex flex-col justify-center py-10 md:py-12 overflow-hidden bg-transparent"
+      className="relative z-10 min-h-[calc(100vh-4.5rem)] flex flex-col justify-center py-4 md:py-5 overflow-hidden bg-transparent"
     >
       <div className="mx-auto max-w-7xl px-6 md:px-12 w-full">
         {/* Top telemetry bar */}
-        <div className="hero-telemetry flex flex-wrap items-center justify-between gap-4 py-3 px-4 mb-6 md:mb-8 bg-[#141418] border border-zinc-800 rounded-lg font-mono text-xs text-zinc-400 shadow-[4px_4px_0px_#000000]">
+        <div className="hero-telemetry flex flex-wrap items-center justify-between gap-3 py-2 px-4 mb-3 md:mb-4 bg-[#141418] border border-zinc-800 rounded-lg font-mono text-xs text-zinc-400 shadow-[4px_4px_0px_#000000]">
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
             <span className="text-zinc-200 font-bold">{person.statusPill}</span>
@@ -181,12 +181,12 @@ export function HeroSection() {
         </div>
 
         {/* Hero Core Layout */}
-        <div className="grid lg:grid-cols-12 gap-8 md:gap-10 items-center">
-          <div className="lg:col-span-8 space-y-4 md:space-y-5 min-w-0">
+        <div className="grid lg:grid-cols-12 gap-6 lg:gap-8 items-center">
+          <div className="lg:col-span-8 space-y-3 md:space-y-3.5 min-w-0">
             <div>
               {/* Handwritten highlight note */}
-              <div className="hero-handwriting inline-block mb-1">
-                <span className="font-handwriting text-[#fbbf24] text-2xl md:text-3xl rotate-[-2deg] block select-none">
+              <div className="hero-handwriting inline-block mb-0.5">
+                <span className="font-handwriting text-[#fbbf24] text-xl md:text-2xl rotate-[-2deg] block select-none">
                   {person.handwrittenNote ?? "Building real systems from Itapevi 🚀"}
                 </span>
               </div>
@@ -194,7 +194,7 @@ export function HeroSection() {
               {/* Giant Display Headline com Mask Reveal editorial */}
               <h1
                 id="hero-heading"
-                className="font-display text-white text-[clamp(2.75rem,11vw,8.5rem)] leading-[0.88] tracking-tighter"
+                className="font-display text-white text-[clamp(2.5rem,6.8vw,5.5rem)] leading-[0.90] tracking-tighter"
               >
                 <span className="block overflow-hidden py-0.5">
                   <span className="block hero-title-line">THIAGO</span>
@@ -206,93 +206,100 @@ export function HeroSection() {
             </div>
 
             {/* Subtitle & Value Proposition */}
-            <p className="hero-subtitle text-lg md:text-xl text-zinc-300 max-w-2xl font-sans leading-relaxed">
+            <p className="hero-subtitle text-base md:text-lg text-zinc-300 max-w-2xl font-sans leading-relaxed">
               {person.sub}
             </p>
 
             {/* Tech Sticker Badges */}
-            <div className="flex flex-wrap items-center gap-2.5 pt-2">
-              <span className="hero-badge badge-sticker bg-[#00d8ff] text-black border-black">
+            <div className="flex flex-wrap items-center gap-2 pt-1">
+              <span className="hero-badge badge-sticker bg-[#00d8ff] text-black border-black text-[11px] py-1 px-2.5">
                 <Code2 className="w-3.5 h-3.5" />
                 React 19 / TS 5.8
               </span>
-              <span className="hero-badge badge-sticker bg-[#76b900] text-black border-black">
+              <span className="hero-badge badge-sticker bg-[#76b900] text-black border-black text-[11px] py-1 px-2.5">
                 <Cpu className="w-3.5 h-3.5" />
                 CUDA float16
               </span>
-              <span className="hero-badge badge-sticker bg-[#22c55e] text-black border-black">
+              <span className="hero-badge badge-sticker bg-[#22c55e] text-black border-black text-[11px] py-1 px-2.5">
                 <Terminal className="w-3.5 h-3.5" />
                 Baileys & Streams
               </span>
-              <span className="hero-badge badge-sticker bg-[#fbbf24] text-black border-black">
+              <span className="hero-badge badge-sticker bg-[#fbbf24] text-black border-black text-[11px] py-1 px-2.5">
                 Local-First Win32
               </span>
             </div>
 
             {/* CTAs */}
-            <div className="hero-cta flex flex-wrap items-center gap-4 pt-4">
+            <div className="hero-cta flex flex-wrap items-center gap-3.5 pt-2">
               <a
                 href="#projetos"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#fbbf24] text-black font-display text-base tracking-wider rounded-md border-2 border-black shadow-[4px_4px_0px_#ffffff] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#ffffff] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 bg-[#fbbf24] text-black font-display text-sm md:text-base tracking-wider rounded-md border-2 border-black shadow-[4px_4px_0px_#ffffff] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#ffffff] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
               >
                 VER OS 4 PROJETOS NUCLEARES
-                <ArrowUpRight className="w-5 h-5" />
+                <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5" />
               </a>
               <a
                 href={siteData.contact.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#141418] text-white font-mono text-xs uppercase tracking-wider rounded-md border border-zinc-700 hover:border-white transition-colors"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 bg-[#141418] text-white font-mono text-xs uppercase tracking-wider rounded-md border border-zinc-700 hover:border-white transition-colors"
               >
                 GITHUB REPOS ↗
               </a>
             </div>
           </div>
 
-          {/* Right Column: 3:4 Die-Cut Sticker Slot & Rotating Seal */}
-          <div className="lg:col-span-4 flex flex-col items-center justify-center relative min-w-0 w-full">
-            {/* 3:4 Aspect Ratio Sticker Slot com Clip-Path Reveal */}
-            <div className="hero-sticker w-full max-w-[240px] sm:max-w-[270px] aspect-[3/4] relative mb-5 md:mb-6 sticker-die-cut rounded-2xl overflow-hidden bg-[#141418] border-2 border-white/90 shadow-[4px_10px_25px_rgba(0,0,0,0.8)] mx-auto">
-              <Image
-                src="/images/thiago-hero-sticker.png"
-                alt="Thiago Ibrahim — Retrato recortado em sticker die-cut 3:4"
-                width={600}
-                height={800}
-                priority
-                className="w-full h-full object-cover"
-              />
-              <div className="tape-strip top-[-8px] right-6 w-20" />
-            </div>
-
-            {/* Rotating Circular Seal */}
-            <div className="hero-seal relative w-28 h-28 md:w-32 md:h-32 mb-4 md:mb-5 hidden sm:flex items-center justify-center mx-auto">
-              <svg className="w-full h-full animate-spin-slow select-none" viewBox="0 0 100 100">
-                <path
-                  id="circlePath"
-                  d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"
-                  fill="none"
+          {/* Right Column: 3:4 Die-Cut Sticker Slot, Overlaid Rotating Seal & Compact Manifest */}
+          <div className="lg:col-span-4 flex flex-col items-center justify-center relative min-w-0 w-full mt-4 lg:mt-0">
+            {/* Wrapper com Sticker Foto e Selo Sobreposto */}
+            <div className="relative w-full max-w-[210px] sm:max-w-[230px] lg:max-w-[245px] mx-auto">
+              {/* 3:4 Aspect Ratio Sticker Slot com Clip-Path Reveal */}
+              <div className="hero-sticker w-full aspect-[3/4] relative sticker-die-cut rounded-2xl bg-[#141418] border-2 border-white/90 shadow-[4px_10px_25px_rgba(0,0,0,0.8)] overflow-hidden">
+                <Image
+                  src="/images/thiago-hero-sticker.png"
+                  alt="Thiago Ibrahim — Retrato recortado em sticker die-cut 3:4"
+                  width={600}
+                  height={800}
+                  priority
+                  className="w-full h-full object-cover"
                 />
-                <text className="text-[7.5px] font-mono tracking-[0.22em] fill-zinc-300 uppercase">
-                  <textPath href="#circlePath">
-                    THIAGO IBRAHIM • 1º TÉCNICO EM INFORMÁTICA • ETEC ITAPEVI •
-                  </textPath>
-                </text>
-              </svg>
-              <div className="absolute inset-0 m-auto w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#141418] border-2 border-[#fbbf24] flex items-center justify-center shadow-[0_0_15px_rgba(251,191,36,0.2)]">
-                <span className="font-display text-base md:text-lg text-white">TT</span>
+                <div className="tape-strip -top-3 right-4 w-24 bg-[#fbbf24]/70 text-black text-center flex items-center justify-center font-mono text-[9px] font-bold z-20 rotate-[4deg] shadow-md border border-black/30">
+                  THIAGO // 1º TI
+                </div>
+              </div>
+
+              {/* Rotating Circular Seal posicionado organicamente como selo de autenticação sobre a foto */}
+              <div className="hero-seal absolute -bottom-4 -left-6 md:-left-8 z-30 pointer-events-none hidden sm:flex items-center justify-center w-22 h-22 md:w-24 md:h-24">
+                <svg className="w-full h-full animate-spin-slow select-none" viewBox="0 0 100 100">
+                  <path
+                    id="circlePath"
+                    d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"
+                    fill="none"
+                  />
+                  <text className="text-[7.5px] font-mono tracking-[0.22em] fill-zinc-300 uppercase">
+                    <textPath href="#circlePath">
+                      THIAGO IBRAHIM • 1º TÉCNICO EM INFORMÁTICA • ETEC ITAPEVI •
+                    </textPath>
+                  </text>
+                </svg>
+                <div className="absolute inset-0 m-auto w-9 h-9 md:w-10 md:h-10 rounded-full bg-[#141418] border-2 border-[#fbbf24] flex items-center justify-center shadow-[0_0_15px_rgba(251,191,36,0.3)]">
+                  <span className="font-display text-sm md:text-base text-white">TT</span>
+                </div>
               </div>
             </div>
 
-            {/* Manifest Card with Torn Edge */}
-            <div className="hero-manifest w-full bg-[#141418] border border-zinc-800 p-5 rounded-lg relative shadow-[4px_4px_0px_#000000]">
-              <div className="tape-strip top-[-12px] right-6 w-20" />
-              <p className="font-mono text-xs text-[#fbbf24] uppercase tracking-wider mb-2">
+            {/* Manifest Card Compacto & Harmônico */}
+            <div className="hero-manifest w-full max-w-[215px] sm:max-w-[235px] lg:max-w-[250px] mx-auto bg-[#141418] border border-zinc-800 pt-3.5 pb-2.5 px-3.5 rounded-lg relative shadow-[3px_3px_0px_#000000] mt-3 text-center">
+              <div className="tape-strip -top-2.5 -right-2 w-20 bg-amber-500/50 text-amber-200 border border-amber-400/70 text-center flex items-center justify-center font-mono text-[8px] font-bold z-20 rotate-[4deg] shadow-md">
+                MANIFESTO
+              </div>
+              <p className="font-mono text-[9.5px] text-[#fbbf24] uppercase tracking-wider mb-1">
                 {"// MANIFESTO DO CONSTRUTOR"}
               </p>
-              <p className="text-zinc-300 font-sans text-xs md:text-sm leading-relaxed italic mb-3">
+              <p className="text-zinc-300 font-sans text-[11px] md:text-xs leading-snug italic mb-1.5 line-clamp-3">
                 &ldquo;{person.anchor}&rdquo;
               </p>
-              <p className="text-xs font-mono text-zinc-500">
+              <p className="text-[10px] font-mono text-zinc-500">
                 — Thiago Ibrahim (16 anos) · ETEC Itapevi
               </p>
             </div>
