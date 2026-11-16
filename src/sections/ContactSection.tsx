@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { siteData } from "@/data/site";
 import { Send, Terminal, CheckCircle2, Mail, Copy, Check, MessageSquare, AlertCircle, Loader2 } from "lucide-react";
-import { RevealSection } from "@/components/effects/RevealSection";
 import { ParallaxWatermark } from "@/components/effects/ParallaxWatermark";
+import { gsap } from "@/lib/gsap";
 
 export function ContactSection() {
+  const sectionRef = useRef<HTMLElement>(null);
   const [formData, setFormData] = useState({
     nome: "",
     email: "",
@@ -16,6 +17,87 @@ export function ContactSection() {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<"idle" | "success-mail" | "success-wa" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    let ctx: gsap.Context | null = null;
+
+    if (typeof window !== "undefined") {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        gsap.set([".contact-main-card", ".contact-info-item", ".contact-form-field"], {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          x: 0,
+        });
+      } else {
+        ctx = gsap.context(() => {
+          const mm = gsap.matchMedia();
+
+          mm.add("(min-width: 768px)", () => {
+            // Main card container entrance
+            gsap.fromTo(
+              ".contact-main-card",
+              { opacity: 0, y: 45, scale: 0.96 },
+              {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.85,
+                ease: "power3.out",
+                scrollTrigger: {
+                  trigger: ".contact-main-card",
+                  start: "top 82%",
+                  toggleActions: "play none none none",
+                },
+              }
+            );
+
+            // Left info items stagger
+            gsap.fromTo(
+              ".contact-info-item",
+              { opacity: 0, x: -30 },
+              {
+                opacity: 1,
+                x: 0,
+                duration: 0.7,
+                stagger: 0.12,
+                delay: 0.1,
+                ease: "power3.out",
+                scrollTrigger: {
+                  trigger: ".contact-main-card",
+                  start: "top 82%",
+                  toggleActions: "play none none none",
+                },
+              }
+            );
+
+            // Right form fields stagger
+            gsap.fromTo(
+              ".contact-form-field",
+              { opacity: 0, y: 18 },
+              {
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                stagger: 0.08,
+                delay: 0.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                  trigger: ".contact-main-card",
+                  start: "top 82%",
+                  toggleActions: "play none none none",
+                },
+              }
+            );
+          });
+        }, sectionRef);
+      }
+    }
+
+    return () => {
+      if (ctx) ctx.revert();
+    };
+  }, []);
 
   const validate = () => {
     if (!formData.nome.trim()) {
@@ -102,179 +184,185 @@ export function ContactSection() {
   };
 
   return (
-    <section id="contato" aria-labelledby="contato-heading" className="relative z-10 pt-12 pb-28 md:py-28 bg-transparent overflow-hidden">
+    <section
+      id="contato"
+      ref={sectionRef}
+      aria-labelledby="contato-heading"
+      className="relative z-10 pt-12 pb-28 md:py-28 bg-transparent overflow-hidden"
+    >
       {/* Parallax Watermark de Fundo */}
       <ParallaxWatermark number="05" label="PING // CONTATO DIRETO" position="right" speed={55} />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-12 relative z-10">
-        <RevealSection variant="card-expand" duration={0.95}>
-          <div className="bg-[#141418] border-2 border-zinc-700 rounded-xl grid md:grid-cols-2 gap-6 md:gap-10 p-5 sm:p-7 md:p-12 shadow-[5px_5px_0px_#ffffff] relative overflow-visible">
-            <div className="tape-strip -top-3.5 -right-3 w-28 bg-[#fbbf24]/60 text-black text-center flex items-center justify-center font-mono text-[9px] font-bold z-20 rotate-[5deg] shadow-md border border-black/30">
-              CANAL // DIRETO
+        <div className="contact-main-card bg-[#141418] border-2 border-zinc-700 rounded-xl grid md:grid-cols-2 gap-6 md:gap-10 p-5 sm:p-7 md:p-12 shadow-[5px_5px_0px_#ffffff] relative overflow-visible">
+          <div className="tape-strip -top-3.5 -right-3 w-28 bg-[#fbbf24]/60 text-black text-center flex items-center justify-center font-mono text-[9px] font-bold z-20 rotate-[5deg] shadow-md border border-black/30">
+            CANAL // DIRETO
+          </div>
+
+          {/* Coluna da Esquerda: Info & Telemetria */}
+          <div className="flex flex-col justify-between space-y-5">
+            <div>
+              <span className="contact-info-item font-handwriting text-[#fbbf24] text-xl sm:text-2xl block mb-1">
+                {"// canal direto de engenharia"}
+              </span>
+              <h2
+                id="contato-heading"
+                className="contact-info-item font-display text-3xl sm:text-4xl md:text-5xl text-white leading-tight mb-2 sm:mb-3"
+              >
+                VAMOS CONVERSAR
+              </h2>
+              <p className="contact-info-item text-zinc-300 text-xs sm:text-sm md:text-base leading-relaxed max-w-md">
+                Projetos com código aberto no GitHub, documentação e testes. Aberto a discussões de engenharia, sistemas locais e parcerias técnicas.
+              </p>
             </div>
 
-            {/* Coluna da Esquerda: Info & Telemetria */}
-            <div className="flex flex-col justify-between space-y-5">
-              <div>
-                <span className="font-handwriting text-[#fbbf24] text-xl sm:text-2xl block mb-1">
-                  {"// canal direto de engenharia"}
-                </span>
-                <h2 id="contato-heading" className="font-display text-3xl sm:text-4xl md:text-5xl text-white leading-tight mb-2 sm:mb-3">
-                  VAMOS CONVERSAR
-                </h2>
-                <p className="text-zinc-300 text-xs sm:text-sm md:text-base leading-relaxed max-w-md">
-                  Projetos com código aberto no GitHub, documentação e testes. Aberto a discussões de engenharia, sistemas locais e parcerias técnicas.
-                </p>
-              </div>
-
-              <div className="space-y-3 font-mono text-xs text-zinc-400">
-                {/* Email Box com botão de cópia responsivo */}
-                <div className="p-3 bg-zinc-900 border border-zinc-800 rounded-lg flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                  <div className="flex items-center gap-2 min-w-0">
-                    <Mail className="w-4 h-4 text-[#fbbf24] shrink-0" />
-                    <span className="text-white text-xs sm:text-sm font-mono truncate">
-                      thiagoibrahimvieira@gmail.com
-                    </span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={handleCopyEmail}
-                    className="self-start sm:self-auto px-2.5 py-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded border border-zinc-600 transition-colors flex items-center gap-1.5 text-xs font-mono font-bold"
-                  >
-                    {copied ? (
-                      <>
-                        <Check className="w-3.5 h-3.5 text-emerald-400" />
-                        <span>Copiado!</span>
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="w-3.5 h-3.5 text-zinc-400" />
-                        <span>Copiar</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-
-                <p className="flex items-center gap-2">
-                  <Terminal className="w-4 h-4 text-[#fbbf24] shrink-0" />
-                  <span>
-                    GITHUB:{" "}
-                    <a
-                      href={siteData.contact.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-white hover:text-[#fbbf24] underline"
-                    >
-                      {siteData.contact.githubLabel}
-                    </a>
+            <div className="space-y-3 font-mono text-xs text-zinc-400">
+              {/* Email Box com botão de cópia responsivo */}
+              <div className="contact-info-item p-3 bg-zinc-900 border border-zinc-800 rounded-lg flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div className="flex items-center gap-2 min-w-0">
+                  <Mail className="w-4 h-4 text-[#fbbf24] shrink-0" />
+                  <span className="text-white text-xs sm:text-sm font-mono truncate">
+                    thiagoibrahimvieira@gmail.com
                   </span>
-                </p>
-                <p className="text-zinc-500">Itapevi, São Paulo · Brasil</p>
-              </div>
-            </div>
-
-            {/* Coluna da Direita: Formulário Compacto & Ações Diretas */}
-            <form onSubmit={handleDispatch} className="flex flex-col gap-2.5">
-              <label className="sr-only" htmlFor="nome">
-                Nome
-              </label>
-              <input
-                id="nome"
-                type="text"
-                required
-                value={formData.nome}
-                onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
-                placeholder="Seu nome / organização *"
-                className="bg-zinc-900 border border-zinc-700 text-white placeholder:text-zinc-500 px-3.5 h-10 sm:h-11 rounded focus:outline-none focus:border-[#fbbf24] font-sans text-xs sm:text-sm transition-colors"
-              />
-              <label className="sr-only" htmlFor="email">
-                E-mail
-              </label>
-              <input
-                id="email"
-                type="email"
-                required
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                placeholder="seu-email@dominio.com *"
-                className="bg-zinc-900 border border-zinc-700 text-white placeholder:text-zinc-500 px-3.5 h-10 sm:h-11 rounded focus:outline-none focus:border-[#fbbf24] font-sans text-xs sm:text-sm transition-colors"
-              />
-              <label className="sr-only" htmlFor="msg">
-                Mensagem
-              </label>
-              <textarea
-                id="msg"
-                required
-                rows={3}
-                value={formData.mensagem}
-                onChange={(e) => setFormData({ ...formData, mensagem: e.target.value })}
-                placeholder="Descreva a demanda técnica ou ideia de colaboração... *"
-                className="bg-zinc-900 border border-zinc-700 text-white placeholder:text-zinc-500 px-3.5 py-2.5 rounded focus:outline-none focus:border-[#fbbf24] font-sans text-xs sm:text-sm resize-none transition-colors"
-              />
-
-              {status === "error" && (
-                <div className="flex items-center gap-2 p-2.5 bg-red-950/70 border border-red-500/60 rounded text-red-200 text-xs font-mono">
-                  <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
-                  <span>{errorMessage}</span>
                 </div>
-              )}
-
-              {status === "success-wa" && (
-                <div className="flex items-start gap-2 p-3 bg-emerald-950/70 border border-emerald-500/60 rounded text-emerald-200 text-xs font-mono animate-fadeIn">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-bold text-white mb-0.5">WHATSAPP ABERTO!</p>
-                    <p className="text-zinc-300">A conversa foi iniciada com sua mensagem pronta para envio.</p>
-                  </div>
-                </div>
-              )}
-
-              {status === "success-mail" && (
-                <div className="flex items-start gap-2 p-3 bg-emerald-950/70 border border-emerald-500/60 rounded text-emerald-200 text-xs font-mono animate-fadeIn">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-bold text-white mb-0.5">DISPATCH ENVIADO COM SUCESSO!</p>
-                    <p className="text-zinc-300">Thiago recebeu seu e-mail diretamente e responderá em breve.</p>
-                  </div>
-                </div>
-              )}
-
-              {/* Botões de Ação Direta */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-1">
                 <button
                   type="button"
-                  onClick={handleWhatsApp}
-                  className="bg-emerald-500 hover:bg-emerald-400 text-black h-11 font-display text-xs sm:text-sm tracking-wider uppercase rounded active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 border border-black shadow-[2px_2px_0px_#000000]"
+                  onClick={handleCopyEmail}
+                  className="self-start sm:self-auto px-2.5 py-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded border border-zinc-600 transition-colors flex items-center gap-1.5 text-xs font-mono font-bold"
                 >
-                  <MessageSquare className="w-4 h-4" />
-                  <span>ENVIAR NO WHATSAPP</span>
-                </button>
-
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="bg-[#fbbf24] hover:bg-[#f59e0b] disabled:opacity-60 text-black h-11 font-display text-xs sm:text-sm tracking-wider uppercase rounded active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 border border-black shadow-[2px_2px_0px_#000000]"
-                >
-                  {loading ? (
+                  {copied ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>ENVIANDO...</span>
+                      <Check className="w-3.5 h-3.5 text-emerald-400" />
+                      <span>Copiado!</span>
                     </>
                   ) : (
                     <>
-                      <Send className="w-4 h-4" />
-                      <span>ENVIAR PELO EMAIL</span>
+                      <Copy className="w-3.5 h-3.5 text-zinc-400" />
+                      <span>Copiar</span>
                     </>
                   )}
                 </button>
               </div>
 
-              <p className="text-[11px] font-mono text-zinc-500 text-center mt-1">
-                Canal direto com Thiago · Sem intermediários públicos
+              <p className="contact-info-item flex items-center gap-2">
+                <Terminal className="w-4 h-4 text-[#fbbf24] shrink-0" />
+                <span>
+                  GITHUB:{" "}
+                  <a
+                    href={siteData.contact.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white hover:text-[#fbbf24] underline"
+                  >
+                    {siteData.contact.githubLabel}
+                  </a>
+                </span>
               </p>
-            </form>
+              <p className="contact-info-item text-zinc-500">Itapevi, São Paulo · Brasil</p>
+            </div>
           </div>
-        </RevealSection>
+
+          {/* Coluna da Direita: Formulário Compacto & Ações Diretas */}
+          <form onSubmit={handleDispatch} className="flex flex-col gap-2.5">
+            <label className="sr-only" htmlFor="nome">
+              Nome
+            </label>
+            <input
+              id="nome"
+              type="text"
+              required
+              value={formData.nome}
+              onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
+              placeholder="Seu nome / organização *"
+              className="contact-form-field bg-zinc-900 border border-zinc-700 text-white placeholder:text-zinc-500 px-3.5 h-10 sm:h-11 rounded focus:outline-none focus:border-[#fbbf24] font-sans text-xs sm:text-sm transition-colors"
+            />
+            <label className="sr-only" htmlFor="email">
+              E-mail
+            </label>
+            <input
+              id="email"
+              type="email"
+              required
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              placeholder="seu-email@dominio.com *"
+              className="contact-form-field bg-zinc-900 border border-zinc-700 text-white placeholder:text-zinc-500 px-3.5 h-10 sm:h-11 rounded focus:outline-none focus:border-[#fbbf24] font-sans text-xs sm:text-sm transition-colors"
+            />
+            <label className="sr-only" htmlFor="msg">
+              Mensagem
+            </label>
+            <textarea
+              id="msg"
+              required
+              rows={3}
+              value={formData.mensagem}
+              onChange={(e) => setFormData({ ...formData, mensagem: e.target.value })}
+              placeholder="Descreva a demanda técnica ou ideia de colaboração... *"
+              className="contact-form-field bg-zinc-900 border border-zinc-700 text-white placeholder:text-zinc-500 px-3.5 py-2.5 rounded focus:outline-none focus:border-[#fbbf24] font-sans text-xs sm:text-sm resize-none transition-colors"
+            />
+
+            {status === "error" && (
+              <div className="flex items-center gap-2 p-2.5 bg-red-950/70 border border-red-500/60 rounded text-red-200 text-xs font-mono">
+                <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+                <span>{errorMessage}</span>
+              </div>
+            )}
+
+            {status === "success-wa" && (
+              <div className="flex items-start gap-2 p-3 bg-emerald-950/70 border border-emerald-500/60 rounded text-emerald-200 text-xs font-mono animate-fadeIn">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-bold text-white mb-0.5">WHATSAPP ABERTO!</p>
+                  <p className="text-zinc-300">A conversa foi iniciada com sua mensagem pronta para envio.</p>
+                </div>
+              </div>
+            )}
+
+            {status === "success-mail" && (
+              <div className="flex items-start gap-2 p-3 bg-emerald-950/70 border border-emerald-500/60 rounded text-emerald-200 text-xs font-mono animate-fadeIn">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-bold text-white mb-0.5">DISPATCH ENVIADO COM SUCESSO!</p>
+                  <p className="text-zinc-300">Thiago recebeu seu e-mail diretamente e responderá em breve.</p>
+                </div>
+              </div>
+            )}
+
+            {/* Botões de Ação Direta */}
+            <div className="contact-form-field grid grid-cols-1 sm:grid-cols-2 gap-2 mt-1">
+              <button
+                type="button"
+                onClick={handleWhatsApp}
+                className="bg-emerald-500 hover:bg-emerald-400 text-black h-11 font-display text-xs sm:text-sm tracking-wider uppercase rounded active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 border border-black shadow-[2px_2px_0px_#000000]"
+              >
+                <MessageSquare className="w-4 h-4" />
+                <span>ENVIAR NO WHATSAPP</span>
+              </button>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="bg-[#fbbf24] hover:bg-[#f59e0b] disabled:opacity-60 text-black h-11 font-display text-xs sm:text-sm tracking-wider uppercase rounded active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 border border-black shadow-[2px_2px_0px_#000000]"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>ENVIANDO...</span>
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4" />
+                    <span>ENVIAR PELO EMAIL</span>
+                  </>
+                )}
+              </button>
+            </div>
+
+            <p className="contact-form-field text-[11px] font-mono text-zinc-500 text-center mt-1">
+              Canal direto com Thiago · Sem intermediários públicos
+            </p>
+          </form>
+        </div>
       </div>
     </section>
   );

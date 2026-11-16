@@ -146,12 +146,12 @@ async function runHomologation() {
   await cardsPage.goto(BASE_URL, { waitUntil: "networkidle" });
   await cardsPage.waitForTimeout(500);
 
-  // Rola até #projetos
+  // Rola até o grid de cards desktop
   await cardsPage.evaluate(() => {
-    const el = document.getElementById("projetos");
+    const el = document.getElementById("project-desktop-codeatlas") || document.getElementById("projetos");
     if (el) el.scrollIntoView({ behavior: "smooth" });
   });
-  await cardsPage.waitForTimeout(800);
+  await cardsPage.waitForTimeout(1000);
 
   // Screenshot grid de cards
   await cardsPage.screenshot({ path: "tools/art/desktop-cards-grid.png" });
@@ -176,7 +176,7 @@ async function runHomologation() {
   });
 
   // Microinteração de Hover no card CodeAtlas
-  const cardSelector = "#project-codeatlas";
+  const cardSelector = "#project-desktop-codeatlas";
   const cardLocator = cardsPage.locator(cardSelector);
   let hoverData = null;
 
@@ -243,7 +243,9 @@ async function runHomologation() {
     const sAudit = await cardsPage.evaluate((id) => {
       const sec = document.getElementById(id);
       if (!sec) return { found: false };
-      const keyNodes = Array.from(sec.querySelectorAll("h2, h3, article, li, figure, form, button, p"));
+      const keyNodes = Array.from(sec.querySelectorAll("h2, h3, article, li, figure, form, button, p")).filter((n) => {
+        return window.getComputedStyle(n).display !== "none" && !n.closest(".md\\:hidden, [class*='md:hidden']");
+      });
       const opacities = keyNodes.map((n) => parseFloat(window.getComputedStyle(n).opacity));
       const zeroCount = opacities.filter((o) => o === 0).length;
       return {
@@ -252,7 +254,7 @@ async function runHomologation() {
         zeroCount,
         allVisible: zeroCount === 0,
       };
-    });
+    }, sId);
 
     report.sectionsZeroOpacity[sId] = sAudit;
     console.log(`Seção #${sId}:`, sAudit);

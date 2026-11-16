@@ -4,7 +4,6 @@ import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { siteData } from "@/data/site";
 import { Terminal, ArrowUpRight, Cpu, Code2 } from "lucide-react";
-import { RevealSection } from "@/components/effects/RevealSection";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { ParallaxWatermark } from "@/components/effects/ParallaxWatermark";
 import { gsap } from "@/lib/gsap";
@@ -14,7 +13,7 @@ export function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const shouldReduceMotion = useReducedMotion();
 
-  // Scroll Parallax para o Hero
+  // Scroll Parallax para o Hero - desacoplado em wrappers externos
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
@@ -23,7 +22,6 @@ export function HeroSection() {
   const stickerY = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? [0, 0] : [0, 44]);
   const sealY = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? [0, 0] : [0, 68]);
   const manifestY = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? [0, 0] : [0, 24]);
-  const titleY = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? [0, 0] : [0, -16]);
 
   useEffect(() => {
     const tick = () => {
@@ -48,10 +46,11 @@ export function HeroSection() {
             ".hero-badge",
             ".hero-cta",
             ".hero-sticker-card",
+            ".hero-photo-reveal",
             ".hero-seal-card",
             ".hero-manifest-card",
           ],
-          { opacity: 1, y: 0, scale: 1, rotate: 0 }
+          { opacity: 1, y: 0, scale: 1, rotate: 0, clipPath: "inset(0% 0% 0% 0%)" }
         );
       } else {
         ctx = gsap.context(() => {
@@ -92,7 +91,7 @@ export function HeroSection() {
               0.25
             );
 
-            // 0.45s: Subtítulo descritivo entra
+            // 0.45s: Subtítulo descritivo entra com fade + slide
             tl.fromTo(
               ".hero-subtitle",
               { y: 20, opacity: 0 },
@@ -137,6 +136,14 @@ export function HeroSection() {
                 },
               },
               0.30
+            );
+
+            // Clip-path reveal da fotografia
+            tl.fromTo(
+              ".hero-photo-reveal",
+              { clipPath: "inset(100% 0% 0% 0%)" },
+              { clipPath: "inset(0% 0% 0% 0%)", duration: 1.0, ease: "power3.inOut" },
+              0.35
             );
 
             // 0.60s: Selo circular rotativo e card de manifesto entram coordenados
@@ -297,20 +304,23 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Right Column: 3:4 Die-Cut Sticker Slot & Rotating Seal com Parallax de Profundidade */}
+          {/* Right Column: 3:4 Die-Cut Sticker Slot & Rotating Seal com Parallax Desacoplado */}
           <div className="lg:col-span-4 flex flex-col items-center justify-center relative mt-8 lg:mt-0">
-            {/* 3:4 Aspect Ratio Sticker Slot com Entrada Tátil e Parallax Suave Desacoplado */}
-            <motion.div style={{ y: stickerY }} className="hero-sticker-card will-change-transform">
-              <div className="hero-sticker-float w-full max-w-[280px] sm:max-w-xs aspect-[3/4] relative mb-8 sm:mb-10 sticker-die-cut rounded-2xl bg-[#141418] border-2 border-white/90 shadow-[4px_10px_25px_rgba(0,0,0,0.8)] mx-auto overflow-visible">
-                <div className="relative w-full h-full rounded-2xl overflow-hidden">
-                  <Image
-                    src="/images/thiago-hero-sticker.png"
-                    alt="Thiago Ibrahim — Retrato recortado em sticker die-cut 3:4"
-                    width={600}
-                    height={800}
-                    priority
-                    className="w-full h-full object-cover"
-                  />
+            {/* Wrapper Externo do Framer Motion com style={{ y: stickerY }} */}
+            <motion.div style={{ y: stickerY }} className="w-full flex justify-center will-change-transform">
+              {/* Elemento Interno controlado exclusivamente pelo GSAP */}
+              <div className="hero-sticker-card w-full max-w-[280px] sm:max-w-xs aspect-[3/4] relative mb-8 sm:mb-10 sticker-die-cut rounded-2xl bg-[#141418] border-2 border-white/90 shadow-[4px_10px_25px_rgba(0,0,0,0.8)] mx-auto overflow-visible">
+                <div className="hero-sticker-float w-full h-full">
+                  <div className="hero-photo-reveal relative w-full h-full rounded-2xl overflow-hidden">
+                    <Image
+                      src="/images/thiago-hero-sticker.png"
+                      alt="Thiago Ibrahim — Retrato recortado em sticker die-cut 3:4"
+                      width={600}
+                      height={800}
+                      priority
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                 </div>
                 <div className="tape-strip -top-3.5 -right-3 w-28 bg-[#fbbf24]/70 text-black text-center flex items-center justify-center font-mono text-[9px] font-bold z-20 rotate-[5deg] shadow-md border border-black/30">
                   THIAGO // 1º TI
@@ -318,44 +328,47 @@ export function HeroSection() {
               </div>
             </motion.div>
 
-            {/* Rotating Circular Seal com Revelação Suave e Parallax */}
-            <motion.div style={{ y: sealY }} className="hero-seal-card will-change-transform">
-              <div className="hero-seal-float relative w-36 h-36 mb-6 hidden sm:flex items-center justify-center mx-auto">
-                <svg className="w-full h-full animate-spin-slow select-none" viewBox="0 0 100 100">
-                  <path
-                    id="circlePath"
-                    d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"
-                    fill="none"
-                  />
-                  <text className="text-[7.5px] font-mono tracking-[0.22em] fill-zinc-300 uppercase">
-                    <textPath href="#circlePath">
-                      THIAGO IBRAHIM • 1º TÉCNICO EM INFORMÁTICA • ETEC ITAPEVI •
-                    </textPath>
-                  </text>
-                </svg>
-                <div className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-[#141418] border-2 border-[#fbbf24] flex items-center justify-center shadow-[0_0_15px_rgba(251,191,36,0.2)]">
-                  <span className="font-display text-xl text-white">TT</span>
+            {/* Wrapper Externo do Framer Motion com style={{ y: sealY }} */}
+            <motion.div style={{ y: sealY }} className="w-full flex justify-center will-change-transform">
+              {/* Elemento Interno controlado pelo GSAP */}
+              <div className="hero-seal-card relative w-36 h-36 mb-6 hidden sm:flex items-center justify-center mx-auto">
+                <div className="hero-seal-float relative w-full h-full flex items-center justify-center">
+                  <svg className="w-full h-full animate-spin-slow select-none" viewBox="0 0 100 100">
+                    <path
+                      id="circlePath"
+                      d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"
+                      fill="none"
+                    />
+                    <text className="text-[7.5px] font-mono tracking-[0.22em] fill-zinc-300 uppercase">
+                      <textPath href="#circlePath">
+                        THIAGO IBRAHIM • 1º TÉCNICO EM INFORMÁTICA • ETEC ITAPEVI •
+                      </textPath>
+                    </text>
+                  </svg>
+                  <div className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-[#141418] border-2 border-[#fbbf24] flex items-center justify-center shadow-[0_0_15px_rgba(251,191,36,0.2)]">
+                    <span className="font-display text-xl text-white">TT</span>
+                  </div>
                 </div>
               </div>
             </motion.div>
 
-            {/* Manifest Card with Torn Edge - Parallax Leve e Entrada Tátil */}
-            <motion.div
-              style={{ y: manifestY }}
-              className="hero-manifest-card w-full max-w-sm sm:max-w-md mx-auto bg-[#141418] border border-zinc-800 pt-8 pb-6 px-5 sm:p-7 sm:pt-8 rounded-lg relative shadow-[4px_4px_0px_#000000] mt-8 sm:mt-12 text-center overflow-visible will-change-transform"
-            >
-              <div className="tape-strip -top-3.5 -right-3 w-24 bg-amber-500/50 text-amber-200 border border-amber-400/70 text-center flex items-center justify-center font-mono text-[9px] font-bold z-20 rotate-[5deg] shadow-md">
-                MANIFESTO
+            {/* Wrapper Externo do Framer Motion com style={{ y: manifestY }} */}
+            <motion.div style={{ y: manifestY }} className="w-full will-change-transform">
+              {/* Elemento Interno controlado pelo GSAP */}
+              <div className="hero-manifest-card w-full max-w-sm sm:max-w-md mx-auto bg-[#141418] border border-zinc-800 pt-8 pb-6 px-5 sm:p-7 sm:pt-8 rounded-lg relative shadow-[4px_4px_0px_#000000] mt-8 sm:mt-12 text-center overflow-visible">
+                <div className="tape-strip -top-3.5 -right-3 w-24 bg-amber-500/50 text-amber-200 border border-amber-400/70 text-center flex items-center justify-center font-mono text-[9px] font-bold z-20 rotate-[5deg] shadow-md">
+                  MANIFESTO
+                </div>
+                <p className="font-mono text-xs text-[#fbbf24] uppercase tracking-wider mb-2">
+                  {"// MANIFESTO DO CONSTRUTOR"}
+                </p>
+                <p className="text-zinc-300 font-sans text-sm leading-relaxed italic mb-3">
+                  &ldquo;{person.anchor}&rdquo;
+                </p>
+                <p className="text-xs font-mono text-zinc-500">
+                  — Thiago Ibrahim (16 anos) · ETEC Itapevi
+                </p>
               </div>
-              <p className="font-mono text-xs text-[#fbbf24] uppercase tracking-wider mb-2">
-                {"// MANIFESTO DO CONSTRUTOR"}
-              </p>
-              <p className="text-zinc-300 font-sans text-sm leading-relaxed italic mb-3">
-                &ldquo;{person.anchor}&rdquo;
-              </p>
-              <p className="text-xs font-mono text-zinc-500">
-                — Thiago Ibrahim (16 anos) · ETEC Itapevi
-              </p>
             </motion.div>
           </div>
         </div>
