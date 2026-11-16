@@ -177,23 +177,15 @@ export function RevealSection({
       },
       {
         root: null,
-        rootMargin: isMobile ? "0px 0px -6% 0px" : "0px 0px -25% 0px",
-        threshold: 0.04,
+        rootMargin: isMobile ? "0px 0px -6% 0px" : "0px 0px -10% 0px",
+        threshold: 0.08,
       }
     );
 
     observer.observe(el);
 
-    // Fail-safe timeout: garante 100% de visibilidade mesmo em capturas headless ou anomalias de iframe
-    const safetyTimer = setTimeout(() => {
-      if (!hasAnimatedRef.current) {
-        playReveal();
-      }
-    }, 3000);
-
     return () => {
       observer.disconnect();
-      clearTimeout(safetyTimer);
       if (tween) {
         tween.kill();
       }

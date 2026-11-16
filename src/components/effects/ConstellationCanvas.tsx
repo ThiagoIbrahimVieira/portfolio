@@ -178,6 +178,7 @@ export function ConstellationCanvas({
       const rect = container.getBoundingClientRect();
       width = rect.width;
       height = rect.height;
+      if (width === 0 || height === 0) return;
       dpr = isMobileScreen ? 1 : Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
@@ -192,21 +193,22 @@ export function ConstellationCanvas({
     nodesRef.current = initialNodes.map((n) => ({ ...n }));
     edgesRef.current = [...initialEdges];
 
-    // Inicializa partículas de fótons viajando nas arestas (otimizado no mobile)
+    // Inicializa partículas de fótons viajando nas arestas (apenas no desktop para poupar CPU/GPU mobile)
     const particles: Particle[] = [];
-    initialEdges.forEach((_, edgeIndex) => {
-      const count = isMobileScreen ? (edgeIndex % 3 === 0 ? 1 : 0) : 2;
-      for (let p = 0; p < count; p++) {
-        particles.push({
-          edgeIndex,
-          progress: Math.random(),
-          speed: 0.003 + Math.random() * 0.004,
-          size: isMobileScreen ? 1.8 : 2.2 + Math.random() * 1.5,
-          color: p % 2 === 0 ? initialEdges[edgeIndex].colorA : initialEdges[edgeIndex].colorB,
-          reverse: p % 2 === 1,
-        });
-      }
-    });
+    if (!isMobileScreen) {
+      initialEdges.forEach((_, edgeIndex) => {
+        for (let p = 0; p < 2; p++) {
+          particles.push({
+            edgeIndex,
+            progress: Math.random(),
+            speed: 0.003 + Math.random() * 0.004,
+            size: 2.2 + Math.random() * 1.5,
+            color: p % 2 === 0 ? initialEdges[edgeIndex].colorA : initialEdges[edgeIndex].colorB,
+            reverse: p % 2 === 1,
+          });
+        }
+      });
+    }
     particlesRef.current = particles;
 
     let lastTime = performance.now();
@@ -262,9 +264,14 @@ export function ConstellationCanvas({
           }
         }
 
-        // Interpolação suave (lerp)
-        n.x += (targetX - n.x) * 0.1;
-        n.y += (targetY - n.y) * 0.1;
+        // Interpolação suave (lerp) - No mobile ou primeiro frame, posicionamento direto sem atraso
+        if (isMobileScreen || (n.x === 0 && n.y === 0)) {
+          n.x = targetX;
+          n.y = targetY;
+        } else {
+          n.x += (targetX - n.x) * 0.1;
+          n.y += (targetY - n.y) * 0.1;
+        }
       });
 
       // 2. Renderiza arestas de conexão com gradientes vivos
@@ -414,13 +421,20 @@ export function ConstellationCanvas({
         ctx.shadowBlur = 0;
       });
 
-      animFrameRef.current = requestAnimationFrame(render);
+      // No mobile (< 768px), o grafo é renderizado sob demanda (zero loop rAF contínuo para erradicar jank de scroll)
+      if (!isMobileScreen) {
+        animFrameRef.current = requestAnimationFrame(render);
+      }
     };
 
-    animFrameRef.current = requestAnimationFrame(render);
+    // Render inicial
+    render(performance.now());
 
     const onResize = () => {
       updateDimensions();
+      if (isMobileScreen) {
+        render(performance.now());
+      }
     };
     const ro = new ResizeObserver(onResize);
     ro.observe(container);
@@ -498,6 +512,10 @@ export function ConstellationCanvas({
         hoverRef.current = found ? found.id : null;
         setHoveredNode(found);
 
+        if (isMobileScreen) {
+          render(performance.now());
+        }
+
         if (found && found.kind === "project" && onSelectProject) {
           onSelectProject(found.id);
         }
@@ -508,6 +526,9 @@ export function ConstellationCanvas({
       mousePosRef.current = null;
       hoverRef.current = null;
       setHoveredNode(null);
+      if (isMobileScreen) {
+        render(performance.now());
+      }
     };
 
     container.addEventListener("mousemove", onMove);

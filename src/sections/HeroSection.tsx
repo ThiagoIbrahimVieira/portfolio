@@ -169,7 +169,7 @@ export function HeroSection() {
             );
           });
 
-          // Mobile (< 768px) - revelação rápida e fluida sem bloquear navegação
+          // Mobile (< 768px) - revelação rápida e fluida sem loops infinitos na main thread
           mm.add("(max-width: 767px)", () => {
             gsap.fromTo(
               [
@@ -185,13 +185,6 @@ export function HeroSection() {
               { opacity: 0, y: 15 },
               { opacity: 1, y: 0, duration: 0.6, stagger: 0.06, ease: "power2.out" }
             );
-            gsap.to(".hero-sticker-float", {
-              y: -6,
-              duration: 3.0,
-              repeat: -1,
-              yoyo: true,
-              ease: "sine.inOut",
-            });
           });
         }, sectionRef);
       }
