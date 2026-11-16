@@ -72,7 +72,7 @@ export function HeroSection() {
             // 0.15s: Tag manuscrita surge com pop tátil
             tl.fromTo(
               ".hero-handwriting",
-              { scale: 0.85, rotate: -4, opacity: 0 },
+              { scale: 0.82, rotate: -4, opacity: 0 },
               { scale: 1, rotate: -2, opacity: 1, duration: 0.7, ease: "back.out(1.8)" },
               0.15
             );
@@ -96,7 +96,7 @@ export function HeroSection() {
             tl.fromTo(
               ".hero-subtitle",
               { y: 20, opacity: 0 },
-              { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" },
+              { y: 0, opacity: 1, duration: 0.85, ease: "power3.out" },
               0.45
             );
 

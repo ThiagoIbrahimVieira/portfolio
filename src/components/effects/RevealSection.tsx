@@ -177,7 +177,7 @@ export function RevealSection({
       },
       {
         root: null,
-        rootMargin: "0px 0px -4% 0px",
+        rootMargin: isMobile ? "0px 0px -6% 0px" : "0px 0px -25% 0px",
         threshold: 0.04,
       }
     );
