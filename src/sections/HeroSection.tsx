@@ -32,11 +32,12 @@ export function HeroSection() {
             ".hero-subtitle",
             ".hero-badge",
             ".hero-cta",
+            ".hero-cta > *",
             ".hero-sticker",
             ".hero-seal",
             ".hero-manifest",
           ],
-          { opacity: 1, y: 0, scale: 1, rotate: 0, clipPath: "inset(0% 0% 0%)", clearProps: "all" }
+          { opacity: 1, y: 0, x: 0, scale: 1, rotate: 0, clipPath: "inset(0% 0% 0%)", clearProps: "all" }
         );
       } else {
         ctx = gsap.context(() => {
@@ -54,19 +55,19 @@ export function HeroSection() {
               0.0
             );
 
-            // 0.15s: Tag manuscrita entra com pop tátil
+            // 0.15s: Tag manuscrita entra com pop tátil e leve rotação
             tl.fromTo(
               ".hero-handwriting",
-              { scale: 0.82, rotate: -4, opacity: 0 },
-              { scale: 1, rotate: -2, opacity: 1, duration: 0.65, ease: "back.out(1.8)", clearProps: "all" },
+              { scale: 0.82, rotate: -6, opacity: 0 },
+              { scale: 1, rotate: -2, opacity: 1, duration: 0.7, ease: "back.out(2)", clearProps: "all" },
               0.15
             );
 
-            // 0.25s: Título "THIAGO IBRAHIM" entra com text reveal editorial e destaque no IBRAHIM amarelo
+            // 0.25s: Título "THIAGO IBRAHIM" entra com mask reveal editorial (subindo da máscara)
             tl.fromTo(
               ".hero-title-line",
-              { y: 35, opacity: 0 },
-              { y: 0, opacity: 1, duration: 0.85, stagger: 0.12, ease: "power4.out", clearProps: "all" },
+              { y: "115%", opacity: 0 },
+              { y: "0%", opacity: 1, duration: 0.9, stagger: 0.12, ease: "power4.out", clearProps: "all" },
               0.25
             );
 
@@ -81,26 +82,37 @@ export function HeroSection() {
             // 0.55s: Badges de tecnologia com stagger pop de 0.08s
             tl.fromTo(
               ".hero-badge",
-              { scale: 0.8, opacity: 0 },
-              { scale: 1, opacity: 1, duration: 0.55, stagger: 0.08, ease: "back.out(1.8)", clearProps: "all" },
+              { scale: 0.75, opacity: 0 },
+              { scale: 1, opacity: 1, duration: 0.5, stagger: 0.08, ease: "back.out(1.8)", clearProps: "all" },
               0.55
             );
 
-            // 0.75s: Botões de CTA com slide suave
+            // 0.72s: Botões de CTA com entrada progressiva escalonada
             tl.fromTo(
-              ".hero-cta",
-              { y: 14, opacity: 0 },
-              { y: 0, opacity: 1, duration: 0.65, ease: "power3.out", clearProps: "all" },
-              0.75
+              ".hero-cta > *",
+              { y: 16, opacity: 0 },
+              { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power3.out", clearProps: "all" },
+              0.72
             );
 
             // 0.25s: Foto sticker com clip-path reveal de baixo para cima
             tl.fromTo(
               ".hero-sticker",
               { clipPath: "inset(100% 0% 0% 0%)", opacity: 0 },
-              { clipPath: "inset(0% 0% 0% 0%)", opacity: 1, duration: 0.9, ease: "power3.out", clearProps: "all" },
+              { clipPath: "inset(0% 0% 0% 0%)", opacity: 1, duration: 0.95, ease: "power3.inOut", clearProps: "all" },
               0.25
             );
+
+            // Floating motion sutil e orgânico no sticker após reveal
+            tl.add(() => {
+              gsap.to(".hero-sticker", {
+                y: -6,
+                duration: 3.8,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut",
+              });
+            });
 
             // 0.55s: Selo rotativo com pop suave
             tl.fromTo(
@@ -128,7 +140,7 @@ export function HeroSection() {
                 ".hero-title-line",
                 ".hero-subtitle",
                 ".hero-badge",
-                ".hero-cta",
+                ".hero-cta > *",
                 ".hero-sticker",
                 ".hero-manifest",
               ],
@@ -170,7 +182,7 @@ export function HeroSection() {
 
         {/* Hero Core Layout */}
         <div className="grid lg:grid-cols-12 gap-8 md:gap-10 items-center">
-          <div className="lg:col-span-8 space-y-4 md:space-y-5">
+          <div className="lg:col-span-8 space-y-4 md:space-y-5 min-w-0">
             <div>
               {/* Handwritten highlight note */}
               <div className="hero-handwriting inline-block mb-1">
@@ -179,13 +191,17 @@ export function HeroSection() {
                 </span>
               </div>
 
-              {/* Giant Display Headline */}
+              {/* Giant Display Headline com Mask Reveal editorial */}
               <h1
                 id="hero-heading"
-                className="font-display text-white text-[clamp(3.5rem,11vw,8.5rem)] leading-[0.88] tracking-tighter"
+                className="font-display text-white text-[clamp(2.75rem,11vw,8.5rem)] leading-[0.88] tracking-tighter"
               >
-                <span className="block hero-title-line">THIAGO</span>
-                <span className="block text-[#fbbf24] hero-title-line">IBRAHIM</span>
+                <span className="block overflow-hidden py-0.5">
+                  <span className="block hero-title-line">THIAGO</span>
+                </span>
+                <span className="block overflow-hidden py-0.5">
+                  <span className="block text-[#fbbf24] hero-title-line">IBRAHIM</span>
+                </span>
               </h1>
             </div>
 
@@ -217,7 +233,7 @@ export function HeroSection() {
             <div className="hero-cta flex flex-wrap items-center gap-4 pt-4">
               <a
                 href="#projetos"
-                className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#fbbf24] text-black font-display text-base tracking-wider rounded-md border-2 border-black shadow-[4px_4px_0px_#ffffff] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#ffffff] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#fbbf24] text-black font-display text-base tracking-wider rounded-md border-2 border-black shadow-[4px_4px_0px_#ffffff] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#ffffff] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
               >
                 VER OS 4 PROJETOS NUCLEARES
                 <ArrowUpRight className="w-5 h-5" />
@@ -226,7 +242,7 @@ export function HeroSection() {
                 href={siteData.contact.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#141418] text-white font-mono text-xs uppercase tracking-wider rounded-md border border-zinc-700 hover:border-white transition-colors"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#141418] text-white font-mono text-xs uppercase tracking-wider rounded-md border border-zinc-700 hover:border-white transition-colors"
               >
                 GITHUB REPOS ↗
               </a>
@@ -234,7 +250,7 @@ export function HeroSection() {
           </div>
 
           {/* Right Column: 3:4 Die-Cut Sticker Slot & Rotating Seal */}
-          <div className="lg:col-span-4 flex flex-col items-center justify-center relative">
+          <div className="lg:col-span-4 flex flex-col items-center justify-center relative min-w-0 w-full">
             {/* 3:4 Aspect Ratio Sticker Slot com Clip-Path Reveal */}
             <div className="hero-sticker w-full max-w-[240px] sm:max-w-[270px] aspect-[3/4] relative mb-5 md:mb-6 sticker-die-cut rounded-2xl overflow-hidden bg-[#141418] border-2 border-white/90 shadow-[4px_10px_25px_rgba(0,0,0,0.8)] mx-auto">
               <Image

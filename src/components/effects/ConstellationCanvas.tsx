@@ -480,7 +480,7 @@ export function ConstellationCanvas({
   }, [shouldRenderHeavy, isMobile, initialNodes, initialEdges, containerRef]);
 
   return (
-    <div ref={containerRef} className="relative w-full h-[520px] md:h-[580px] select-none">
+    <div ref={containerRef} className="relative w-full h-full min-h-[340px] select-none">
       {isMobile ? (
         /* Versão Mobile (< 768px): Card dinâmico leve a 60 FPS */
         <div className="flex flex-col items-center justify-center p-6 text-center border-2 border-zinc-800 rounded-lg bg-zinc-950/80">

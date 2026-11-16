@@ -1,0 +1,193 @@
+{
+  "desktop-1920": {
+    "docW": 1920,
+    "winW": 1920,
+    "docH": 8754,
+    "hasHorizontalOverflow": false,
+    "overflowCount": 0,
+    "overflowSamples": [],
+    "hero": {
+      "height": 1008,
+      "h1Width": 776,
+      "stickerWidth": 270,
+      "ctaVisible": true
+    },
+    "consoleErrors": []
+  },
+  "desktop-1440": {
+    "docW": 1440,
+    "winW": 1440,
+    "docH": 8505,
+    "hasHorizontalOverflow": false,
+    "overflowCount": 0,
+    "overflowSamples": [],
+    "hero": {
+      "height": 842,
+      "h1Width": 776,
+      "stickerWidth": 270,
+      "ctaVisible": true
+    },
+    "consoleErrors": []
+  },
+  "notebook-1366": {
+    "docW": 1366,
+    "winW": 1366,
+    "docH": 8491,
+    "hasHorizontalOverflow": false,
+    "overflowCount": 0,
+    "overflowSamples": [],
+    "hero": {
+      "height": 842,
+      "h1Width": 776,
+      "stickerWidth": 270,
+      "ctaVisible": false
+    },
+    "consoleErrors": []
+  },
+  "tablet-768": {
+    "docW": 768,
+    "winW": 768,
+    "docH": 11315,
+    "hasHorizontalOverflow": false,
+    "overflowCount": 4,
+    "overflowSamples": [
+      {
+        "tag": "SPAN",
+        "id": "",
+        "className": "text-[11px] font-mono text-zinc-400 bg-zinc-900 px-2 py-0.5 ",
+        "right": 854,
+        "winW": 768
+      },
+      {
+        "tag": "SPAN",
+        "id": "",
+        "className": "text-[11px] font-mono text-zinc-400 bg-zinc-900 px-2 py-0.5 ",
+        "right": 867,
+        "winW": 768
+      },
+      {
+        "tag": "SPAN",
+        "id": "",
+        "className": "text-[11px] font-mono text-zinc-400 bg-zinc-900 px-2 py-0.5 ",
+        "right": 854,
+        "winW": 768
+      },
+      {
+        "tag": "SPAN",
+        "id": "",
+        "className": "text-[11px] font-mono text-zinc-400 bg-zinc-900 px-2 py-0.5 ",
+        "right": 805,
+        "winW": 768
+      }
+    ],
+    "hero": {
+      "height": 1322,
+      "h1Width": 672,
+      "stickerWidth": 270,
+      "ctaVisible": true
+    },
+    "consoleErrors": []
+  },
+  "mobile-430": {
+    "docW": 430,
+    "winW": 430,
+    "docH": 11450,
+    "hasHorizontalOverflow": false,
+    "overflowCount": 162,
+    "overflowSamples": [
+      {
+        "tag": "DIV",
+        "id": "",
+        "className": "snap-center shrink-0 w-[82vw] sm:w-[86vw] max-w-sm min-w-0",
+        "right": 749,
+        "winW": 430
+      },
+      {
+        "tag": "ARTICLE",
+        "id": "project-whatsapp-auto-sticker",
+        "className": "bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-6 md:p",
+        "right": 749,
+        "winW": 430
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "className": "tape-strip top-[-10px] right-6 w-24 bg-amber-500/30 text-amb",
+        "right": 724,
+        "winW": 430
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "className": "",
+        "right": 723,
+        "winW": 430
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "className": "relative w-full aspect-[16/9] mb-6 rounded-lg overflow-hidde",
+        "right": 723,
+        "winW": 430
+      }
+    ],
+    "hero": {
+      "height": 1210,
+      "h1Width": 382,
+      "stickerWidth": 240,
+      "ctaVisible": true
+    },
+    "consoleErrors": []
+  },
+  "mobile-390": {
+    "docW": 390,
+    "winW": 390,
+    "docH": 11732,
+    "hasHorizontalOverflow": false,
+    "overflowCount": 164,
+    "overflowSamples": [
+      {
+        "tag": "DIV",
+        "id": "",
+        "className": "snap-center shrink-0 w-[82vw] sm:w-[86vw] max-w-sm min-w-0",
+        "right": 684,
+        "winW": 390
+      },
+      {
+        "tag": "ARTICLE",
+        "id": "project-whatsapp-auto-sticker",
+        "className": "bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-6 md:p",
+        "right": 684,
+        "winW": 390
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "className": "tape-strip top-[-10px] right-6 w-24 bg-amber-500/30 text-amb",
+        "right": 658,
+        "winW": 390
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "className": "",
+        "right": 658,
+        "winW": 390
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "className": "relative w-full aspect-[16/9] mb-6 rounded-lg overflow-hidde",
+        "right": 658,
+        "winW": 390
+      }
+    ],
+    "hero": {
+      "height": 1205,
+      "h1Width": 342,
+      "stickerWidth": 240,
+      "ctaVisible": true
+    },
+    "consoleErrors": []
+  }
+}

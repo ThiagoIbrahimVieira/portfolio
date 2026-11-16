@@ -12,12 +12,12 @@ export function ContactSection() {
     <section id="contato" aria-labelledby="contato-heading" className="relative z-10 py-14 md:py-20 bg-transparent">
       <div className="mx-auto max-w-7xl px-6 md:px-12">
         <RevealSection>
-          <div className="bg-[#141418] border-2 border-zinc-700 rounded-xl grid md:grid-cols-2 gap-8 p-6 md:p-10 shadow-[6px_6px_0px_#ffffff] relative overflow-hidden">
+          <div className="bg-[#141418] border-2 border-zinc-700 rounded-xl grid md:grid-cols-2 gap-8 p-6 md:p-10 shadow-[6px_6px_0px_#ffffff] relative overflow-hidden min-w-0">
             <div className="tape-strip top-[-10px] left-12 w-28 bg-[#fbbf24]/40" />
 
-            <div className="flex flex-col justify-between">
+            <div className="flex flex-col justify-between min-w-0">
               <div>
-                <span className="font-handwriting text-[#fbbf24] text-2xl block mb-2">
+                <span className="font-handwriting text-[#fbbf24] text-2xl block mb-2 select-none">
                   {"// canal direto de engenharia"}
                 </span>
                 <h2 id="contato-heading" className="font-display text-4xl md:text-5xl text-white leading-tight mb-4">
@@ -30,8 +30,8 @@ export function ContactSection() {
 
               <div className="space-y-3 font-mono text-xs text-zinc-400">
                 <p className="flex items-center gap-2">
-                  <Terminal className="w-4 h-4 text-[#fbbf24]" />
-                  <span>
+                  <Terminal className="w-4 h-4 text-[#fbbf24] shrink-0" />
+                  <span className="truncate">
                     GITHUB:{" "}
                     <a
                       href={siteData.contact.github}
@@ -47,7 +47,7 @@ export function ContactSection() {
               </div>
             </div>
 
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 min-w-0">
               <label className="sr-only" htmlFor="nome">
                 Nome
               </label>

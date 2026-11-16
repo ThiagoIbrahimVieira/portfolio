@@ -57,7 +57,7 @@ export function ChronologySection() {
               </div>
             </div>
 
-            <div className="w-full h-[480px] md:h-[520px] relative">
+            <div className="w-full h-[380px] md:h-[480px] lg:h-[clamp(400px,46vh,520px)] relative min-w-0">
               <ConstellationCanvas
                 onSelectProject={(id) => {
                   const found = siteData.projects.find((p) => p.id === id);
@@ -80,7 +80,7 @@ export function ChronologySection() {
           </p>
           <div className="flex overflow-x-auto snap-x snap-mandatory gap-5 pb-6 -mx-6 px-6 scrollbar-none touch-pan-x">
             {featuredProjects.map((p) => (
-              <div key={p.id} className="snap-center shrink-0 w-[86vw] max-w-sm">
+              <div key={p.id} className="snap-center shrink-0 w-[82vw] sm:w-[86vw] max-w-sm min-w-0">
                 <ProjectStreetCard project={p} onSelect={setSelectedProject} />
               </div>
             ))}
@@ -123,7 +123,7 @@ export function ChronologySection() {
               </div>
 
               {/* Grid idêntico aos cards nucleares com 3D tilt, fita adesiva e sticker badges */}
-              <div className="grid md:grid-cols-3 gap-6">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {otherProjects.map((p, idx) => (
                   <RevealSection key={p.id} delay={0.12 * idx} variant="scale-up">
                     <ProjectStreetCard project={p} onSelect={setSelectedProject} />
@@ -190,7 +190,7 @@ function ProjectStreetCard({
           : "none",
         transition: isHover ? "transform 0.1s ease-out" : "transform 0.4s ease-out",
       }}
-      className="bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-6 md:p-8 relative flex flex-col justify-between shadow-[6px_6px_0px_#000000] hover:border-amber-400/80 transition-colors group overflow-hidden scroll-mt-28 cursor-pointer"
+      className="bg-[#141418] border-2 border-zinc-700/80 rounded-xl p-6 md:p-8 relative flex flex-col justify-between shadow-[6px_6px_0px_#000000] hover:border-amber-400/80 transition-colors group overflow-hidden scroll-mt-28 cursor-pointer w-full min-w-0"
     >
       {/* Specular Glare Effect on Hover */}
       {isHover && (
@@ -295,14 +295,14 @@ function ProjectStreetCard({
           ))}
         </div>
 
-        {/* Real Metrics Grid */}
+        {/* Real Metrics Grid com blindagem de overflow */}
         <div className="grid grid-cols-2 gap-3 pt-4 border-t border-zinc-800 bg-zinc-950/60 -mx-6 -mb-6 md:-mx-8 md:-mb-8 p-4 md:p-6 rounded-b-xl">
           {project.metrics.map((m, i) => (
-            <div key={i} className="flex flex-col">
-              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
+            <div key={i} className="flex flex-col min-w-0">
+              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider truncate">
                 {m.label}
               </span>
-              <span className="text-xs font-mono font-bold text-white">
+              <span className="text-xs font-mono font-bold text-white truncate">
                 {m.value}
               </span>
             </div>

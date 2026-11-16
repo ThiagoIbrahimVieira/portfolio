@@ -3,11 +3,11 @@ import { ArrowUpRight } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="bg-transparent border-t border-zinc-800 text-zinc-400 font-sans pb-24 md:pb-16">
+    <footer className="bg-transparent border-t border-zinc-800 text-zinc-400 font-sans pb-32 md:pb-16">
       <div className="mx-auto max-w-7xl px-6 md:px-12 py-10 md:py-12">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 md:mb-10">
           <div>
-            <p className="font-display text-[clamp(3.5rem,10vw,7rem)] leading-[0.85] tracking-tight text-white mb-2">
+            <p className="font-display text-[clamp(2.75rem,10vw,7rem)] leading-[0.85] tracking-tight text-white mb-2">
               THIAGO IBRAHIM
             </p>
             <p className="font-handwriting text-[#fbbf24] text-xl">
