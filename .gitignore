@@ -43,6 +43,3 @@ next-env.d.ts
 # internal tools
 .taste-skill/
 
-
-.vercel
-.env*
