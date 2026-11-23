@@ -68,6 +68,8 @@ export interface Contact {
   github: string;
   githubLabel: string;
   cta: string;
+  linkedin?: string;
+  linkedinLabel?: string;
 }
 
 export interface SiteData {

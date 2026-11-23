@@ -5,7 +5,7 @@ export const siteData: SiteData = {
     name: "Thiago Ibrahim",
     nickname: "TT",
     position:
-      "Estudante do 1º Técnico em Informática na ETEC de Itapevi (16 anos) construindo software real, ferramentas de alto desempenho e sistemas locais.",
+      "Estudante do 1º Técnico em Informática na ETEC de Itapevi (15 anos) construindo software real, ferramentas de alto desempenho e sistemas locais.",
     anchor:
       "Não escrevo na parede que sei tudo. Registro no log o que já sei construir.",
     anchorHighlight: "construir",
@@ -15,6 +15,37 @@ export const siteData: SiteData = {
     handwrittenNote: "Building real systems from Itapevi 🚀",
   },
   projects: [
+    {
+      id: "opencrm",
+      name: "OpenCRM",
+      status: "concluído",
+      statusLabel: "CONCLUÍDO · EM OPERAÇÃO",
+      taglineHandwritten: "Metadata-Driven SaaS • LGPD Blind Index • Zero-Mock",
+      tapeStyle: "amber",
+      badgeSticker: "Vercel + Supabase",
+      image: "/images/projects/opencrm.png",
+      isFeaturedPillar: true,
+      vision:
+        "Plataforma SaaS multi-tenant metadata-driven em produção na Vercel com isolamento estrito de dados via PostgreSQL 17 RLS no Supabase e conformidade nativa com a LGPD.",
+      bullets: [
+        "Arquitetura serverless Fastify em Node.js 22 rodando em Vercel Functions com API healthcheck",
+        "Multi-tenancy real com isolamento em nível de banco via Supabase PostgreSQL 17 RLS",
+        "Segurança LGPD By Design com Blind Index HMAC-SHA256 e cifra simétrica AES-256-GCM",
+        "Checkout transacional ACID anti-concorrência e 57 testes automatizados de ponta a ponta",
+      ],
+      stack: ["React 19", "TypeScript", "Fastify", "Supabase", "PostgreSQL 17", "Vercel", "Tailwind CSS v4"],
+      maturity: 5,
+      metrics: [
+        { label: "Isolamento", value: "Supabase RLS" },
+        { label: "AppSec LGPD", value: "AES-256-GCM" },
+        { label: "Testes", value: "57 aprovados" },
+        { label: "Disponibilidade", value: "100% cloud live" },
+      ],
+      links: {
+        github: "https://github.com/ThiagoIbrahimVieira/opencrm",
+        demo: "https://opencrm-ashy.vercel.app/",
+      },
+    },
     {
       id: "codeatlas",
       name: "CodeAtlas",
@@ -43,6 +74,7 @@ export const siteData: SiteData = {
       ],
       links: {
         github: "https://github.com/ThiagoIbrahimVieira/CodeAtlas",
+        demo: "https://thiagoibrahimvieira.github.io/CodeAtlas/",
       },
     },
     {
@@ -219,6 +251,8 @@ export const siteData: SiteData = {
   arsenal: [
     { name: "TypeScript / JavaScript", level: "Avançado em produção (React 19, Node.js, @xyflow/react, Baileys)", category: "frontend" },
     { name: "React 19 / Next.js 16", level: "Avançado (App Router, Server/Client components, hooks sob demanda)", category: "frontend" },
+    { name: "PostgreSQL 17 / Supabase", level: "Avançado (Row Level Security mandatório, índices, migrations)", category: "backend" },
+    { name: "Fastify / Node.js 22", level: "Avançado (APIs serverless na Vercel, middlewares, AppSec LGPD)", category: "backend" },
     { name: "Python / FastAPI", level: "Intermediário-Avançado (APIs assíncronas, SQLAlchemy, PySide6)", category: "backend" },
     { name: "C++ / CUDA float16", level: "Prático em laboratório (aceleração de modelos Whisper na GPU)", category: "systems" },
     { name: "Tailwind CSS v4", level: "Avançado (temas customizados @theme, utilitários, design tokens)", category: "frontend" },
@@ -247,7 +281,7 @@ export const siteData: SiteData = {
     {
       year: "2026",
       title: "Construtor de Sistemas · 1º Técnico em Informática",
-      description: "Ingresso no 1º Técnico em Informática (TI) na ETEC de Itapevi; lançamento de CodeAtlas, WhatsApp Auto Sticker, Wasper e portfólio Street-Tech.",
+      description: "Ingresso no 1º Técnico em Informática (TI) na ETEC de Itapevi; lançamento de OpenCRM (SaaS multi-tenant), CodeAtlas, WhatsApp Auto Sticker, Wasper e portfólio Street-Tech.",
     },
     {
       year: "Próximos Passos",
@@ -280,6 +314,8 @@ export const siteData: SiteData = {
   contact: {
     github: "https://github.com/ThiagoIbrahimVieira",
     githubLabel: "github.com/ThiagoIbrahimVieira ↗",
+    linkedin: "https://www.linkedin.com/in/thiago-ibrahim-vieira/",
+    linkedinLabel: "linkedin.com/in/thiago-ibrahim-vieira ↗",
     cta: "Explorar Código no GitHub →",
   },
 };

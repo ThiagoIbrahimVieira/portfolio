@@ -22,9 +22,10 @@ export function Footer() {
         <div className="grid md:grid-cols-3 gap-8 pt-8 border-t border-zinc-800/80 text-sm">
           <div>
             <p className="text-white font-mono text-xs uppercase mb-3 text-zinc-200">
-              [OS 4 PROJETOS NUCLEARES]
+              [PROJETOS NUCLEARES]
             </p>
             <ul className="space-y-1.5 font-mono text-xs">
+              <li><a href="#projetos" className="hover:text-[#fbbf24] transition-colors">▸ OpenCRM (SaaS & Supabase RLS)</a></li>
               <li><a href="#projetos" className="hover:text-[#fbbf24] transition-colors">▸ CodeAtlas (AST & React 19)</a></li>
               <li><a href="#projetos" className="hover:text-[#fbbf24] transition-colors">▸ WhatsApp Auto Sticker (Streams & Baileys)</a></li>
               <li><a href="#projetos" className="hover:text-[#fbbf24] transition-colors">▸ InterviewAI (Voice & FastAPI)</a></li>
@@ -43,17 +44,30 @@ export function Footer() {
 
           <div>
             <p className="text-white font-mono text-xs uppercase mb-3 text-zinc-200">
-              [REPOSITÓRIO & AUDITORIA]
+              [REPOSITÓRIO & REDES]
             </p>
-            <a
-              href={siteData.contact.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-xs font-mono text-[#fbbf24] hover:underline"
-            >
-              {siteData.contact.githubLabel}
-              <ArrowUpRight className="w-3 h-3" />
-            </a>
+            <div className="flex flex-col gap-2">
+              <a
+                href={siteData.contact.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs font-mono text-[#fbbf24] hover:underline"
+              >
+                {siteData.contact.githubLabel}
+                <ArrowUpRight className="w-3 h-3" />
+              </a>
+              {siteData.contact.linkedin && (
+                <a
+                  href={siteData.contact.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs font-mono text-[#0a66c2] hover:underline"
+                >
+                  {siteData.contact.linkedinLabel}
+                  <ArrowUpRight className="w-3 h-3" />
+                </a>
+              )}
+            </div>
             <p className="mt-3 text-[11px] font-mono text-zinc-500">
               Projetos auditados e mantidos por Thiago Ibrahim Vieira.
             </p>

@@ -235,7 +235,7 @@ export function HeroSection() {
                 href="#projetos"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 bg-[#fbbf24] text-black font-display text-sm md:text-base tracking-wider rounded-md border-2 border-black shadow-[4px_4px_0px_#ffffff] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#ffffff] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
               >
-                VER OS 4 PROJETOS NUCLEARES
+                VER PROJETOS NUCLEARES
                 <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5" />
               </a>
               <a
@@ -300,7 +300,7 @@ export function HeroSection() {
                 &ldquo;{person.anchor}&rdquo;
               </p>
               <p className="text-[10px] font-mono text-zinc-500">
-                — Thiago Ibrahim (16 anos) · ETEC Itapevi
+                — Thiago Ibrahim (15 anos) · ETEC Itapevi
               </p>
             </div>
           </div>

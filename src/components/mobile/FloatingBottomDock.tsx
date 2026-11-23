@@ -17,7 +17,7 @@ const dockItems: DockItem[] = [
   { id: "projetos", label: "Projetos", href: "#projetos", icon: Layers },
   { id: "arsenal", label: "Stack", href: "#arsenal", icon: Cpu },
   { id: "jornada", label: "Log", href: "#jornada", icon: Compass },
-  { id: "github", label: "Code", href: "https://github.com/thiago-ibrahim", icon: GithubIcon, isExternal: true },
+  { id: "github", label: "Code", href: "https://github.com/ThiagoIbrahimVieira", icon: GithubIcon, isExternal: true },
 ];
 
 export function FloatingBottomDock() {

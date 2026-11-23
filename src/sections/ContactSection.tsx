@@ -163,6 +163,23 @@ export function ContactSection() {
                     </a>
                   </span>
                 </p>
+
+                {siteData.contact.linkedin && (
+                  <p className="flex items-center gap-2">
+                    <Terminal className="w-4 h-4 text-[#0a66c2] shrink-0" />
+                    <span className="truncate">
+                      LINKEDIN:{" "}
+                      <a
+                        href={siteData.contact.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-white hover:text-[#fbbf24] underline"
+                      >
+                        {siteData.contact.linkedinLabel}
+                      </a>
+                    </span>
+                  </p>
+                )}
                 <p className="text-zinc-500">Itapevi, São Paulo · Brasil</p>
               </div>
             </div>

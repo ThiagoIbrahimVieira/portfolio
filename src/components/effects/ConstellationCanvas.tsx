@@ -49,6 +49,7 @@ const STACK_COLORS: Record<string, string> = {
 };
 
 const PROJECT_COLORS: Record<string, string> = {
+  opencrm: "#10b981",
   codeatlas: "#00d8ff",
   "whatsapp-auto-sticker": "#22c55e",
   interviewai: "#fbbf24",
@@ -59,6 +60,7 @@ const PROJECT_COLORS: Record<string, string> = {
 };
 
 const PROJECT_STACK_MAP: Record<string, string[]> = {
+  opencrm: ["React", "TypeScript", "Node.js"],
   codeatlas: ["React", "TypeScript"],
   "whatsapp-auto-sticker": ["Node.js", "TypeScript"],
   interviewai: ["Python", "FastAPI"],

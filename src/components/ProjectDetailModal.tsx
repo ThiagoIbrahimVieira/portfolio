@@ -14,6 +14,17 @@ interface ProjectDetailModalProps {
 }
 
 const PROJECT_PIPELINES: Record<string, { flow: string[]; highlights: string }> = {
+  opencrm: {
+    flow: [
+      "Vite SPA (React 19)",
+      "Vercel Serverless (Fastify)",
+      "AppSec LGPD (Blind Index HMAC)",
+      "Supabase PostgreSQL 17",
+      "Isolamento RLS Mandatório",
+    ],
+    highlights:
+      "Plataforma SaaS multi-tenant metadata-driven em produção. Banco PostgreSQL 17 com isolamento RLS, conformidade LGPD e 57 testes automatizados aprovados.",
+  },
   codeatlas: {
     flow: [
       "Código Fonte (Repo)",

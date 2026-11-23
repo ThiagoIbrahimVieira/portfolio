@@ -23,7 +23,7 @@ export function ChronologySection() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6 pb-3 border-b border-zinc-800">
             <div>
               <span className="font-handwriting text-[#fbbf24] text-xl md:text-2xl block mb-1">
-                {"// 4 obras reais de engenharia"}
+                {"// Obras reais de engenharia auditadas"}
               </span>
               <h2 id="projetos-heading" className="font-display text-4xl md:text-6xl text-white tracking-tight">
                 PROJETOS NUCLEARES
@@ -76,7 +76,7 @@ export function ChronologySection() {
         {/* 2. Mobile Snap-to-Card Carousel (< 768px) */}
         <div className="block md:hidden mb-10 md:mb-12">
           <p className="text-xs font-mono text-zinc-400 mb-3 flex items-center gap-1.5">
-            <span className="text-[#fbbf24]">◀ ▶</span> Deslize para navegar pelos 4 cards nucleares (Snap 60 FPS)
+            <span className="text-[#fbbf24]">◀ ▶</span> Deslize para navegar pelos cards nucleares (Snap 60 FPS)
           </p>
           <div className="flex overflow-x-auto snap-x snap-mandatory gap-5 pb-6 -mx-6 px-6 scrollbar-none touch-pan-x">
             {featuredProjects.map((p) => (
