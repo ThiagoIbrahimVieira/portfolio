@@ -314,8 +314,8 @@ export const siteData: SiteData = {
   contact: {
     github: "https://github.com/ThiagoIbrahimVieira",
     githubLabel: "github.com/ThiagoIbrahimVieira ↗",
-    linkedin: "https://www.linkedin.com/in/thiago-ibrahim-vieira/",
-    linkedinLabel: "linkedin.com/in/thiago-ibrahim-vieira ↗",
+    linkedin: "https://www.linkedin.com/in/thiago-ibrahim-dev/",
+    linkedinLabel: "linkedin.com/in/thiago-ibrahim-dev ↗",
     cta: "Explorar Código no GitHub →",
   },
 };
