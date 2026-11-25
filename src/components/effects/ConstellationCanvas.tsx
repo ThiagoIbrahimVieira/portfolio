@@ -70,17 +70,28 @@ const PROJECT_STACK_MAP: Record<string, string[]> = {
   "segundo-cerebro": ["Python"],
 };
 
+const MOBILE_SHORT_LABELS: Record<string, string> = {
+  "whatsapp-auto-sticker": "Sticker Bot",
+  "nordicos-tattoo": "Nordicos",
+  "segundo-cerebro": "2nd Brain",
+};
+
 export function ConstellationCanvas({
   onSelectProject,
 }: {
   onSelectProject?: (projectId: string) => void;
 } = {}) {
-  const { containerRef, isMobile, shouldRenderHeavy } = usePerformanceVisibility(0.15);
+  const { containerRef, isVisible, isMobile } = usePerformanceVisibility(0.1);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [hoveredNode, setHoveredNode] = useState<Node | null>(null);
   const hoverRef = useRef<string | null>(null);
   const mousePosRef = useRef<{ x: number; y: number } | null>(null);
   const animFrameRef = useRef<number | null>(null);
+  const onSelectProjectRef = useRef(onSelectProject);
+
+  useEffect(() => {
+    onSelectProjectRef.current = onSelectProject;
+  }, [onSelectProject]);
 
   const nodesRef = useRef<Node[]>([]);
   const edgesRef = useRef<Edge[]>([]);
@@ -161,7 +172,7 @@ export function ConstellationCanvas({
   }, []);
 
   useEffect(() => {
-    if (!shouldRenderHeavy || isMobile) return;
+    if (!isVisible) return;
 
     const canvas = canvasRef.current;
     const container = containerRef.current;
@@ -195,13 +206,13 @@ export function ConstellationCanvas({
     // Inicializa partículas de fótons viajando nas arestas
     const particles: Particle[] = [];
     initialEdges.forEach((_, edgeIndex) => {
-      const count = 2; // 2 pacotes por linha
+      const count = isMobile ? 1 : 2;
       for (let p = 0; p < count; p++) {
         particles.push({
           edgeIndex,
           progress: Math.random(),
           speed: 0.003 + Math.random() * 0.004,
-          size: 2.2 + Math.random() * 1.5,
+          size: isMobile ? 1.8 : 2.2 + Math.random() * 1.5,
           color: p % 2 === 0 ? initialEdges[edgeIndex].colorA : initialEdges[edgeIndex].colorB,
           reverse: p % 2 === 1,
         });
@@ -226,7 +237,7 @@ export function ConstellationCanvas({
 
       const cx = width / 2;
       const cy = height / 2;
-      const minDim = Math.min(width, height);
+      const compact = width < 540 || isMobile;
       const activeHoverId = hoverRef.current;
       const mouse = mousePosRef.current;
 
@@ -234,11 +245,11 @@ export function ConstellationCanvas({
       const nodes = nodesRef.current;
       const nodeMap = new Map(nodes.map((n) => [n.id, n]));
 
-      // Cálculo adaptativo seguro para garantir que NENHUM nó seja cortado nas bordas
-      const safeRadiusX = Math.max(120, (width - 220) / 2);
-      const safeRadiusY = Math.max(110, (height - 160) / 2);
-      const safeProjectRadius = Math.min(safeRadiusX, safeRadiusY * 1.02);
-      const safeStackRadius = safeProjectRadius * 0.42;
+      // Cálculo adaptativo seguro para garantir que NENHUM nó ou rótulo seja cortado nas bordas
+      const safeRadiusX = Math.max(76, (width - (compact ? 115 : 220)) / 2);
+      const safeRadiusY = Math.max(74, (height - (compact ? 92 : 160)) / 2);
+      const safeProjectRadius = Math.min(safeRadiusX, safeRadiusY * (compact ? 1.0 : 1.02));
+      const safeStackRadius = safeProjectRadius * 0.43;
 
       nodes.forEach((n) => {
         // Velocidade orbital suave, estável e uniforme (sem oscilação radial)
@@ -247,7 +258,7 @@ export function ConstellationCanvas({
         const currentRadius = n.kind === "project" ? safeProjectRadius : safeStackRadius;
 
         let targetX = cx + Math.cos(currentAngle) * currentRadius;
-        let targetY = cy + Math.sin(currentAngle) * (currentRadius * 0.80);
+        let targetY = cy + Math.sin(currentAngle) * (currentRadius * (compact ? 0.86 : 0.80));
 
         // Se o mouse estiver sobre este nó específico, leve atração magnética centrada
         if (mouse && activeHoverId === n.id) {
@@ -331,7 +342,7 @@ export function ConstellationCanvas({
 
         ctx.fillStyle = isDirect ? "#ffffff" : p.color;
         ctx.shadowColor = p.color;
-        ctx.shadowBlur = isDirect ? 12 : 6;
+        ctx.shadowBlur = compact ? 0 : isDirect ? 12 : 6;
 
         ctx.beginPath();
         ctx.arc(px, py, pSize, 0, Math.PI * 2);
@@ -340,17 +351,18 @@ export function ConstellationCanvas({
       });
 
       // 4. Renderiza nós (Halos, Círculos e Rótulos)
-      nodes.forEach((n, i) => {
+      nodes.forEach((n) => {
         const isHover = activeHoverId === n.id;
         const isConnected =
           activeHoverId !== null &&
           (nodeMap.get(activeHoverId)?.connections || []).includes(n.id);
         const isProject = n.kind === "project";
 
-        const radius = n.r + (isHover ? 3 : 0);
+        const baseR = compact ? Math.max(3.5, n.r * 0.72) : n.r;
+        const radius = baseR + (isHover ? 3 : 0);
 
         // Halo de luz externo estável e limpo (Zero oscilação)
-        const glowRadius = radius * (isHover ? 2.8 : isProject ? 2.2 : 1.6);
+        const glowRadius = radius * (isHover ? 2.8 : isProject ? 2.1 : 1.5);
         const haloGrad = ctx.createRadialGradient(n.x, n.y, radius * 0.5, n.x, n.y, glowRadius);
         haloGrad.addColorStop(0, `${n.color}${isHover ? "99" : isProject ? "40" : "20"}`);
         haloGrad.addColorStop(1, `${n.color}00`);
@@ -365,14 +377,14 @@ export function ConstellationCanvas({
           ctx.strokeStyle = `${n.color}${isHover ? "dd" : "55"}`;
           ctx.lineWidth = isHover ? 1.6 : 1;
           ctx.beginPath();
-          ctx.arc(n.x, n.y, radius + (isHover ? 6 : 4), 0, Math.PI * 2);
+          ctx.arc(n.x, n.y, radius + (isHover ? 6 : 3.5), 0, Math.PI * 2);
           ctx.stroke();
         }
 
         // Núcleo do nó
         ctx.fillStyle = isHover ? "#ffffff" : n.color;
         ctx.shadowColor = n.color;
-        ctx.shadowBlur = isHover ? 16 : 8;
+        ctx.shadowBlur = compact ? 0 : isHover ? 16 : 8;
         ctx.beginPath();
         ctx.arc(n.x, n.y, radius, 0, Math.PI * 2);
         ctx.fill();
@@ -386,22 +398,26 @@ export function ConstellationCanvas({
         ctx.stroke();
 
         // Tipografia do rótulo
-        const fontSize = isProject ? (isHover ? 12 : 11) : (isHover ? 10 : 9);
+        const fontSize = compact
+          ? isProject ? (isHover ? 10 : 9) : (isHover ? 8.5 : 7.5)
+          : isProject ? (isHover ? 12 : 11) : (isHover ? 10 : 9);
         ctx.font = `${isHover ? "700 " : ""}${fontSize}px "JetBrains Mono", monospace`;
         ctx.textAlign = "center";
 
         if (isHover || isConnected) {
           ctx.fillStyle = "#ffffff";
           ctx.shadowColor = "#000000";
-          ctx.shadowBlur = 4;
+          ctx.shadowBlur = compact ? 0 : 4;
         } else if (isProject) {
           ctx.fillStyle = "#e4e4e7";
         } else {
           ctx.fillStyle = "#a1a1aa";
         }
 
-        const labelY = n.y > height - 55 ? n.y - radius - 8 : n.y + radius + 14;
-        ctx.fillText(n.label, n.x, labelY);
+        const labelText = compact && MOBILE_SHORT_LABELS[n.id] ? MOBILE_SHORT_LABELS[n.id] : n.label;
+        const labelX = Math.max(38, Math.min(width - 38, n.x));
+        const labelY = n.y > height - (compact ? 42 : 55) ? n.y - radius - 7 : n.y + radius + (compact ? 11 : 14);
+        ctx.fillText(labelText, labelX, labelY);
         ctx.shadowBlur = 0;
       });
 
@@ -453,15 +469,14 @@ export function ConstellationCanvas({
       const rect = container.getBoundingClientRect();
       const x = ev.clientX - rect.left;
       const y = ev.clientY - rect.top;
+      const hitPad = isMobile ? 22 : 14;
 
       for (const n of nodesRef.current) {
         const dx = n.x - x;
         const dy = n.y - y;
-        if (Math.sqrt(dx * dx + dy * dy) <= n.r + 14) {
+        if (Math.sqrt(dx * dx + dy * dy) <= n.r + hitPad) {
           if (n.kind === "project") {
-            if (onSelectProject) {
-              onSelectProject(n.id);
-            }
+            onSelectProjectRef.current?.(n.id);
           }
           break;
         }
@@ -479,105 +494,80 @@ export function ConstellationCanvas({
       container.removeEventListener("mouseleave", onLeave);
       container.removeEventListener("click", onClick);
     };
-  }, [shouldRenderHeavy, isMobile, initialNodes, initialEdges, containerRef]);
+  }, [isVisible, isMobile, initialNodes, initialEdges, containerRef]);
 
   return (
-    <div ref={containerRef} className="relative w-full h-full min-h-[340px] select-none">
-      {isMobile ? (
-        /* Versão Mobile (< 768px): Card dinâmico leve a 60 FPS */
-        <div className="flex flex-col items-center justify-center p-6 text-center border-2 border-zinc-800 rounded-lg bg-zinc-950/80">
-          <span className="badge-sticker mb-3 text-[#fbbf24] border-[#fbbf24]">
-            Topologia de Dependências
-          </span>
-          <p className="text-xs text-zinc-300 font-mono mb-4">
-            4 Projetos Nucleares interligados via ASTs, Streams em RAM e CUDA float16
-          </p>
-          <div className="flex flex-wrap justify-center gap-2">
-            {Object.entries(STACK_COLORS).map(([s, color]) => (
-              <span
-                key={s}
-                className="text-xs font-mono px-2.5 py-1 border rounded"
-                style={{ borderColor: `${color}88`, color }}
-              >
-                {s}
-              </span>
-            ))}
-          </div>
-        </div>
-      ) : (
-        <>
-          <canvas
-            ref={canvasRef}
-            className="block w-full h-full cursor-crosshair"
-            aria-label="Topologia de AST e dependências de projetos"
-          />
+    <div ref={containerRef} className="relative w-full h-[290px] sm:h-[330px] md:h-full md:min-h-[340px] select-none">
+      <canvas
+        ref={canvasRef}
+        className="block w-full h-full cursor-crosshair"
+        aria-label="Topologia de AST e dependências de projetos"
+      />
 
-          {/* Tooltip HUD Técnica Flutuante de Alto Impacto */}
-          {hoveredNode && (
-            <div
-              className="absolute top-4 right-4 max-w-xs p-4 rounded-lg border-2 bg-zinc-950/95 backdrop-blur-md shadow-2xl transition-all duration-200 pointer-events-none z-30"
-              style={{ borderColor: hoveredNode.color }}
+      {/* Tooltip HUD Técnica Flutuante de Alto Impacto */}
+      {hoveredNode && !isMobile && (
+        <div
+          className="absolute top-4 right-4 max-w-xs p-4 rounded-lg border-2 bg-zinc-950/95 backdrop-blur-md shadow-2xl transition-all duration-200 pointer-events-none z-30"
+          style={{ borderColor: hoveredNode.color }}
+        >
+          <div className="flex items-center justify-between gap-2 mb-2">
+            <span
+              className="font-mono text-[10px] uppercase tracking-widest px-2 py-0.5 rounded font-bold"
+              style={{ backgroundColor: `${hoveredNode.color}25`, color: hoveredNode.color }}
             >
-              <div className="flex items-center justify-between gap-2 mb-2">
-                <span
-                  className="font-mono text-[10px] uppercase tracking-widest px-2 py-0.5 rounded font-bold"
-                  style={{ backgroundColor: `${hoveredNode.color}25`, color: hoveredNode.color }}
-                >
-                  {hoveredNode.kind === "project" ? "MÓDULO DE PROJETO" : "CORE STACK"}
-                </span>
-                {hoveredNode.status && (
-                  <span className="font-mono text-[10px] text-zinc-400">
-                    {hoveredNode.status}
-                  </span>
-                )}
-              </div>
+              {hoveredNode.kind === "project" ? "MÓDULO DE PROJETO" : "CORE STACK"}
+            </span>
+            {hoveredNode.status && (
+              <span className="font-mono text-[10px] text-zinc-400">
+                {hoveredNode.status}
+              </span>
+            )}
+          </div>
 
-              <h4 className="font-display text-xl text-white tracking-tight mb-1">
-                {hoveredNode.label}
-              </h4>
+          <h4 className="font-display text-xl text-white tracking-tight mb-1">
+            {hoveredNode.label}
+          </h4>
 
-              {hoveredNode.tagline && (
-                <p className="font-handwriting text-amber-300 text-sm mb-2">
-                  {hoveredNode.tagline}
-                </p>
-              )}
+          {hoveredNode.tagline && (
+            <p className="font-handwriting text-amber-300 text-sm mb-2">
+              {hoveredNode.tagline}
+            </p>
+          )}
 
-              {hoveredNode.metric && (
-                <div className="mt-2 pt-2 border-t border-zinc-800 text-[11px] font-mono text-zinc-300 flex items-center justify-between">
-                  <span className="text-zinc-500">TELEMETRIA:</span>
-                  <span className="font-bold text-white">{hoveredNode.metric}</span>
-                </div>
-              )}
-
-              <div className="mt-2 pt-2 border-t border-zinc-800 text-[10px] font-mono text-zinc-400">
-                <span>CONEXÕES ATIVAS: {hoveredNode.connections.length} VÍNCULOS</span>
-              </div>
-
-              {hoveredNode.kind === "project" && (
-                <div className="mt-2 pt-2 border-t border-zinc-800 text-[10px] font-mono text-[#fbbf24] font-bold flex items-center gap-1">
-                  <span>▸ CLIQUE PARA ABRIR O PROJETO & REPOSITÓRIO ↗</span>
-                </div>
-              )}
+          {hoveredNode.metric && (
+            <div className="mt-2 pt-2 border-t border-zinc-800 text-[11px] font-mono text-zinc-300 flex items-center justify-between">
+              <span className="text-zinc-500">TELEMETRIA:</span>
+              <span className="font-bold text-white">{hoveredNode.metric}</span>
             </div>
           )}
 
-          {/* Legenda de Telemetria no Rodapé do Card */}
-          <div className="absolute bottom-3 left-4 flex flex-wrap items-center gap-3 font-mono text-[10px] text-zinc-400 pointer-events-none">
-            <span className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-[#00d8ff]" /> React/TS
-            </span>
-            <span className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-[#76b900]" /> CUDA/Nvidia
-            </span>
-            <span className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-[#22c55e]" /> Node/Streams
-            </span>
-            <span className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-[#eab308]" /> Python/FastAPI
-            </span>
+          <div className="mt-2 pt-2 border-t border-zinc-800 text-[10px] font-mono text-zinc-400">
+            <span>CONEXÕES ATIVAS: {hoveredNode.connections.length} VÍNCULOS</span>
           </div>
-        </>
+
+          {hoveredNode.kind === "project" && (
+            <div className="mt-2 pt-2 border-t border-zinc-800 text-[10px] font-mono text-[#fbbf24] font-bold flex items-center gap-1">
+              <span>▸ CLIQUE PARA ABRIR O PROJETO & REPOSITÓRIO ↗</span>
+            </div>
+          )}
+        </div>
       )}
+
+      {/* Legenda de Telemetria no Rodapé do Card */}
+      <div className="absolute bottom-2 left-2 sm:bottom-3 sm:left-4 flex flex-wrap items-center gap-2.5 sm:gap-3 font-mono text-[9.5px] sm:text-[10px] text-zinc-400 pointer-events-none">
+        <span className="flex items-center gap-1">
+          <span className="w-2 h-2 rounded-full bg-[#00d8ff]" /> React/TS
+        </span>
+        <span className="flex items-center gap-1">
+          <span className="w-2 h-2 rounded-full bg-[#76b900]" /> CUDA
+        </span>
+        <span className="flex items-center gap-1">
+          <span className="w-2 h-2 rounded-full bg-[#22c55e]" /> Node
+        </span>
+        <span className="flex items-center gap-1">
+          <span className="w-2 h-2 rounded-full bg-[#eab308]" /> Python
+        </span>
+      </div>
     </div>
   );
 }

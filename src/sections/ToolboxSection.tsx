@@ -26,19 +26,19 @@ const groups = [
 
 export function ToolboxSection() {
   return (
-    <section id="arsenal" aria-labelledby="arsenal-heading" className="relative z-10 py-8 md:py-14 bg-transparent">
-      <div className="mx-auto max-w-7xl px-6 md:px-12">
+    <section id="arsenal" aria-labelledby="arsenal-heading" className="relative z-10 py-12 md:py-20 bg-transparent scroll-mt-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-12">
         <RevealSection>
-          <div className="text-center mb-6 md:mb-8">
+          <div className="text-center mb-8 md:mb-12">
             <div className="inline-block">
-              <span className="font-handwriting text-[#fbbf24] text-xl md:text-2xl rotate-[-2deg] block mb-1">
+              <span className="font-handwriting text-[#fbbf24] text-xl md:text-2xl rotate-[-2deg] block mb-2">
                 {"// inventário de combate"}
               </span>
-              <h2 id="arsenal-heading" className="font-display text-4xl md:text-6xl text-white tracking-tight">
+              <h2 id="arsenal-heading" className="font-display text-3xl sm:text-4xl md:text-6xl text-white tracking-tight">
                 ARSENAL TÉCNICO
               </h2>
             </div>
-            <p className="text-sm md:text-base text-zinc-400 font-mono mt-2">
+            <p className="text-xs sm:text-sm md:text-base text-white/65 font-mono mt-2">
               STACK HOMOLOGADA EM AMBIENTE REAL · SEM PLACEHOLDERS
             </p>
           </div>
@@ -47,7 +47,7 @@ export function ToolboxSection() {
         <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
           {groups.map((g, idx) => (
             <RevealSection key={g.name} delay={0.12 * idx} variant="scale-up" className="min-w-0">
-              <div className="bg-[#141418] border border-zinc-800 p-5 md:p-6 rounded-lg relative overflow-hidden shadow-[4px_4px_0px_#000000] hover:border-zinc-500 hover:shadow-[4px_4px_0px_#fbbf24] transition-all duration-200 group min-w-0">
+              <div className="bg-[#141418] border border-zinc-800 p-6 rounded-2xl relative overflow-hidden shadow-[0_12px_28px_rgba(0,0,0,0.45),4px_4px_0px_#000000] hover:border-zinc-500 hover:shadow-[4px_4px_0px_#fbbf24] transition-all duration-200 group min-w-0">
                 <div className="flex flex-wrap items-center justify-between gap-2 mb-4 pb-2.5 border-b border-zinc-800">
                   <h3 className="font-display text-xl text-white tracking-wide group-hover:text-amber-300 transition-colors min-w-0 truncate">{g.name}</h3>
                   <span className="text-[11px] font-mono font-bold text-[#fbbf24] px-2 py-0.5 bg-zinc-900 border border-zinc-700 rounded shrink-0">

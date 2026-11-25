@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { siteData } from "@/data/site";
-import { Send, Terminal, CheckCircle2, Mail, Copy, Check, MessageSquare, AlertCircle, Loader2 } from "lucide-react";
+import { Send, Terminal, CheckCircle2, Mail, Copy, Check, MessageSquare, AlertCircle, Loader2, ArrowUpRight } from "lucide-react";
 import { RevealSection } from "@/components/effects/RevealSection";
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function ContactSection() {
   const [formData, setFormData] = useState({
@@ -16,20 +18,31 @@ export function ContactSection() {
   const [status, setStatus] = useState<"idle" | "success-mail" | "success-wa" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
+  const copyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (copyTimerRef.current) clearTimeout(copyTimerRef.current);
+    };
+  }, []);
+
   const validate = () => {
-    if (!formData.nome.trim()) {
+    const nome = formData.nome.trim();
+    const email = formData.email.trim();
+    const mensagem = formData.mensagem.trim();
+    if (!nome || nome.length > 120) {
       setStatus("error");
-      setErrorMessage("Por favor, preencha o seu nome ou organização.");
+      setErrorMessage("Por favor, preencha um nome ou organização válido (até 120 caracteres).");
       return false;
     }
-    if (!formData.email.trim() || !formData.email.includes("@")) {
+    if (!EMAIL_REGEX.test(email) || email.length > 200) {
       setStatus("error");
       setErrorMessage("Por favor, informe um e-mail válido para que Thiago possa te responder.");
       return false;
     }
-    if (!formData.mensagem.trim()) {
+    if (!mensagem || mensagem.length > 5000) {
       setStatus("error");
-      setErrorMessage("Por favor, descreva a demanda técnica ou mensagem.");
+      setErrorMessage("Por favor, descreva a demanda técnica ou mensagem (até 5000 caracteres).");
       return false;
     }
     setStatus("idle");
@@ -92,48 +105,52 @@ export function ContactSection() {
     }
   };
 
-  const handleCopyEmail = () => {
-    if (typeof navigator !== "undefined" && navigator.clipboard) {
-      navigator.clipboard.writeText("thiagoibrahimvieira@gmail.com");
+  const handleCopyEmail = async () => {
+    if (typeof navigator === "undefined" || !navigator.clipboard) return;
+    try {
+      await navigator.clipboard.writeText("thiagoibrahimvieira@gmail.com");
       setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
+      if (copyTimerRef.current) clearTimeout(copyTimerRef.current);
+      copyTimerRef.current = setTimeout(() => setCopied(false), 2500);
+    } catch {
+      // Clipboard blocked by browser policy
     }
   };
 
   return (
-    <section id="contato" aria-labelledby="contato-heading" className="relative z-10 py-8 md:py-14 bg-transparent">
+    <section id="contato" aria-labelledby="contato-heading" className="relative z-10 py-12 md:py-20 bg-transparent scroll-mt-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-12">
         <RevealSection>
-          <div className="bg-[#141418] border-2 border-zinc-700 rounded-xl grid md:grid-cols-2 gap-6 md:gap-10 p-5 sm:p-7 md:p-10 shadow-[5px_5px_0px_#ffffff] relative overflow-hidden min-w-0">
+          <div className="bg-[#141418] border-2 border-zinc-700 rounded-2xl grid md:grid-cols-2 gap-8 md:gap-12 p-6 md:p-8 shadow-[0_12px_32px_rgba(0,0,0,0.45),5px_5px_0px_#ffffff] relative min-w-0">
             <div className="tape-strip top-[-10px] left-8 sm:left-12 w-28 bg-[#fbbf24]/40" />
 
-            {/* Coluna da Esquerda: Info & Telemetria */}
-            <div className="flex flex-col justify-between space-y-5 min-w-0">
+            {/* Coluna da Esquerda: Info & Telemetria (8pt grid) */}
+            <div className="flex flex-col justify-between space-y-6 min-w-0">
               <div>
-                <span className="font-handwriting text-[#fbbf24] text-xl sm:text-2xl block mb-1 select-none">
+                <span className="font-handwriting text-[#fbbf24] text-xl sm:text-2xl block mb-2 select-none">
                   {"// canal direto de engenharia"}
                 </span>
-                <h2 id="contato-heading" className="font-display text-3xl sm:text-4xl md:text-5xl text-white leading-tight mb-2 sm:mb-3">
+                <h2 id="contato-heading" className="font-display text-3xl sm:text-4xl md:text-5xl text-white leading-tight mb-3">
                   VAMOS CONVERSAR
                 </h2>
-                <p className="text-zinc-300 text-xs sm:text-sm md:text-base leading-relaxed max-w-md mb-4">
+                <p className="text-white/80 text-sm md:text-base leading-relaxed max-w-[600px]">
                   Todos os projetos possuem código aberto no GitHub com documentação e testes. Aberto a discussões de engenharia, sistemas locais e parcerias técnicas.
                 </p>
               </div>
 
-              <div className="space-y-3 font-mono text-xs text-zinc-400">
-                {/* Email Box com botão de cópia responsivo */}
-                <div className="p-3 bg-zinc-900 border border-zinc-800 rounded-lg flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div className="space-y-4 font-mono text-xs text-white/65">
+                {/* Email Box com botão de cópia responsivo (44px alvo tátil) */}
+                <div className="p-4 bg-zinc-900 border border-zinc-800 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div className="flex items-center gap-2 min-w-0">
                     <Mail className="w-4 h-4 text-[#fbbf24] shrink-0" />
-                    <span className="text-white text-xs sm:text-sm font-mono truncate">
+                    <span className="text-white text-xs sm:text-sm font-mono break-all">
                       thiagoibrahimvieira@gmail.com
                     </span>
                   </div>
                   <button
                     type="button"
                     onClick={handleCopyEmail}
-                    className="self-start sm:self-auto px-2.5 py-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded border border-zinc-600 transition-colors flex items-center gap-1.5 text-xs font-mono font-bold cursor-pointer"
+                    className="self-start sm:self-auto min-h-[44px] px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-white rounded-lg border border-zinc-600 transition-colors flex items-center gap-2 text-xs font-mono font-bold cursor-pointer shrink-0"
                   >
                     {copied ? (
                       <>
@@ -149,33 +166,35 @@ export function ContactSection() {
                   </button>
                 </div>
 
-                <p className="flex items-center gap-2">
-                  <Terminal className="w-4 h-4 text-[#fbbf24] shrink-0" />
-                  <span className="truncate">
-                    GITHUB:{" "}
+                <p className="flex items-start gap-2 min-w-0">
+                  <Terminal className="w-4 h-4 text-[#fbbf24] shrink-0 mt-0.5" />
+                  <span className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 min-w-0 text-[11px] sm:text-xs">
+                    <span>GITHUB:</span>
                     <a
                       href={siteData.contact.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-white hover:text-[#fbbf24] underline"
+                      className="inline-flex items-center gap-1 text-white hover:text-[#fbbf24] underline break-all"
                     >
                       {siteData.contact.githubLabel}
+                      <ArrowUpRight className="w-3 h-3 shrink-0" />
                     </a>
                   </span>
                 </p>
 
                 {siteData.contact.linkedin && (
-                  <p className="flex items-center gap-2">
-                    <Terminal className="w-4 h-4 text-[#0a66c2] shrink-0" />
-                    <span className="truncate">
-                      LINKEDIN:{" "}
+                  <p className="flex items-start gap-2 min-w-0">
+                    <Terminal className="w-4 h-4 text-[#0a66c2] shrink-0 mt-0.5" />
+                    <span className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 min-w-0 text-[11px] sm:text-xs">
+                      <span>LINKEDIN:</span>
                       <a
                         href={siteData.contact.linkedin}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-white hover:text-[#fbbf24] underline"
+                        className="inline-flex items-center gap-1 text-white hover:text-[#fbbf24] underline break-all"
                       >
                         {siteData.contact.linkedinLabel}
+                        <ArrowUpRight className="w-3 h-3 shrink-0" />
                       </a>
                     </span>
                   </p>
@@ -184,8 +203,8 @@ export function ContactSection() {
               </div>
             </div>
 
-            {/* Coluna da Direita: Formulário Compacto & Ações Diretas */}
-            <form onSubmit={handleSendEmail} className="flex flex-col gap-2.5 min-w-0">
+            {/* Coluna da Direita: Formulário Compacto & Ações Diretas (8pt grid) */}
+            <form onSubmit={handleSendEmail} className="flex flex-col gap-3 min-w-0">
               <label className="sr-only" htmlFor="nome">
                 Nome
               </label>
@@ -196,7 +215,7 @@ export function ContactSection() {
                 value={formData.nome}
                 onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
                 placeholder="Seu nome / organização *"
-                className="bg-zinc-900 border border-zinc-700 text-white placeholder:text-zinc-500 px-3.5 h-10 sm:h-11 rounded focus:outline-none focus:border-[#fbbf24] font-sans text-xs sm:text-sm transition-colors"
+                className="bg-zinc-900 border border-zinc-700 text-white placeholder:text-white/45 px-4 h-12 rounded-xl focus:outline-none focus:border-[#fbbf24] font-sans text-sm transition-colors"
               />
               <label className="sr-only" htmlFor="email">
                 E-mail
@@ -208,7 +227,7 @@ export function ContactSection() {
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 placeholder="seu-email@dominio.com *"
-                className="bg-zinc-900 border border-zinc-700 text-white placeholder:text-zinc-500 px-3.5 h-10 sm:h-11 rounded focus:outline-none focus:border-[#fbbf24] font-sans text-xs sm:text-sm transition-colors"
+                className="bg-zinc-900 border border-zinc-700 text-white placeholder:text-white/45 px-4 h-12 rounded-xl focus:outline-none focus:border-[#fbbf24] font-sans text-sm transition-colors"
               />
               <label className="sr-only" htmlFor="msg">
                 Mensagem
@@ -220,7 +239,7 @@ export function ContactSection() {
                 value={formData.mensagem}
                 onChange={(e) => setFormData({ ...formData, mensagem: e.target.value })}
                 placeholder="Descreva a demanda técnica ou ideia de colaboração... *"
-                className="bg-zinc-900 border border-zinc-700 text-white placeholder:text-zinc-500 px-3.5 py-2.5 rounded focus:outline-none focus:border-[#fbbf24] font-sans text-xs sm:text-sm resize-none transition-colors"
+                className="bg-zinc-900 border border-zinc-700 text-white placeholder:text-white/45 px-4 py-3 rounded-xl focus:outline-none focus:border-[#fbbf24] font-sans text-sm resize-none transition-colors"
               />
 
               {status === "error" && (
@@ -250,12 +269,12 @@ export function ContactSection() {
                 </div>
               )}
 
-              {/* Botões de Ação: WhatsApp & Email */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-1">
+              {/* Botões de Ação: WhatsApp & Email (44px+ altura + 12px gap) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
                 <button
                   type="button"
                   onClick={handleWhatsApp}
-                  className="bg-emerald-500 hover:bg-emerald-400 text-black h-11 font-display text-xs sm:text-sm tracking-wider uppercase rounded active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 border border-black shadow-[2px_2px_0px_#000000] cursor-pointer"
+                  className="bg-emerald-500 hover:bg-emerald-400 text-black min-h-[44px] px-4 py-3 font-display text-xs sm:text-sm tracking-wider uppercase rounded-xl active:scale-[0.98] transition-all flex items-center justify-center gap-2 border border-black shadow-[inset_0_1px_0_rgba(255,255,255,0.4),2px_2px_0px_#000000] cursor-pointer"
                 >
                   <MessageSquare className="w-4 h-4" />
                   <span>ENVIAR NO WHATSAPP</span>
@@ -264,7 +283,7 @@ export function ContactSection() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="bg-[#fbbf24] hover:bg-[#f59e0b] disabled:opacity-60 text-black h-11 font-display text-xs sm:text-sm tracking-wider uppercase rounded active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 border border-black shadow-[2px_2px_0px_#000000] cursor-pointer"
+                  className="bg-[#fbbf24] hover:bg-[#f59e0b] disabled:opacity-60 text-black min-h-[44px] px-4 py-3 font-display text-xs sm:text-sm tracking-wider uppercase rounded-xl active:scale-[0.98] transition-all flex items-center justify-center gap-2 border border-black shadow-[inset_0_1px_0_rgba(255,255,255,0.45),2px_2px_0px_#000000] cursor-pointer"
                 >
                   {loading ? (
                     <>

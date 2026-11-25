@@ -3,22 +3,23 @@ import { Resend } from 'resend';
 import { renderContactEmailHtml } from '@/lib/email-template';
 
 const DESTINATION_EMAIL = 'thiagoibrahimvieira@gmail.com';
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
     const { nome, email, mensagem } = body || {};
 
-    if (!nome || typeof nome !== 'string' || !nome.trim()) {
-      return NextResponse.json({ error: 'Nome é obrigatório.' }, { status: 400 });
+    if (!nome || typeof nome !== 'string' || !nome.trim() || nome.trim().length > 120) {
+      return NextResponse.json({ error: 'Nome válido é obrigatório (até 120 caracteres).' }, { status: 400 });
     }
 
-    if (!email || typeof email !== 'string' || !email.includes('@')) {
+    if (!email || typeof email !== 'string' || !EMAIL_REGEX.test(email.trim()) || email.trim().length > 200) {
       return NextResponse.json({ error: 'E-mail válido é obrigatório para retorno.' }, { status: 400 });
     }
 
-    if (!mensagem || typeof mensagem !== 'string' || !mensagem.trim()) {
-      return NextResponse.json({ error: 'Mensagem é obrigatória.' }, { status: 400 });
+    if (!mensagem || typeof mensagem !== 'string' || !mensagem.trim() || mensagem.trim().length > 5000) {
+      return NextResponse.json({ error: 'Mensagem é obrigatória (até 5000 caracteres).' }, { status: 400 });
     }
 
     const apiKey = process.env.RESEND_API_KEY;

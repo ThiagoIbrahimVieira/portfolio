@@ -64,7 +64,7 @@ export function CustomCursor() {
 
   return (
     <div className="pointer-events-none fixed inset-0 z-[100000] overflow-hidden">
-      {/* Ponto Central Preciso com Contraste Total (Nunca some) */}
+      {/* Ponto Central Preciso (suaviza sobre links para nunca obstruir o texto) */}
       <motion.div
         className="fixed top-0 left-0 w-2.5 h-2.5 rounded-full bg-[#fbbf24] border border-black/80 shadow-[0_0_8px_#fbbf24] pointer-events-none"
         style={{
@@ -74,7 +74,8 @@ export function CustomCursor() {
           translateY: "-50%",
         }}
         animate={{
-          scale: isClicking ? 0.7 : isHovered ? 1.25 : 1,
+          scale: isClicking ? 0.65 : isHovered ? 0.55 : 1,
+          opacity: isHovered ? 0.55 : 1,
         }}
         transition={{ duration: 0.12 }}
       />
@@ -89,9 +90,9 @@ export function CustomCursor() {
           translateY: "-50%",
         }}
         animate={{
-          width: isHovered ? 40 : 24,
-          height: isHovered ? 40 : 24,
-          backgroundColor: isHovered ? "rgba(251, 191, 36, 0.18)" : "rgba(251, 191, 36, 0)",
+          width: isHovered ? 38 : 24,
+          height: isHovered ? 38 : 24,
+          backgroundColor: isHovered ? "rgba(251, 191, 36, 0.08)" : "rgba(251, 191, 36, 0)",
           borderColor: isHovered ? "#fbbf24" : "rgba(251, 191, 36, 0.7)",
           scale: isClicking ? 0.8 : 1,
         }}

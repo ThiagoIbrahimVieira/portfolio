@@ -121,95 +121,107 @@ body::before {
   background-repeat: no-repeat, repeat;
 }
 
-/* Efeito de adesivo recortado (Sticker Die-Cut com Zero Blur) */
-.sticker-die-cut {
-  box-shadow: 0 0 0 2.5px #ffffff, 4px 10px 25px rgba(0, 0, 0, 0.85);
-  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
-}
+@layer components {
+  /* Efeito de adesivo recortado (Sticker Die-Cut com Zero Blur) */
+  .sticker-die-cut {
+    box-shadow: 0 0 0 2.5px #ffffff, 4px 10px 25px rgba(0, 0, 0, 0.85);
+  }
 
-.sticker-die-cut:hover {
-  transform: scale(1.03) rotate(-1.5deg);
-}
+  @media (hover: hover) and (pointer: fine) {
+    .sticker-die-cut {
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+    }
 
-/* Hard Shadows Brutalistas */
-.hard-shadow-white {
-  box-shadow: 4px 4px 0px #ffffff;
-}
+    .sticker-die-cut:hover {
+      transform: scale(1.03) rotate(-1.5deg);
+    }
+  }
 
-.hard-shadow-black {
-  box-shadow: 4px 4px 0px #000000;
-}
+  /* Hard Shadows Brutalistas */
+  .hard-shadow-white {
+    box-shadow: 4px 4px 0px #ffffff;
+  }
 
-.hard-shadow-amber {
-  box-shadow: 4px 4px 0px #fbbf24;
-}
+  .hard-shadow-black {
+    box-shadow: 4px 4px 0px #000000;
+  }
 
-/* Badge adesiva de tecnologia */
-.badge-sticker {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.25rem 0.65rem;
-  font-family: var(--font-mono);
-  font-weight: 700;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  border: 1.5px solid #ffffff;
-  box-shadow: 2px 3px 0px #000000, 3px 4px 8px rgba(0,0,0,0.4);
-  border-radius: 4px;
-  transform: rotate(var(--sticker-angle, -1.5deg));
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
+  .hard-shadow-amber {
+    box-shadow: 4px 4px 0px #fbbf24;
+  }
 
-.badge-sticker:hover {
-  transform: scale(1.05) rotate(0deg);
-  box-shadow: 3px 4px 0px #ffffff;
-}
+  /* Badge adesiva de tecnologia */
+  .badge-sticker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.65rem;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    border: 1.5px solid #ffffff;
+    box-shadow: 2px 3px 0px #000000, 3px 4px 8px rgba(0,0,0,0.4);
+    border-radius: 4px;
+    transform: rotate(var(--sticker-angle, -1.5deg));
+  }
 
-/* Efeito de papel rasgado superior (Torn Paper Edge) */
-.torn-edge-top {
-  clip-path: polygon(
-    0% 10px, 5% 0px, 10% 10px, 15% 2px, 20% 11px, 25% 1px, 30% 9px, 35% 0px, 
-    40% 10px, 45% 2px, 50% 11px, 55% 1px, 60% 10px, 65% 0px, 70% 9px, 75% 2px, 
-    80% 11px, 85% 1px, 90% 10px, 95% 0px, 100% 9px, 100% 100%, 0% 100%
-  );
-}
+  @media (hover: hover) and (pointer: fine) {
+    .badge-sticker {
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
 
-.torn-edge-bottom {
-  clip-path: polygon(
-    0% 0%, 100% 0%, 100% calc(100% - 10px),
-    95% 100%, 90% calc(100% - 10px), 85% calc(100% - 2px), 80% calc(100% - 11px), 75% calc(100% - 1px),
-    70% calc(100% - 9px), 65% 100%, 60% calc(100% - 10px), 55% calc(100% - 2px), 50% calc(100% - 11px),
-    45% calc(100% - 1px), 40% calc(100% - 10px), 35% 100%, 30% calc(100% - 9px), 25% calc(100% - 2px),
-    20% calc(100% - 11px), 15% calc(100% - 1px), 10% calc(100% - 10px), 5% 100%, 0% calc(100% - 9px)
-  );
-}
+    .badge-sticker:hover {
+      transform: scale(1.05) rotate(0deg);
+      box-shadow: 3px 4px 0px #ffffff;
+    }
+  }
 
-/* Fita Adesiva / Washi Tape */
-.tape-strip {
-  position: absolute;
-  height: 24px;
-  background-color: rgba(251, 191, 36, 0.35);
-  backdrop-filter: blur(2px);
-  border-left: 2px dashed rgba(255, 255, 255, 0.4);
-  border-right: 2px dashed rgba(255, 255, 255, 0.4);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-  transform: rotate(var(--tape-angle, -3deg));
-  z-index: 20;
-}
+  /* Efeito de papel rasgado superior (Torn Paper Edge) */
+  .torn-edge-top {
+    clip-path: polygon(
+      0% 10px, 5% 0px, 10% 10px, 15% 2px, 20% 11px, 25% 1px, 30% 9px, 35% 0px, 
+      40% 10px, 45% 2px, 50% 11px, 55% 1px, 60% 10px, 65% 0px, 70% 9px, 75% 2px, 
+      80% 11px, 85% 1px, 90% 10px, 95% 0px, 100% 9px, 100% 100%, 0% 100%
+    );
+  }
 
-.tape-caution {
-  background: repeating-linear-gradient(
-    -45deg,
-    #fbbf24,
-    #fbbf24 10px,
-    #000000 10px,
-    #000000 20px
-  );
-  color: #000000;
-  font-family: var(--font-mono);
-  font-weight: 900;
-  font-size: 0.7rem;
+  .torn-edge-bottom {
+    clip-path: polygon(
+      0% 0%, 100% 0%, 100% calc(100% - 10px),
+      95% 100%, 90% calc(100% - 10px), 85% calc(100% - 2px), 80% calc(100% - 11px), 75% calc(100% - 1px),
+      70% calc(100% - 9px), 65% 100%, 60% calc(100% - 10px), 55% calc(100% - 2px), 50% calc(100% - 11px),
+      45% calc(100% - 1px), 40% calc(100% - 10px), 35% 100%, 30% calc(100% - 9px), 25% calc(100% - 2px),
+      20% calc(100% - 11px), 15% calc(100% - 1px), 10% calc(100% - 10px), 5% 100%, 0% calc(100% - 9px)
+    );
+  }
+
+  /* Fita Adesiva / Washi Tape */
+  .tape-strip {
+    position: absolute;
+    height: 24px;
+    background-color: rgba(251, 191, 36, 0.35);
+    backdrop-filter: blur(2px);
+    border-left: 2px dashed rgba(255, 255, 255, 0.4);
+    border-right: 2px dashed rgba(255, 255, 255, 0.4);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    transform: rotate(var(--tape-angle, -3deg));
+    z-index: 20;
+  }
+
+  .tape-caution {
+    background: repeating-linear-gradient(
+      -45deg,
+      #fbbf24,
+      #fbbf24 10px,
+      #000000 10px,
+      #000000 20px
+    );
+    color: #000000;
+    font-family: var(--font-mono);
+    font-weight: 900;
+    font-size: 0.7rem;
+  }
 }
 
 /* Selo circular rotativo (Rotating Badge) */

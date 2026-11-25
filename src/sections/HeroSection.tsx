@@ -103,16 +103,18 @@ export function HeroSection() {
               0.25
             );
 
-            // Floating motion sutil e orgânico no sticker após reveal
-            tl.add(() => {
-              gsap.to(".hero-sticker", {
+            // Floating motion sutil e orgânico no wrapper externo (owned by tl/ctx so StrictMode reverts cleanly, and decoupled from CSS hover)
+            tl.to(
+              ".hero-sticker-float",
+              {
                 y: -6,
                 duration: 3.8,
                 repeat: -1,
                 yoyo: true,
                 ease: "sine.inOut",
-              });
-            });
+              },
+              1.25
+            );
 
             // 0.55s: Selo rotativo com pop suave
             tl.fromTo(
@@ -165,27 +167,27 @@ export function HeroSection() {
       id="hero"
       ref={heroRef}
       aria-labelledby="hero-heading"
-      className="relative z-10 min-h-[calc(100vh-4.5rem)] flex flex-col justify-center py-4 md:py-5 overflow-hidden bg-transparent"
+      className="relative z-10 min-h-0 lg:min-h-[calc(100vh-4.5rem)] flex flex-col justify-center pt-3 pb-6 md:py-12 overflow-hidden bg-transparent scroll-mt-20"
     >
-      <div className="mx-auto max-w-7xl px-6 md:px-12 w-full">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-12 w-full">
         {/* Top telemetry bar */}
-        <div className="hero-telemetry flex flex-wrap items-center justify-between gap-3 py-2 px-4 mb-3 md:mb-4 bg-[#141418] border border-zinc-800 rounded-lg font-mono text-xs text-zinc-400 shadow-[4px_4px_0px_#000000]">
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-zinc-200 font-bold">{person.statusPill}</span>
+        <div className="hero-telemetry flex flex-wrap items-center justify-between gap-x-2 gap-y-1 py-1.5 px-3 sm:py-2 sm:px-4 mb-3 md:mb-6 bg-[#141418] border border-zinc-800 rounded-xl font-mono text-[9.5px] sm:text-xs tracking-tight sm:tracking-normal text-white/65 shadow-[0_6px_16px_rgba(0,0,0,0.45)]">
+          <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+            <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+            <span className="text-white font-bold">{person.statusPill}</span>
           </div>
-          <div className="flex items-center gap-6">
-            <span className="hidden sm:inline-block text-zinc-500">HOST: ITAPEVI / SP</span>
-            <span className="text-[#fbbf24] font-bold">{time} BRT</span>
+          <div className="flex items-center gap-4 sm:gap-6 shrink-0">
+            <span className="hidden sm:inline-block text-white/55">HOST: ITAPEVI / SP</span>
+            <span className="text-[#fbbf24] font-bold whitespace-nowrap">{time} BRT</span>
           </div>
         </div>
 
         {/* Hero Core Layout */}
         <div className="grid lg:grid-cols-12 gap-6 lg:gap-8 items-center">
-          <div className="lg:col-span-8 space-y-3 md:space-y-3.5 min-w-0">
+          <div className="lg:col-span-8 min-h-[calc(100dvh-7rem)] flex flex-col justify-start pt-5 pb-24 md:min-h-0 md:block md:pt-0 md:pb-0 space-y-3.5 sm:space-y-4 min-w-0">
             <div>
               {/* Handwritten highlight note */}
-              <div className="hero-handwriting inline-block mb-0.5">
+              <div className="hero-handwriting inline-block mb-1.5 sm:mb-2">
                 <span className="font-handwriting text-[#fbbf24] text-xl md:text-2xl rotate-[-2deg] block select-none">
                   {person.handwrittenNote ?? "Building real systems from Itapevi 🚀"}
                 </span>
@@ -194,7 +196,7 @@ export function HeroSection() {
               {/* Giant Display Headline com Mask Reveal editorial */}
               <h1
                 id="hero-heading"
-                className="font-display text-white text-[clamp(2.5rem,6.8vw,5.5rem)] leading-[0.90] tracking-tighter"
+                className="font-display text-white text-[clamp(2.75rem,13vw,5.5rem)] sm:text-[clamp(2.5rem,7vw,5.5rem)] leading-[0.88] sm:leading-[0.90] tracking-tighter"
               >
                 <span className="block overflow-hidden py-0.5">
                   <span className="block hero-title-line">THIAGO</span>
@@ -205,35 +207,35 @@ export function HeroSection() {
               </h1>
             </div>
 
-            {/* Subtitle & Value Proposition */}
-            <p className="hero-subtitle text-base md:text-lg text-zinc-300 max-w-2xl font-sans leading-relaxed">
+            {/* Subtitle & Value Proposition (max-w-[600px] e 80% opacidade conforme skill) */}
+            <p className="hero-subtitle text-sm sm:text-base md:text-lg text-white/80 max-w-[600px] font-sans leading-relaxed">
               {person.sub}
             </p>
 
             {/* Tech Sticker Badges */}
-            <div className="flex flex-wrap items-center gap-2 pt-1">
-              <span className="hero-badge badge-sticker bg-[#00d8ff] text-black border-black text-[11px] py-1 px-2.5">
-                <Code2 className="w-3.5 h-3.5" />
+            <div className="flex flex-wrap items-center gap-2 pt-0.5 sm:pt-1">
+              <span className="hero-badge badge-sticker bg-[#00d8ff] text-black border-black text-[10.5px] sm:text-[11px] py-1 px-2.5 sm:px-3">
+                <Code2 className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 React 19 / TS 5.8
               </span>
-              <span className="hero-badge badge-sticker bg-[#76b900] text-black border-black text-[11px] py-1 px-2.5">
-                <Cpu className="w-3.5 h-3.5" />
+              <span className="hero-badge badge-sticker bg-[#76b900] text-black border-black text-[10.5px] sm:text-[11px] py-1 px-2.5 sm:px-3">
+                <Cpu className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 CUDA float16
               </span>
-              <span className="hero-badge badge-sticker bg-[#22c55e] text-black border-black text-[11px] py-1 px-2.5">
-                <Terminal className="w-3.5 h-3.5" />
+              <span className="hero-badge badge-sticker bg-[#22c55e] text-black border-black text-[10.5px] sm:text-[11px] py-1 px-2.5 sm:px-3">
+                <Terminal className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 Baileys & Streams
               </span>
-              <span className="hero-badge badge-sticker bg-[#fbbf24] text-black border-black text-[11px] py-1 px-2.5">
+              <span className="hero-badge badge-sticker bg-[#fbbf24] text-black border-black text-[10.5px] sm:text-[11px] py-1 px-2.5 sm:px-3">
                 Local-First Win32
               </span>
             </div>
 
-            {/* CTAs */}
-            <div className="hero-cta flex flex-wrap items-center gap-3.5 pt-2">
+            {/* CTAs (44px+ altura minima para polegar) */}
+            <div className="hero-cta flex flex-wrap items-center gap-2.5 sm:gap-3 pt-2 sm:pt-4">
               <a
                 href="#projetos"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 bg-[#fbbf24] text-black font-display text-sm md:text-base tracking-wider rounded-md border-2 border-black shadow-[4px_4px_0px_#ffffff] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#ffffff] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
+                className="w-full sm:w-auto min-h-[44px] inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 bg-[#fbbf24] text-black font-display text-sm md:text-base tracking-wider rounded-xl border-2 border-black shadow-[inset_0_1px_0_rgba(255,255,255,0.45),4px_4px_0px_#ffffff] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#ffffff] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-[transform,box-shadow] duration-150"
               >
                 VER PROJETOS NUCLEARES
                 <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5" />
@@ -242,7 +244,7 @@ export function HeroSection() {
                 href={siteData.contact.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 bg-[#141418] text-white font-mono text-xs uppercase tracking-wider rounded-md border border-zinc-700 hover:border-white transition-colors"
+                className="w-full sm:w-auto min-h-[44px] inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 bg-[#141418] text-white font-mono text-xs uppercase tracking-wider rounded-xl border border-zinc-700 hover:border-white transition-colors"
               >
                 GITHUB REPOS ↗
               </a>
@@ -250,19 +252,21 @@ export function HeroSection() {
           </div>
 
           {/* Right Column: 3:4 Die-Cut Sticker Slot, Overlaid Rotating Seal & Compact Manifest */}
-          <div className="lg:col-span-4 flex flex-col items-center justify-center relative min-w-0 w-full mt-4 lg:mt-0">
+          <div className="lg:col-span-4 flex flex-col items-center justify-center relative min-w-0 w-full mt-2 lg:mt-0">
             {/* Wrapper com Sticker Foto e Selo Sobreposto */}
-            <div className="relative w-full max-w-[210px] sm:max-w-[230px] lg:max-w-[245px] mx-auto">
+            <div className="hero-sticker-float relative w-full max-w-[200px] sm:max-w-[220px] lg:max-w-[248px] mx-auto">
               {/* 3:4 Aspect Ratio Sticker Slot com Clip-Path Reveal */}
-              <div className="hero-sticker w-full aspect-[3/4] relative sticker-die-cut rounded-2xl bg-[#141418] border-2 border-white/90 shadow-[4px_10px_25px_rgba(0,0,0,0.8)] overflow-hidden">
-                <Image
-                  src="/images/thiago-hero-sticker.png"
-                  alt="Thiago Ibrahim — Retrato recortado em sticker die-cut 3:4"
-                  width={600}
-                  height={800}
-                  priority
-                  className="w-full h-full object-cover"
-                />
+              <div className="hero-sticker w-full aspect-[3/4] relative sticker-die-cut rounded-2xl bg-[#141418] border-2 border-white/90 shadow-[4px_10px_25px_rgba(0,0,0,0.8)]">
+                <div className="w-full h-full rounded-[14px] overflow-hidden">
+                  <Image
+                    src="/images/thiago-hero-sticker.png"
+                    alt="Thiago Ibrahim — Retrato recortado em sticker die-cut 3:4"
+                    width={600}
+                    height={800}
+                    priority
+                    className="w-full h-full object-cover"
+                  />
+                </div>
                 <div className="tape-strip -top-3 right-4 w-24 bg-[#fbbf24]/70 text-black text-center flex items-center justify-center font-mono text-[9px] font-bold z-20 rotate-[4deg] shadow-md border border-black/30">
                   THIAGO // 1º TI
                 </div>

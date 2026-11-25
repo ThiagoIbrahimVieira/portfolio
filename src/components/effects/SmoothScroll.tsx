@@ -8,34 +8,57 @@ export function SmoothScroll() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    if (window.innerWidth < 768) return;
 
-    const lenis = new Lenis({
-      duration: 1.0,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: "vertical",
-      gestureOrientation: "vertical",
-      smoothWheel: true,
-      wheelMultiplier: 0.9,
-      touchMultiplier: 1.2,
-    });
+    const mq = window.matchMedia("(min-width: 768px)");
+    let lenis: Lenis | null = null;
+    let tickerCallback: ((time: number) => void) | null = null;
 
-    (window as unknown as { __lenis?: Lenis }).__lenis = lenis;
-
-    // Sincroniza Lenis com ScrollTrigger em tempo real
-    lenis.on("scroll", ScrollTrigger.update);
-
-    const tickerCallback = (time: number) => {
-      lenis.raf(time * 1000);
+    const destroyLenis = () => {
+      if (tickerCallback) {
+        gsap.ticker.remove(tickerCallback);
+        tickerCallback = null;
+      }
+      if (lenis) {
+        lenis.destroy();
+        lenis = null;
+      }
+      delete (window as unknown as { __lenis?: Lenis }).__lenis;
     };
 
-    gsap.ticker.add(tickerCallback);
-    gsap.ticker.lagSmoothing(0);
+    const initLenis = () => {
+      if (!mq.matches || lenis) return;
+      lenis = new Lenis({
+        duration: 1.0,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: "vertical",
+        gestureOrientation: "vertical",
+        smoothWheel: true,
+        wheelMultiplier: 0.9,
+        touchMultiplier: 1.2,
+      });
+
+      (window as unknown as { __lenis?: Lenis }).__lenis = lenis;
+      lenis.on("scroll", ScrollTrigger.update);
+
+      tickerCallback = (time: number) => {
+        lenis?.raf(time * 1000);
+      };
+
+      gsap.ticker.add(tickerCallback);
+      gsap.ticker.lagSmoothing(0);
+    };
+
+    const handleChange = () => {
+      if (mq.matches) initLenis();
+      else destroyLenis();
+    };
+
+    handleChange();
+    mq.addEventListener("change", handleChange);
 
     return () => {
-      gsap.ticker.remove(tickerCallback);
-      lenis.destroy();
-      delete (window as unknown as { __lenis?: Lenis }).__lenis;
+      mq.removeEventListener("change", handleChange);
+      destroyLenis();
     };
   }, []);
 

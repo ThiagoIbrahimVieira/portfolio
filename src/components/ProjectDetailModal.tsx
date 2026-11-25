@@ -1,12 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink, X, Check, Copy, Terminal, Cpu, ShieldCheck } from "lucide-react";
 import { GithubIcon } from "@/components/icons/GithubIcon";
 import type { Project } from "@/types/site";
+
+const emptySubscribe = () => () => {};
 
 interface ProjectDetailModalProps {
   project: Project | null;
@@ -105,11 +107,14 @@ const PROJECT_PIPELINES: Record<string, { flow: string[]; highlights: string }> 
 };
 
 export function ProjectDetailModal({ project, onClose }: ProjectDetailModalProps) {
-  const [copied, setCopied] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+  const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
+  const copyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    setMounted(true);
+    return () => {
+      if (copyTimerRef.current) clearTimeout(copyTimerRef.current);
+    };
   }, []);
 
   useEffect(() => {
@@ -129,57 +134,85 @@ export function ProjectDetailModal({ project, onClose }: ProjectDetailModalProps
     };
   }, [project, onClose]);
 
-  if (!project || !mounted) return null;
+  if (!mounted) return null;
 
-  const pipeline = PROJECT_PIPELINES[project.id] || {
-    flow: ["Input", "Processamento", "Validação", "Output"],
-    highlights: project.vision,
-  };
+  const copied = !!project && copiedId === project.id;
+  const pipeline = project
+    ? PROJECT_PIPELINES[project.id] || {
+        flow: ["Input", "Processamento", "Validação", "Output"],
+        highlights: project.vision,
+      }
+    : null;
 
-  const cloneCommand = `git clone ${project.links?.github || `https://github.com/ThiagoIbrahimVieira/${project.id}`}.git`;
+  const cloneCommand = project
+    ? `git clone ${project.links?.github || `https://github.com/ThiagoIbrahimVieira/${project.id}`}.git`
+    : "";
 
-  const handleCopyClone = () => {
-    navigator.clipboard.writeText(cloneCommand);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleCopyClone = async () => {
+    if (!project || typeof navigator === "undefined" || !navigator.clipboard) return;
+    try {
+      await navigator.clipboard.writeText(cloneCommand);
+      setCopiedId(project.id);
+      if (copyTimerRef.current) clearTimeout(copyTimerRef.current);
+      copyTimerRef.current = setTimeout(() => setCopiedId(null), 2000);
+    } catch {
+      // Clipboard blocked by browser policy
+    }
   };
 
   const modalContent = (
     <AnimatePresence>
-      <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 md:p-10 lg:p-12 overflow-y-auto">
-        {/* Backdrop com blur profundo cobrindo 100% da tela e do navbar */}
+      {project && pipeline && (
         <motion.div
+          key={project.id}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.25 }}
-          onClick={onClose}
-          className="fixed inset-0 bg-black/90 backdrop-blur-2xl"
-        />
-
-        {/* Modal Card com Respiro Expandido e Estética Street-Tech */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.93, y: 28 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.94, y: 20 }}
-          transition={{ type: "spring", stiffness: 320, damping: 28 }}
-          onClick={(e) => e.stopPropagation()}
-          className="relative w-full max-w-4xl max-h-[85vh] overflow-y-auto bg-[#141418] border-2 border-zinc-700/90 rounded-2xl shadow-[16px_16px_0px_#000000] p-6 sm:p-8 md:p-12 z-10 text-white scrollbar-thin scrollbar-thumb-zinc-700 my-auto"
+          transition={{ duration: 0.18 }}
+          className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-6 md:p-10"
         >
+          {/* Backdrop com blur profundo cobrindo 100% da tela e do navbar */}
+          <div
+            onClick={onClose}
+            className="fixed inset-0 bg-black/90 backdrop-blur-2xl"
+          />
+
+          {/* Modal Card Outer Shell (keeps decorative tape unclipped above scroll container) */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.94, y: 20 }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+              y: 0,
+              transition: { type: "spring", stiffness: 320, damping: 28 },
+            }}
+            exit={{
+              opacity: 0,
+              scale: 0.95,
+              y: 12,
+              transition: { duration: 0.16, ease: "easeIn" },
+            }}
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-project-title"
+            className="relative w-full max-w-4xl max-h-[86vh] flex flex-col bg-[#141418] border-2 border-zinc-700/90 rounded-2xl shadow-[12px_12px_0px_#000000] z-10 text-white my-auto"
+          >
           {/* Fita Adesiva Decorativa no Topo */}
-          <div className="absolute -top-3.5 left-10 w-32 h-7 bg-amber-400/35 border border-amber-400/60 -rotate-2 pointer-events-none shadow-sm flex items-center justify-center font-mono text-[10px] text-amber-200 font-bold">
+          <div className="absolute -top-3.5 left-6 sm:left-10 w-28 sm:w-32 h-6 sm:h-7 bg-amber-400/40 border border-amber-400/70 -rotate-2 pointer-events-none shadow-sm flex items-center justify-center font-mono text-[9.5px] sm:text-[10px] text-amber-100 font-bold z-20">
             AUDIT // 2026.11
           </div>
 
+          <div className="overflow-y-auto p-4 sm:p-7 md:p-10 scrollbar-thin scrollbar-thumb-zinc-700 rounded-2xl">
           {/* Barra Superior com Tags e Botão Fechar com Bom Respiro */}
-          <div className="flex items-center justify-between gap-4 mb-8 pb-5 border-b border-zinc-800">
-            <div className="flex flex-wrap items-center gap-2.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="font-mono text-xs text-zinc-300 font-bold uppercase tracking-wider">
+          <div className="flex items-center justify-between gap-3 mb-5 sm:mb-7 pb-3.5 sm:pb-5 border-b border-zinc-800 pt-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="font-mono text-[10px] sm:text-xs text-zinc-300 font-bold uppercase tracking-wider">
                 {project.statusLabel}
               </span>
               {project.badgeSticker && (
-                <span className="badge-sticker bg-[#fbbf24] text-black border-black text-[11px] py-0.5 ml-2">
+                <span className="badge-sticker bg-[#fbbf24] text-black border-black text-[10px] sm:text-[11px] py-0.5 ml-1">
                   {project.badgeSticker}
                 </span>
               )}
@@ -187,7 +220,7 @@ export function ProjectDetailModal({ project, onClose }: ProjectDetailModalProps
 
             <button
               onClick={onClose}
-              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border border-zinc-700 bg-zinc-900 hover:bg-[#fbbf24] hover:text-black hover:border-black font-mono text-xs font-bold transition-all shadow-[2px_2px_0px_#000000] cursor-pointer"
+              className="inline-flex items-center gap-2 min-h-[44px] px-4 py-2 rounded-xl border border-zinc-700 bg-zinc-900 hover:bg-[#fbbf24] hover:text-black hover:border-black font-mono text-xs font-bold transition-all shadow-[2px_2px_0px_#000000] cursor-pointer shrink-0"
             >
               <X className="w-4 h-4" />
               <span>FECHAR [ESC]</span>
@@ -195,12 +228,12 @@ export function ProjectDetailModal({ project, onClose }: ProjectDetailModalProps
           </div>
 
           {/* Bloco de Título & Subtítulo */}
-          <div className="mb-8">
-            <h3 className="font-display text-4xl sm:text-5xl md:text-6xl text-white tracking-tight mb-2.5">
+          <div className="mb-5 sm:mb-7">
+            <h3 id="modal-project-title" className="font-display text-2xl sm:text-4xl md:text-5xl text-white tracking-tight mb-1.5 sm:mb-2">
               {project.name}
             </h3>
             {project.taglineHandwritten && (
-              <p className="font-handwriting text-[#fbbf24] text-2xl md:text-3xl select-none">
+              <p className="font-handwriting text-[#fbbf24] text-lg sm:text-2xl md:text-3xl select-none">
                 {project.taglineHandwritten}
               </p>
             )}
@@ -208,7 +241,7 @@ export function ProjectDetailModal({ project, onClose }: ProjectDetailModalProps
 
           {/* Banner Visual com Proporção Otimizada */}
           {project.image && (
-            <div className="relative w-full aspect-[16/9] max-h-[380px] md:max-h-[440px] mb-10 rounded-xl overflow-hidden border-2 border-zinc-700 bg-zinc-950 shadow-[6px_6px_0px_#000000]">
+            <div className="relative w-full aspect-[16/9] max-h-[210px] sm:max-h-[340px] md:max-h-[420px] mb-6 sm:mb-8 rounded-xl overflow-hidden border-2 border-zinc-700 bg-zinc-950 shadow-[6px_6px_0px_#000000]">
               <Image
                 src={project.image}
                 alt={project.name}
@@ -290,22 +323,22 @@ export function ProjectDetailModal({ project, onClose }: ProjectDetailModalProps
             </div>
           </div>
 
-          {/* Métricas Auditadas */}
-          <div className="mb-10">
-            <h4 className="font-mono text-xs font-bold text-zinc-400 uppercase tracking-widest mb-4">
+          {/* Métricas Auditadas (valor em destaque > rótulo) */}
+          <div className="mb-8">
+            <h4 className="font-mono text-xs font-bold text-white/65 uppercase tracking-widest mb-4">
               MÉTRICAS AUDITADAS
             </h4>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {project.metrics.map((m, idx) => (
                 <div
                   key={idx}
-                  className="bg-zinc-900/80 border border-zinc-800 rounded-xl p-4 flex flex-col justify-between"
+                  className="bg-zinc-900/80 border border-zinc-800 rounded-xl p-4 flex flex-col justify-between gap-1"
                 >
-                  <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider mb-1.5">
-                    {m.label}
-                  </span>
                   <span className="text-sm md:text-base font-mono font-bold text-white">
                     {m.value}
+                  </span>
+                  <span className="text-[11px] font-mono text-white/55 uppercase tracking-wider">
+                    {m.label}
                   </span>
                 </div>
               ))}
@@ -313,15 +346,15 @@ export function ProjectDetailModal({ project, onClose }: ProjectDetailModalProps
           </div>
 
           {/* Comandos do Git e Repositório */}
-          <div className="bg-black/60 border border-zinc-800 rounded-xl p-5 mb-10">
-            <div className="flex items-center justify-between mb-2.5">
-              <span className="font-mono text-xs text-zinc-400 flex items-center gap-2">
+          <div className="bg-black/60 border border-zinc-800 rounded-xl p-4 sm:p-6 mb-8">
+            <div className="flex items-center justify-between gap-2 mb-3">
+              <span className="font-mono text-xs text-white/65 flex items-center gap-2">
                 <Terminal className="w-4 h-4 text-amber-400" />
                 CLONAR REPOSITÓRIO LOCALMENTE
               </span>
               <button
                 onClick={handleCopyClone}
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-mono text-zinc-300 hover:text-white bg-zinc-800 hover:bg-zinc-700 transition-colors cursor-pointer"
+                className="inline-flex items-center gap-2 min-h-[44px] px-4 py-2 rounded-lg text-xs font-mono text-white bg-zinc-800 hover:bg-zinc-700 transition-colors cursor-pointer shrink-0"
               >
                 {copied ? (
                   <>
@@ -341,14 +374,14 @@ export function ProjectDetailModal({ project, onClose }: ProjectDetailModalProps
             </code>
           </div>
 
-          {/* Barra de Ações Finais (Links de Repositório e Demonstração) */}
-          <div className="flex flex-wrap items-center justify-between gap-4 pt-8 border-t border-zinc-800">
-            <div className="flex flex-wrap items-center gap-4">
+          {/* Barra de Ações Finais (Links de Repositório e Demonstração - 44px alvos táteis) */}
+          <div className="flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-zinc-800">
+            <div className="flex flex-wrap items-center gap-3">
               <a
                 href={project.links?.github || `https://github.com/ThiagoIbrahimVieira/${project.id}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 bg-[#fbbf24] hover:bg-amber-300 text-black font-mono font-bold text-xs md:text-sm px-6 py-3.5 rounded-lg border-2 border-black shadow-[4px_4px_0px_#000000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000000] transition-all cursor-pointer"
+                className="inline-flex items-center gap-2 min-h-[44px] bg-[#fbbf24] hover:bg-amber-300 text-black font-mono font-bold text-xs md:text-sm px-6 py-3 rounded-xl border-2 border-black shadow-[inset_0_1px_0_rgba(255,255,255,0.45),4px_4px_0px_#000000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000000] transition-all cursor-pointer"
               >
                 <GithubIcon className="w-4 h-4 text-black" />
                 <span>ACESSAR REPOSITÓRIO GITHUB ↗</span>
@@ -359,7 +392,7 @@ export function ProjectDetailModal({ project, onClose }: ProjectDetailModalProps
                   href={project.links.demo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-zinc-900 hover:bg-zinc-800 text-white font-mono text-xs md:text-sm px-5 py-3.5 rounded-lg border border-zinc-700 hover:border-zinc-500 transition-colors cursor-pointer"
+                  className="inline-flex items-center gap-2 min-h-[44px] bg-zinc-900 hover:bg-zinc-800 text-white font-mono text-xs md:text-sm px-5 py-3 rounded-xl border border-zinc-700 hover:border-zinc-500 transition-colors cursor-pointer"
                 >
                   <ExternalLink className="w-4 h-4 text-amber-400" />
                   <span>VER DEMONSTRAÇÃO AO VIVO</span>
@@ -369,13 +402,15 @@ export function ProjectDetailModal({ project, onClose }: ProjectDetailModalProps
 
             <button
               onClick={onClose}
-              className="text-xs font-mono text-zinc-400 hover:text-white transition-colors cursor-pointer underline underline-offset-4"
+              className="min-h-[44px] px-3 text-xs font-mono text-white/65 hover:text-white transition-colors cursor-pointer underline underline-offset-4"
             >
               Voltar ao Portfólio
             </button>
           </div>
+          </div>
+          </motion.div>
         </motion.div>
-      </div>
+      )}
     </AnimatePresence>
   );
 
